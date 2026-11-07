@@ -1064,6 +1064,57 @@ private:
     juce::Image art, toggleUp, toggleDn;
 };
 
+// ---------------------------------------------------------------------------
+// Frostbite (based on the Artec Cool Drive CDV-1): Michael's full-face artwork (Assets/frostbite_art.png from
+// Tools/Art/make_frostbite_art.py: frost-covered blue-grey top, GAIN / PRE / MOD / POST / LEVEL, "FROSTBITE" in icicle
+// lettering over a frozen landscape) on a frosted blue-grey enclosure. Black knobs, the chrome MOD bat toggle, the
+// blue LED and the footswitch sit on the painted ones (FaceLayout: pedalId "fb").
+class FrostbiteFace : public RenderedFace
+{
+public:
+    static constexpr float togglePad = 1.30f;    // = render_frostbite.py
+
+    FrostbiteFace() : RenderedFace("frostbite")
+    {
+        art = juce::ImageCache::getFromMemory(BinaryData::frostbite_art_png, BinaryData::frostbite_art_pngSize);
+        toggleUp = loadImage("frostbite_toggle_up_png");
+        toggleDn = loadImage("frostbite_toggle_down_png");
+    }
+    bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
+    juce::Colour labelColour() const override { return juce::Colour(0xffdfe6ee); }
+    juce::Rectangle<float> toggleBounds(juce::Rectangle<float> r) const override
+    {
+        return rendered() && toggleUp.isValid() ? r.withSizeKeepingCentre(r.getWidth() * togglePad, r.getHeight() * togglePad) : r;
+    }
+    const juce::Image* toggleImage(bool up) const override
+    {
+        if (! rendered()) return nullptr;
+        auto& img = up ? toggleUp : toggleDn;
+        return img.isValid() ? &img : nullptr;
+    }
+
+protected:
+    void paintVector(juce::Graphics& g, const FaceLayout& f, bool active) override
+    {
+        using namespace juce;
+        const auto b = f.body;
+        g.setColour(Colours::black.withAlpha(0.45f));
+        g.fillRoundedRectangle(b.translated(0, 3), 9.0f);
+        g.setGradientFill(ColourGradient(Colour(0xff8a9bb0), b.getX(), b.getY(), Colour(0xff3a4a60), b.getRight(), b.getBottom(), false));
+        g.fillRoundedRectangle(b, 9.0f);
+        if (art.isValid())
+        {
+            g.setImageResamplingQuality(Graphics::highResamplingQuality);
+            g.setOpacity(1.0f);
+            g.drawImage(art, f.emblem);
+        }
+        drawLed(g, f.led, active, true);                               // blue, like the art
+    }
+
+private:
+    juce::Image art, toggleUp, toggleDn;
+};
+
 std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
 {
     if (pedalId == "bm") return std::make_unique<RamhornFace>();
@@ -1077,5 +1128,6 @@ std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
     if (pedalId == "gh") return std::make_unique<GoldenHazeFace>();
     if (pedalId == "nc") return std::make_unique<NightCourierFace>();
     if (pedalId == "ct") return std::make_unique<CoralTideFace>();
+    if (pedalId == "fb") return std::make_unique<FrostbiteFace>();
     return nullptr;
 }

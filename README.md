@@ -90,6 +90,15 @@ createFaceFor() for the pedal's id. Without a face the pedal gets the plain gene
   30 Hz to 4 kHz (Tools/Analysis/vh4_reference_response.py). Face = Michael's storm artwork (Tools/Art/
   thunderhead_original.png -> make_thunderhead_art.py -> Assets/thunderhead_art.png: painted controls removed,
   labels for the seven knobs and the toggle printed in Bitter), photoreal render via Tools/Blender/render_thunderhead.py.
+- Frostbite (id "fb"): our model of the Artec Cool Drive CDV-1 distortion, from the schematic in schematics/Artec
+  (rev 1.1). GAIN / PRE / POST / LEVEL knobs and a MOD mini toggle (the two factory mods printed on the schematic:
+  C13 100n -> 4u7 for more bass into the gain stage, and a second 1N4148 in series with each clipping diode;
+  crossfaded, click-free). TL074 on 9 V: x13 treble-tilted preamp, PRE-SHAPE multi-feedback network (mid-focused
+  edge <-> flat), x21..x1112 gain stage clipping at the op-amp swing, then a 1N4148 pair at a node loaded by the
+  POST-SHAPE network (warm mids <-> wide / bright), all solved as circuits (SlowBurn::Mna; diode node by Newton,
+  4x oversampling). Small-signal response within 0.3 dB of Tools/Analysis/cooldrive.py (30 Hz - 6 kHz).
+  Face = Michael's frost artwork (Tools/Art/frostbite_original.png -> make_frostbite_art.py -> Assets/frostbite_art.png:
+  painted controls removed by exemplar inpainting, printed labels kept), photoreal render via Tools/Blender/render_frostbite.py.
 - Coral Tide (id "ct", double-wide): our model of two Bearfoot / BJFE circuits in one enclosure, from traced
   schematics - the Sea Blue EQ (two JFET stages around a passive treble / bass network) and the Baby Pink
   Booster (one 2N5952 JFET stage). BOOST / LEVEL / LOW / HIGH knobs and the ORDER mini toggle (down = EQ > B,

@@ -215,6 +215,32 @@ struct FaceLayout
             f.toggleLabel = {};                                            // ORDER / B > EQ / EQ > B printed in the art
             return f;
         }
+        if (pedalId == "fb")
+        {
+            // Frostbite: Michael's full-face artwork (Assets/frostbite_art.png), printed artInset inside the edge. Knobs in
+            // two rows (GAIN / PRE over POST / LEVEL), MOD toggle between the top knobs, LED under it, footswitch on the
+            // frozen lake - each on the art's painted one. Fractions from Tools/Art/make_frostbite_art.py
+            // (= render_frostbite.py).
+            f.knobs.clear(); f.labels.clear();
+            const float dk = W * 0.2248f;
+            const float kc[4][2] = { { 0.2054f, 0.1167f }, { 0.7848f, 0.1167f }, { 0.2075f, 0.3210f }, { 0.7848f, 0.3210f } };
+            for (int i = 0; i < juce::jmin(numKnobs, 4); ++i)
+            {
+                const auto k = juce::Rectangle<float>(dk, dk).withCentre({ x0 + W * kc[i][0], y0 + H * kc[i][1] });
+                f.knobs.add(k);
+                f.labels.add({ k.getX(), k.getBottom(), dk, 13.0f });      // printed in the art; unused
+            }
+            f.emblem   = body.reduced(W * artInset);
+            f.name     = f.emblem;                                         // the artwork carries name + labels
+            f.subtitle = {};
+            f.led      = juce::Rectangle<float>(13.0f, 13.0f).withCentre({ x0 + W * 0.4967f, y0 + H * 0.3693f });
+            const float swd = W * 0.194f;
+            f.footswitch = juce::Rectangle<float>(swd, swd).withCentre({ x0 + W * 0.4935f, y0 + H * 0.7961f });
+            f.hasToggle = withToggle;
+            f.toggle      = juce::Rectangle<float>(W * 0.14f, W * 0.20f).withCentre({ x0 + W * 0.4956f, y0 + H * 0.2202f });
+            f.toggleLabel = {};                                            // MOD printed in the art
+            return f;
+        }
         if (numSwitches >= 2)
         {
             f.twoSwitches = true;
