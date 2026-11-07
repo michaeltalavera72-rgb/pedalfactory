@@ -82,9 +82,10 @@ PedalStrip::~PedalStrip()
 void PedalStrip::timerCallback()
 {
     // repaint the LEDs when a switch changes (mouse or host automation)
-    if (pedal.primaryOn() != lastPrimary || pedal.secondaryOn() != lastSecondary)
+    const int meter = pedal.isActive() ? pedal.ledMeter() : juce::jmin(pedal.ledMeter(), 0);   // bypassed: meter dark
+    if (pedal.primaryOn() != lastPrimary || pedal.secondaryOn() != lastSecondary || meter != lastMeter)
     {
-        lastPrimary = pedal.primaryOn(); lastSecondary = pedal.secondaryOn();
+        lastPrimary = pedal.primaryOn(); lastSecondary = pedal.secondaryOn(); lastMeter = meter;
         repaint();
     }
 }
@@ -92,6 +93,7 @@ FaceLayout PedalStrip::layout() const
 {
     auto f = FaceLayout::make(bodyBounds(), knobs.size(), numSwitches(), pedal.toggleId.isNotEmpty(), pedal.getId());
     f.secondaryOn = pedal.secondaryOn();
+    f.meter = pedal.ledMeter() < 0 ? -1 : (pedal.isActive() ? pedal.ledMeter() : 0);
     return f;
 }
 juce::Rectangle<float> PedalStrip::bodyBounds() const

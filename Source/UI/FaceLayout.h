@@ -25,6 +25,9 @@ struct FaceLayout
     bool twoSwitches = false;
     juce::Rectangle<float> led2, footswitch2, switchLabel1, switchLabel2;
     bool secondaryOn = false;            // state of the second LED, filled in by the strip
+    // Optional bicolour level LED (PedalBase::ledMeter): -1 none, 0 off, 1 green, 2 red; filled in by the strip.
+    int meter = -1;
+    juce::Rectangle<float> meterLed, meterLabel;
     // Optional mini toggle (PedalBase::toggleId), with its printed label above it.
     bool hasToggle = false;
     juce::Rectangle<float> toggle, toggleLabel;
@@ -213,6 +216,36 @@ struct FaceLayout
             f.hasToggle = withToggle;
             f.toggle      = juce::Rectangle<float>(Wu * 0.10f, Wu * 0.16f).withCentre({ x0 + W * 0.5000f, y0 + H * 0.2045f });
             f.toggleLabel = {};                                            // ORDER / B > EQ / EQ > B printed in the art
+            return f;
+        }
+        if (pedalId == "tv")
+        {
+            // Twin Vise (double-wide, 464 x 372): Michael's full-face artwork (Assets/twinvise_art.png), printed artInset2
+            // inside the edge. Five knobs inside the printed orange scale arcs (INPUT GAIN / LOW COMP / HIGH COMP /
+            // BALANCE / LEVEL), the bicolour INPUT LED under the vise's name plate, footswitches HI COMP (left, secondary)
+            // and EFFECT (right, main) with their LEDs - all on the controls painted in the art (fractions printed by
+            // Tools/Art/make_twinvise_art.py).
+            f.knobs.clear(); f.labels.clear();
+            const float d = W * 0.1092f;
+            const float kx[5] = { 0.1225f, 0.3102f, 0.4986f, 0.6884f, 0.8769f };
+            for (int i = 0; i < juce::jmin(numKnobs, 5); ++i)
+            {
+                const auto k = juce::Rectangle<float>(d, d).withCentre({ x0 + W * kx[i], y0 + H * 0.1578f });
+                f.knobs.add(k);
+                f.labels.add({ k.getX(), k.getBottom(), d, 13.0f });          // printed in the art; unused
+            }
+            f.emblem   = body.reduced(W * artInset2, W * artInset2);
+            f.name     = f.emblem;                                         // the artwork carries name + labels
+            f.subtitle = {};
+            f.meterLed = juce::Rectangle<float>(11.0f, 11.0f).withCentre({ x0 + W * 0.4993f, y0 + H * 0.6328f });
+            f.meterLabel = {};                                             // INPUT printed in the art
+            const float sws = W * 0.0969f;
+            f.twoSwitches = true;
+            f.footswitch  = juce::Rectangle<float>(sws, sws).withCentre({ x0 + W * 0.7062f, y0 + H * 0.8132f });   // EFFECT
+            f.footswitch2 = juce::Rectangle<float>(sws, sws).withCentre({ x0 + W * 0.2931f, y0 + H * 0.8132f });   // HI COMP
+            f.led  = juce::Rectangle<float>(11.0f, 11.0f).withCentre({ x0 + W * 0.7048f, y0 + H * 0.6932f });
+            f.led2 = juce::Rectangle<float>(11.0f, 11.0f).withCentre({ x0 + W * 0.2945f, y0 + H * 0.6941f });
+            f.switchLabel1 = f.switchLabel2 = {};                          // HI COMP / EFFECT printed in the art
             return f;
         }
         if (pedalId == "fb")

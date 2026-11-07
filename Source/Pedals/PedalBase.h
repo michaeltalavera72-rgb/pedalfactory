@@ -6,13 +6,14 @@
 // Top-level groups in the "+ Add pedal" menu, in the order they appear there.
 // To add a category: add it to the enum, give it a name in categoryName() and list it in allCategories.
 // Categories with no pedals are left out of the menu.
-enum class PedalCategory { Tools, BoostEq, Overdrive, Fuzz, Distortion, Modulation };
+enum class PedalCategory { Tools, Compressor, BoostEq, Overdrive, Fuzz, Distortion, Modulation };
 
 inline juce::String categoryName(PedalCategory c)
 {
     switch (c)
     {
         case PedalCategory::Tools:      return "Tools";
+        case PedalCategory::Compressor: return "Compressor";
         case PedalCategory::BoostEq:    return "Boost / EQ";
         case PedalCategory::Overdrive:  return "Overdrive";
         case PedalCategory::Fuzz:       return "Fuzz";
@@ -21,7 +22,7 @@ inline juce::String categoryName(PedalCategory c)
     }
     return "Other";
 }
-inline constexpr PedalCategory allCategories[] = { PedalCategory::Tools, PedalCategory::BoostEq, PedalCategory::Overdrive, PedalCategory::Fuzz, PedalCategory::Distortion,
+inline constexpr PedalCategory allCategories[] = { PedalCategory::Tools, PedalCategory::Compressor, PedalCategory::BoostEq, PedalCategory::Overdrive, PedalCategory::Fuzz, PedalCategory::Distortion,
                                                     PedalCategory::Modulation };
 
 // Every pedal implements this interface. The board owns pedals in a vector
@@ -61,6 +62,10 @@ public:
     virtual juce::String secondarySwitchLabel() const { return {}; }
     bool secondaryOn() const { return secondaryParam != nullptr && secondaryParam->load() >= 0.5f; }
     std::atomic<float>* secondaryParam = nullptr;
+
+    // Optional bicolour level LED (e.g. Twin Vise's input meter): -1 = none, 0 = off, 1 = green, 2 = red.
+    // Read by the editor ~20 times a second; implement with an atomic.
+    virtual int ledMeter() const { return -1; }
 
     juce::StringArray knobIds;   // parameter ids the editor should show as knobs
     juce::StringArray detentKnobIds;   // knobs with a centre detent: snap to noon, double-click = noon

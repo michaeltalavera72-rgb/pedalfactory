@@ -12,6 +12,7 @@
 #include "Pedals/NightCourier.h"
 #include "Pedals/CoralTide.h"
 #include "Pedals/Frostbite.h"
+#include "Pedals/TwinVise.h"
 #include "Global/Transposer.h"
 #include "Global/PresetManager.h"
 

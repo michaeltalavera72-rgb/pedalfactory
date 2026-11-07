@@ -1115,6 +1115,79 @@ private:
     juce::Image art, toggleUp, toggleDn;
 };
 
+// ---------------------------------------------------------------------------
+// Twin Vise (based on the Trace Elliot SMX Dual Compressor), double-wide: Michael's full-face artwork
+// (Assets/twinvise_art.png from Tools/Art/make_twinvise_art.py: rough gunmetal top, printed orange knob arcs and labels,
+// "TWIN VISE" on a rusty bench vise) on a gunmetal enclosure. Knobs, the three LEDs (HI COMP / EFFECT red, INPUT
+// bicolour green / red) and both footswitches sit on the painted ones (FaceLayout: pedalId "tv").
+class TwinViseFace : public RenderedFace
+{
+public:
+    TwinViseFace() : RenderedFace("twinvise", 2)
+    {
+        art = juce::ImageCache::getFromMemory(BinaryData::twinvise_art_png, BinaryData::twinvise_art_pngSize);
+        meterGreen = loadImage("twinvise_meter_green_png");          // optional rendered meter LED states
+        meterRed   = loadImage("twinvise_meter_red_png");
+        meterOff   = loadImage("twinvise_meter_off_png");
+    }
+    bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
+    juce::Colour labelColour() const override { return juce::Colour(0xffd8d8d4); }
+
+    void paint(juce::Graphics& g, const FaceLayout& f, bool active) override
+    {
+        RenderedFace::paint(g, f, active);
+        // the INPUT meter LED is drawn over either face (rendered images if present, else vector)
+        if (rendered() && meterOff.isValid() && meterGreen.isValid() && meterRed.isValid())
+        {
+            const auto l = f.meterLed.withSizeKeepingCentre(f.meterLed.getWidth() * ledPad, f.meterLed.getHeight() * ledPad);
+            g.drawImage(f.meter >= 2 ? meterRed : f.meter == 1 ? meterGreen : meterOff, l);
+        }
+        else
+            drawMeterLed(g, f.meterLed, f.meter);
+    }
+
+protected:
+    void paintVector(juce::Graphics& g, const FaceLayout& f, bool active) override
+    {
+        using namespace juce;
+        const auto b = f.body;
+        g.setColour(Colours::black.withAlpha(0.45f));
+        g.fillRoundedRectangle(b.translated(0, 3), 9.0f);
+        g.setGradientFill(ColourGradient(Colour(0xff5a5c5e), b.getX(), b.getY(), Colour(0xff26282a), b.getRight(), b.getBottom(), false));
+        g.fillRoundedRectangle(b, 9.0f);
+        if (art.isValid())
+        {
+            g.setImageResamplingQuality(Graphics::highResamplingQuality);
+            g.setOpacity(1.0f);
+            g.drawImage(art, f.emblem);
+        }
+        drawLed(g, f.led, active);                                     // EFFECT: red
+        drawLed(g, f.led2, f.secondaryOn);                             // HI COMP: red
+    }
+
+private:
+    juce::Image art, meterGreen, meterRed, meterOff;
+
+    // bicolour level LED: off / green / red
+    static void drawMeterLed(juce::Graphics& g, juce::Rectangle<float> l, int state)
+    {
+        using namespace juce;
+        g.setColour(Colour(0xff6f7378)); g.fillEllipse(l.expanded(2.5f));
+        g.setColour(Colour(0xff2a2c2f)); g.fillEllipse(l.expanded(1.0f));
+        if (state > 0)
+        {
+            const bool red = state >= 2;
+            const Colour glow = red ? Colour(0xffff2a1a) : Colour(0xff34e04a);
+            g.setColour(glow.withAlpha(0.25f)); g.fillEllipse(l.expanded(6.0f));
+            g.setGradientFill(ColourGradient(red ? Colour(0xffffd0c0) : Colour(0xffd8ffd0), l.getCentreX() - 1, l.getCentreY() - 2,
+                                             red ? Colour(0xffe01a0e) : Colour(0xff13a828), l.getRight(), l.getBottom(), true));
+        }
+        else
+            g.setColour(Colour(0xff2a2a1c));
+        g.fillEllipse(l);
+    }
+};
+
 std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
 {
     if (pedalId == "bm") return std::make_unique<RamhornFace>();
@@ -1129,5 +1202,6 @@ std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
     if (pedalId == "nc") return std::make_unique<NightCourierFace>();
     if (pedalId == "ct") return std::make_unique<CoralTideFace>();
     if (pedalId == "fb") return std::make_unique<FrostbiteFace>();
+    if (pedalId == "tv") return std::make_unique<TwinViseFace>();
     return nullptr;
 }

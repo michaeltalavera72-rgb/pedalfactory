@@ -43,6 +43,7 @@ private:
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> atts;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> secondAtt;
     bool headerDrag = false, lastPrimary = true, lastSecondary = false;
+    int lastMeter = -1;
     int numSwitches() const { return pedal.secondarySwitchId().isNotEmpty() ? 2 : 1; }
     FaceLayout layout() const;
 };

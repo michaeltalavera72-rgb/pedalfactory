@@ -110,6 +110,15 @@ createFaceFor() for the pedal's id. Without a face the pedal gets the plain gene
   Boost / EQ. Face = Michael's coral-reef artwork (Tools/Art/coraltide_original.png -> make_coraltide_art.py ->
   Assets/coraltide_art.png: made taller to fit the 464 x 372 body, painted controls and the mock-up's maker's mark
   removed), photoreal render via Tools/Blender/render_coraltide.py.
+- Twin Vise (id "tv", double-wide, category Compressor): our model of the Trace Elliot SMX Dual Compressor, a
+  two-band bass compressor, from the drawing in schematics/Trace Elliot (SMXDC/1), re-voiced for guitar (band
+  split moved up: low-pass 2.36 kHz, high-pass 595 Hz, by capacitor swaps). INPUT GAIN / LOW COMP / HIGH COMP /
+  BALANCE / LEVEL knobs, footswitches HI COMP (left: compression on the high band on/off) and EFFECT (right, main),
+  plus the original's bicolour INPUT LED (green = signal, red = hot). Each band is an op-amp with an OTA (SSM2024)
+  in its feedback path, solved per sample, driven by its own feedback-type side-chain (precision rectifier x67.7,
+  RC envelopes as drawn: low 22 ms / 120 ms, high 1 ms / 70 ms). The OTA's gain constant is set by ear (~2:1 at
+  noon). 2x oversampling; small-signal response within 0.3 dB of Tools/Analysis/smx_dualcomp.py. Vector face
+  until the artwork arrives.
 - Overdrive, Distortion, Fuzz: generic placeholders.
 
 ## Third-party code
