@@ -1,0 +1,11 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Gatekeeper,Side-chain detector,NG-SENSE,SENS,POT,-30 .. -85 dBFS,,THRESHOLD,BEHAV,OURS,CONTROL,gate opening level (the NF-1 SENS),Gatekeeper.h:40,found
+Gatekeeper,Side-chain detector,NG-SENSE,IC1,OPAMP,uPC741 x1000,,,OPAMP-741,DRAWN,FIXED,side-chain amp (folded into the level follower),Gatekeeper.h:12,found
+Gatekeeper,Side-chain detector,NG-SENSE,Q4-Q6,BJT,phase splitter + full-wave rectifier,,,BEHAV,DRAWN,DSP,rectifier (level follower 0.2 ms / 20 ms),Gatekeeper.h:80,found
+Gatekeeper,Side-chain detector,NG-SENSE,Hysteresis,BEHAV,6 dB + 40 ms hold,,,BEHAV,OURS,DSP,no chatter on held notes,Gatekeeper.h:141,found
+Gatekeeper,Gate envelope,NG-ENV,R-atk,R,470R (~0.5 ms attack),,,BEHAV,DRAWN,DSP,envelope charge,Gatekeeper.h:81,found
+Gatekeeper,Gate envelope,NG-ENV,DECAY,POT,2MB (20 ms .. 2 s),,RELEASE,BEHAV,DRAWN,CONTROL,envelope discharge,Gatekeeper.h:13,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,R-series,R,22k,,,RES-IDEAL,DRAWN,FIXED,series resistor of the expander,Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,Q3,JFET,2SK30A shunt VCR,,,JFET-VCR-BEHAV,DRAWN,DSP,gain reduction (smooth glide in dB),Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,Q1 Q2,BJT,emitter followers,,,BJT-FOLLOWER,DRAWN,GAIN,signal buffers,Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,HARD / SOFT,SWITCH,-120 dB / -25 dB,,HARD / SOFT,SWITCH,OURS,CONTROL,how far the gate closes,Gatekeeper.h:141,found

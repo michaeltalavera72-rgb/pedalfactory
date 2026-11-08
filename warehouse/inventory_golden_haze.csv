@@ -1,0 +1,12 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Golden Haze,Input coupling,GH-IN,C1,C,10u,,,RC-CORNER,DRAWN,FILTER,input coupling (3 Hz used),GoldenHaze.h:8,found
+Golden Haze,Input coupling,GH-IN,R1,R,1M,,,RES-IDEAL,DRAWN,FIXED,input bias || LM386 internal 50k,GoldenHaze.h:8,found
+Golden Haze,OP1 LM386 x200,GH-OP1,OP1,IC,LM386 (gain 20 -> 200),,,IC-LM386,DRAWN,CURVE,"first power-amp stage, asymmetric swing (+0.90 / -0.45 V from the top / bottom)",GoldenHaze.h:139,found
+Golden Haze,OP1 LM386 x200,GH-OP1,C2,C,10u,,,RC-CORNER,DRAWN,FILTER,pins 1-8: gain 200 above ~118 Hz,GoldenHaze.h:9,found
+Golden Haze,OP1 LM386 x200,GH-OP1,VD1,DIODE,1N4001 (supply ~8.35 V),,,DIODE-1N4001,DRAWN,FIXED,reverse-polarity diode sets the rails,GoldenHaze.h:12,found
+Golden Haze,Interstage RC,GH-RC,C3,C,1u,,,RC-CORNER,DRAWN,FILTER,coupling,GoldenHaze.h:15,found
+Golden Haze,Interstage RC,GH-RC,R2,R,68k,,,RC-CORNER,DRAWN,FILTER,divider with OP2's internal 50k (-7.5 dB),GoldenHaze.h:15,found
+Golden Haze,Interstage RC,GH-RC,C4,C,4n7,,,RC-CORNER,DRAWN,FILTER,low-pass ~1.18 kHz (the pedal's only tone shaping),GoldenHaze.h:15,found
+Golden Haze,OP2 LM386 x20,GH-OP2,OP2,IC,LM386 (gain 20),,,IC-LM386,DRAWN,CURVE,second power-amp stage,GoldenHaze.h:18,found
+Golden Haze,VOLUME,GH-OUT,C5,C,1u,,,RC-CORNER,DRAWN,FILTER,output coupling,GoldenHaze.h:19,found
+Golden Haze,VOLUME,GH-OUT,R3,POT,A100k,,VOLUME,POT-A,DRAWN,CONTROL,VOLUME (wiper = OUT),GoldenHaze.h:19,found

@@ -1,0 +1,67 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Slow Burn,Input buffer,SB-BUF,IC1B,OPAMP,unity follower,,,OPAMP-IDEAL,TRACED,GAIN,input buffer,SlowBurn.h:13,found
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C0,C,1n,BUF_OUT y,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R0,R,470k,y z,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C1,C,2.2n,y z,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R1,R,250k,z w,GAIN (A500k) lug3-wiper,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C2,C,1n,z w,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R2,R,250k,w l1,GAIN (A500k) wiper-lug1,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R3,R,4.7k,l1 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Stage-1 op-amp,SB-STAGE1,IC2A,OPAMP,TL072 (+/-7.5 V swing),,,OPAMP-TL072,TRACED,CURVE,stage-1 op-amp,SlowBurn.h:411,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Rf,R,1M,,,RES-IDEAL,TRACED,OPSTAGE,feedback,SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Cf,C,100p,,,CAP-IDEAL,TRACED,OPSTAGE,feedback cap (1.6 kHz),SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Rg,R,22k,,,RES-IDEAL,OURS,OPSTAGE,ground leg (real pedal 6k8: x148),SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Cg,C,330n,,,CAP-IDEAL,OURS,OPSTAGE,ground-leg cap (real pedal 1u),SlowBurn.h:383,found
+Slow Burn,V1A triode stage,SB-V1A,V1A,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,first triode stage (in place of the op-amp zener stage),SlowBurn.h:287,found
+Slow Burn,V1A triode stage,SB-V1A,Rgs,R,68k,,,RES-IDEAL,OURS,SOLVED,grid stopper,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,B+,RAIL,250 V,,,BEHAV,OURS,SOLVED,plate supply,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,SlowBurn.h:294,found
+Slow Burn,V1A triode stage,SB-V1A,Cc,C,22n,,,CAP-IDEAL,TRACED,SOLVED,coupling cap to the 330k / 220k node,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,R330k,R,330k,,,RES-IDEAL,TRACED,SOLVED,coupling node to ground,SlowBurn.h:156,found
+Slow Burn,V1A triode stage,SB-V1A,Miller,C,1.7p / 1.6p,,,TUBE-12AX7,DATASHEET,SOLVED,grid-plate / grid-cathode capacitance (both triodes),SlowBurn.h:288,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,V1B,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,second triode stage,SlowBurn.h:100,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rgs,R,220k,,,RES-IDEAL,TRACED,SOLVED,grid stopper (the pedal's 220k),SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Cpl,C,470p,,,CAP-IDEAL,OURS,SOLVED,plate cap to ground (gentle top roll-off),SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Cc,C,22n,,,CAP-IDEAL,OURS,SOLVED,coupling into the cathode follower,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,CF,TRIODE,cathode follower (scale 0.075),,,BEHAV,OURS,GAIN,drives the stack (1M grid load),SlowBurn.h:412,found
+Slow Burn,SLO tone stack,SB-STACK,stack.C0,C,470p,CF_OUT t3,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R0,R,125k,t3 tw,TREBLE upper half,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R1,R,125k,tw t1,TREBLE lower half,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R2,R,47k,CF_OUT tn,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C1,C,22n,tn t1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C2,C,22n,tn mw,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R3,R,100k,t1 b1,BASS,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R4,R,12.5k,b1 mw,MID upper,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R5,R,12.5k,mw 0,MID lower,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C3,C,1n,CF_OUT n1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:446,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R6,R,10k,n1 tw,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:446,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R7,R,1M,tw p,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:447,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R8,R,33k,p 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:447,netlist
+Slow Burn,SLO tone stack,SB-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,TRACED,CONTROL,treble (netlist halves stTt / stTb),SlowBurn.h:480,found
+Slow Burn,SLO tone stack,SB-STACK,BASS,POT,A1M,,BASS,POT-A,TRACED,CONTROL,bass (netlist stBass),SlowBurn.h:482,found
+Slow Burn,SLO tone stack,SB-STACK,MID,POT,B25k,,MID,POT-B,TRACED,CONTROL,middle (netlist stMt / stMb),SlowBurn.h:483,found
+Slow Burn,Power stage (presence / deep),SB-POWER,power.U0,OPAMP,ideal (nullor),+IC3B+ -nn oo,,OPAMP-IDEAL,TRACED,NETLIST,,SlowBurn.h:452,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R0,R,33k,o d,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C0,C,22n,o d,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R1,R,22k,o d,DEEP toggle,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R2,R,10k,d nn,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:454,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R3,R,4.7k,nn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:454,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C1,C,100n,nn p1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R4,R,12.5k,p1 qn,PRESENCE (C25k rheostat),RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R5,R,1k,qn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C2,C,44n,qn rn,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R6,R,220R,rn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,DEEP,SWITCH,22k in / out,,DEEP,SWITCH,TRACED,CONTROL,DEEP on = 22k out of circuit,SlowBurn.h:487,found
+Slow Burn,Power stage (presence / deep),SB-POWER,PRESENCE,POT,C25k rheostat,,PRESENCE,POT-C,TRACED,CONTROL,presence (netlist pwPres),SlowBurn.h:486,found
+Slow Burn,Power stage (presence / deep),SB-POWER,IC3B,OPAMP,TL072,,,OPAMP-IDEAL,TRACED,NETLIST,power stage op-amp (nullor in the netlist),SlowBurn.h:452,found
+Slow Burn,Output network + VOLUME,SB-OUT,out.C0,C,1u,PWR_OUT ua,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R0,R,10k,ua ub,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.C1,C,22n,ub us,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R1,R,1k,us 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R2,R,25k,ub 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,VOLUME,POT,B25k (wiper unloaded),,VOLUME,POT-B,TRACED,CONTROL,output level,SlowBurn.h:470,found

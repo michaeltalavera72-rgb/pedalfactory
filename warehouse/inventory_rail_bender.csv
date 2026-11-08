@@ -1,0 +1,28 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Rail Bender,Clean boost (U2-B),RB-BOOST,U2-B,OPAMP,TL072 (+9 / -6 V),,,OPAMP-TL072,DRAWN,CURVE,boost stage,RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,POT3,POT,47k B,,BOOST,POT-B,DRAWN,CONTROL,boost gain 1 + POT3 / R15 (0 .. +15 dB),RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,R15,R,10k,,,RES-IDEAL,DRAWN,GAIN,boost ground leg,RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,C13,C,4u7,,,CAP-IDEAL,DRAWN,FIXED,"flat above ~3 Hz (not modelled, flat)",RailBender.h:8,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,Q4,JFET,switch,,BOOST footswitch,SWITCH,DRAWN,CONTROL,shorts the feedback when off (smoothed crossfade),RailBender.h:8,found
+Rail Bender,Input buffer,RB-INBUF,U6-A,OPAMP,TL072 buffer,,,OPAMP-TL072,DRAWN,GAIN,input buffer,RailBender.h:11,found
+Rail Bender,Input buffer,RB-INBUF,C1,C,22n,,,RC-CORNER,DRAWN,FILTER,coupling (~15 Hz),RailBender.h:11,found
+Rail Bender,Input buffer,RB-INBUF,R1,R,10k,,,RC-CORNER,DRAWN,FILTER,series input,RailBender.h:69,found
+Rail Bender,Input buffer,RB-INBUF,R2,R,470k,,,RC-CORNER,DRAWN,FILTER,bias / coupling load,RailBender.h:11,found
+Rail Bender,U1-A gain stage,RB-U1A,U1-A,OPAMP,TL072 (+7.4 / -4.6 V swing),,,OPAMP-TL072,DRAWN,CURVE,drive gain stage,RailBender.h:160,found
+Rail Bender,U1-A gain stage,RB-U1A,R4,R,240k,,,RES-IDEAL,DRAWN,GAIN,feedback,RailBender.h:91,found
+Rail Bender,U1-A gain stage,RB-U1A,R31,R,3k3,,,RES-IDEAL,DRAWN,GAIN,in series with PREAMP pot,RailBender.h:91,found
+Rail Bender,U1-A gain stage,RB-U1A,PREAMP,POT,470k log,,DRIVE,POT-A,DRAWN,CONTROL,drive amount (x2.5 .. x73),RailBender.h:90,found
+Rail Bender,U1-A gain stage,RB-U1A,R3,R,2k2,,,RC-CORNER,DRAWN,FILTER,ground leg (with C2: ~154 Hz),RailBender.h:92,found
+Rail Bender,U1-A gain stage,RB-U1A,C2,C,470n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,RailBender.h:12,found
+Rail Bender,U1-A gain stage,RB-U1A,C33p,C,33p,,,RC-CORNER,DRAWN,FILTER,feedback roll-off,RailBender.h:13,found
+Rail Bender,Germanium clipper,RB-GE,R5,R,10k,,,RES-IDEAL,DRAWN,SOLVED,series resistor into the diodes,RailBender.h:167,found
+Rail Bender,Germanium clipper,RB-GE,D31 D32,DIODE,AA119 pair,,,DIODE-AA119,DRAWN,SOLVED,germanium clipping to ground,RailBender.h:14,found
+Rail Bender,Germanium clipper,RB-GE,C4,C,15n,,,CAP-IDEAL,DRAWN-UNSURE,SOLVED,across the diodes (handwritten value on the drawing),RailBender.h:167,found
+Rail Bender,U1-B recovery,RB-U1B,U1-B,OPAMP,TL072,,,OPAMP-TL072,DRAWN,CURVE,recovery stage,RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,R8,R,150k,,,RES-IDEAL,DRAWN,GAIN,feedback (x4.85),RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,R7,R,39k,,,RC-CORNER,DRAWN,FILTER,ground leg (~41 Hz),RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,C5,C,100n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,RailBender.h:16,found
+Rail Bender,Treble-cut tone,RB-TONE,R9,R,13k,,,RC-CORNER,DRAWN,FILTER,series tone resistor,RailBender.h:186,found
+Rail Bender,Treble-cut tone,RB-TONE,P2,POT,22k log,,TONE,POT-A,DRAWN,CONTROL,treble cut (CW = brightest),RailBender.h:186,found
+Rail Bender,Treble-cut tone,RB-TONE,C7,C,100n,,,RC-CORNER,DRAWN,FILTER,tone cap to ground,RailBender.h:186,found
+Rail Bender,LEVEL,RB-LEVEL,P5,POT,47k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,RailBender.h:18,found

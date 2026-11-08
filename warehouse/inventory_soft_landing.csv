@@ -1,0 +1,33 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R0,R,250k,nIn nA,GAIN (A500K) upper,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:316,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R1,R,250k,nA 0,GAIN (A500K) lower,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:317,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R2,R,4.7M,nA 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:318,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R3,R,470k,nM nG,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:319,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R4,R,470k,nG nVc,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:320,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R5,R,235k,nP 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:321,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R6,R,5k,nN 0,"SQUISH network (20K || A10K + 22K), set from the knob",RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:322,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C0,C,470p,nIn nA,,CAP-IDEAL,DRAWN,NETLIST,"treble bleed (drawn ""?"")",SoftLanding.h:323,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C1,C,100n,nA nB,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:324,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C2,C,560p,nB nM,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:325,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C3,C,100n,nB nP,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:326,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C4,C,4.7u,nN 0,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:327,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,GAIN,POT,A500K,,GAIN,POT-A,DRAWN,CONTROL,input level (netlist rTop / rBot),SoftLanding.h:8,found
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,Q2,JFET,2N5457 (Idss 1.0 mA / Vp -0.5 V),,,JFET-2N5457,USER,SOLVED,"shunt VCR at Vds = 0 (""good pair"" voicing)",SoftLanding.h:285,found
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,Q2 gate,DIODE,gate junction (Is 1 pA),,,JFET-2N5457,EST-STD,SOLVED,clamps the gate at ~+0.5 V (caps the gain reduction),SoftLanding.h:288,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,Q1,JFET,2N5457 (Idss 3.3 mA / Vp -3.0 V),,,JFET-2N5457,USER,SOLVED,self-biased current source (~0.33 mA),SoftLanding.h:284,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,Rs,R,6K2 (1K5 + 4K7),,,RES-IDEAL,DRAWN,SOLVED,Q1 self-bias resistor,SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,R20K,R,20K,,,RES-IDEAL,DRAWN,SOLVED,N to 0 V (with SQUISH: V_N),SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,SQUISH,POT,A10K (lug 3 -> 22K),,SQUISH,POT-A,DRAWN,CONTROL,Q2 rest bias: more squish CW,SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,R22K,R,22K,,,RES-IDEAL,DRAWN,SOLVED,SQUISH lug 3 to 0 V,SoftLanding.h:16,found
+Soft Landing,U1A gain stage,SL-AMP,U1A,OPAMP,RC4558 (+/-3.3 V),,,OPAMP-4558,DRAWN,CURVE,x23 gain stage,SoftLanding.h:292,found
+Soft Landing,U1A gain stage,SL-AMP,Rf,R,220k,,,RES-IDEAL,DRAWN,GAIN,feedback,SoftLanding.h:18,found
+Soft Landing,U1A gain stage,SL-AMP,Rg,R,10k,,,RES-IDEAL,DRAWN,GAIN,ground leg,SoftLanding.h:18,found
+Soft Landing,U1A gain stage,SL-AMP,Cg,C,4u7,,,CAP-IDEAL,DRAWN,FILTER,ground-leg cap (x1 at DC),SoftLanding.h:18,found
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R0,R,10k,dO 0,,RES-IDEAL,DRAWN,NETLIST,LEVEL pot (whole track),SoftLanding.h:335,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R1,R,100k,dC 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:336,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R2,R,470k,dC dG,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:337,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.C0,C,4.7u,dOut dO,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:338,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.C1,C,4.7u,dC 0,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:339,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,R2K1,R,2K1,,,RES-IDEAL,DRAWN,SOLVED,into the detector diode (attack ~10 ms),SoftLanding.h:19,found
+Soft Landing,Side-chain + LEVEL,SL-DET,D1,DIODE,1N914,,,DIODE-1N914,DRAWN,SOLVED,side-chain rectifier,SoftLanding.h:289,found
+Soft Landing,Side-chain + LEVEL,SL-DET,LEVEL,POT,A10K,,LEVEL,POT-A,DRAWN,CONTROL,output level (whole track in the netlist),SoftLanding.h:335,found

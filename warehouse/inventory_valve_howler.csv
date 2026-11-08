@@ -1,0 +1,26 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Valve Howler,Input buffer,TS-INPUT,C1,C,0.02u,,,RC-CORNER,DRAWN,FILTER,input coupling (~16 Hz),ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,R1,R,510k,,,RC-CORNER,DRAWN,FILTER,input bias,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,Q1,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,C2,C,1u BP,,,RC-CORNER,DRAWN,FILTER,coupling into 10k,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,R2,R,10k,,,RC-CORNER,DRAWN,FILTER,coupling load,ValveHowler.h:7,found
+Valve Howler,Clipping stage,TS-CLIP,IC1A,OPAMP,JRC4558 (+/-3.8 V),,,OPAMP-4558,DRAWN,CURVE,clipping stage,ValveHowler.h:160,found
+Valve Howler,Clipping stage,TS-CLIP,R4,R,4.7k,,,RES-IDEAL,DRAWN,SOLVED,ground leg (mid hump ~720 Hz),ValveHowler.h:94,found
+Valve Howler,Clipping stage,TS-CLIP,C3,C,0.047u,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,ValveHowler.h:94,found
+Valve Howler,Clipping stage,TS-CLIP,R6,R,51k,,,RES-IDEAL,DRAWN,SOLVED,feedback (in series with DRIVE),ValveHowler.h:76,found
+Valve Howler,Clipping stage,TS-CLIP,DRIVE,POT,500k audio,,DRIVE,POT-A,DRAWN,CONTROL,drive amount,ValveHowler.h:76,found
+Valve Howler,Clipping stage,TS-CLIP,C4,C,51p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap,ValveHowler.h:166,found
+Valve Howler,Clipping stage,TS-CLIP,D1 D2,DIODE,1N914 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,feedback clipping diodes,ValveHowler.h:166,found
+Valve Howler,Tone stage,TS-TONE,R7,R,1k,,,RES-IDEAL,DRAWN,FILTER,into the tone stage (~723 Hz low-pass),ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R8,R,10k,,,RES-IDEAL,DRAWN,FILTER,to Vr,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,C5,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,low-pass cap,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,TONE,POT,20k (reverse log),,TONE,POT-C,DRAWN,CONTROL,active treble control,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,C6,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,wiper to ground,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R9,R,220R,,,RES-IDEAL,DRAWN,FILTER,wiper to ground,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R10,R,1k,,,RES-IDEAL,DRAWN,FILTER,tone-stage feedback,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,IC1B,OPAMP,JRC4558,,,OPAMP-4558,DRAWN,FILTER,tone-stage op-amp,ValveHowler.h:14,found
+Valve Howler,LEVEL + output buffer,TS-OUT,C7,C,1u BP,,,CAP-IDEAL,DRAWN,FIXED,output coupling,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,R11,R,1k,,,RES-IDEAL,DRAWN,FIXED,into LEVEL,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,LEVEL,POT,B100k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,Q2,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,output buffer,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,R12 C8 R13,R,100R / 10u / 10k,,,RC-CORNER,DRAWN,FILTER,output network (~5 Hz),ValveHowler.h:17,found

@@ -1,0 +1,82 @@
+Pedal,Based on,Step,Block ID,Block,Type
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),1,BM-INPUT,Input coupling,COUPLING
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),2,BM-Q1,Q1 input boost,BJT-GAIN
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),3,BM-SUSTAIN,SUSTAIN pot,LEVEL-POT
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),4,BM-CLIP,Q2 / Q3 clipping stages,BJT-CLIP
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),5,BM-TONE,Big Muff tone,TONE-MUFF
+Ramhorn Fuzz,Electro-Harmonix Big Muff Pi (Ram's Head era),6,BM-Q4,Q4 recovery + VOLUME,BJT-GAIN
+Buzzsaw,Boss HM-2 Heavy Metal (1983),1,HM-INPUT,Q1 buffer + high-pass,BUFFER
+Buzzsaw,Boss HM-2 Heavy Metal (1983),2,HM-Q6,Q6 NPN stage + DISTORTION,BJT-GAIN
+Buzzsaw,Boss HM-2 Heavy Metal (1983),3,HM-Q7,Q7 PNP stage,BJT-GAIN
+Buzzsaw,Boss HM-2 Heavy Metal (1983),4,HM-1B,Op-amp 1b feedback clipper,OPAMP-FB-CLIP
+Buzzsaw,Boss HM-2 Heavy Metal (1983),5,HM-GATE,Series dead zone + hard clip,DIODE-DEADZONE
+Buzzsaw,Boss HM-2 Heavy Metal (1983),6,HM-COLOR,COLOR MIX,EQ-GYRATOR
+Buzzsaw,Boss HM-2 Heavy Metal (1983),7,HM-OUT,LEVEL + output,LEVEL-POT
+Rail Bender,T-Rex Hobo Drive (V1.2.3),1,RB-BOOST,Clean boost (U2-B),OPAMP-GAIN
+Rail Bender,T-Rex Hobo Drive (V1.2.3),2,RB-INBUF,Input buffer,BUFFER
+Rail Bender,T-Rex Hobo Drive (V1.2.3),3,RB-U1A,U1-A gain stage,OPAMP-GAIN
+Rail Bender,T-Rex Hobo Drive (V1.2.3),4,RB-GE,Germanium clipper,DIODE-CLIP-GND
+Rail Bender,T-Rex Hobo Drive (V1.2.3),5,RB-U1B,U1-B recovery,OPAMP-GAIN
+Rail Bender,T-Rex Hobo Drive (V1.2.3),6,RB-TONE,Treble-cut tone,TONE-TREBLE-CUT
+Rail Bender,T-Rex Hobo Drive (V1.2.3),7,RB-LEVEL,LEVEL,LEVEL-POT
+Valve Howler,Ibanez TS-808 Tube Screamer,1,TS-INPUT,Input buffer,BUFFER
+Valve Howler,Ibanez TS-808 Tube Screamer,2,TS-CLIP,Clipping stage,OPAMP-FB-CLIP
+Valve Howler,Ibanez TS-808 Tube Screamer,3,TS-TONE,Tone stage,TONE-ACTIVE-TREBLE
+Valve Howler,Ibanez TS-808 Tube Screamer,4,TS-OUT,LEVEL + output buffer,LEVEL-POT
+Feral Hound,VFE Alpha Dog v2 (RAT-style),1,AD-INPUT,Input network,COUPLING
+Feral Hound,VFE Alpha Dog v2 (RAT-style),2,AD-GAIN,LM308 gain stage,OPAMP-GAIN-SLEW
+Feral Hound,VFE Alpha Dog v2 (RAT-style),3,AD-FAT,FAT ground leg,GROUND-LEG
+Feral Hound,VFE Alpha Dog v2 (RAT-style),4,AD-SOFT,SOFT feedback clipping,OPAMP-FB-CLIP
+Feral Hound,VFE Alpha Dog v2 (RAT-style),5,AD-HARD,HARD clipping to ground,DIODE-CLIP-GND
+Feral Hound,VFE Alpha Dog v2 (RAT-style),6,AD-FILTER,RAT FILTER,TONE-TREBLE-CUT
+Feral Hound,VFE Alpha Dog v2 (RAT-style),7,AD-OUT,Output follower + LEVEL,BUFFER
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",1,SB-BUF,Input buffer,BUFFER
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",2,SB-INTER,Interstage + GAIN pot,COUPLING
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",3,SB-STAGE1,Stage-1 op-amp,OPAMP-GAIN
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",4,SB-V1A,V1A triode stage,TRIODE-STAGE
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",5,SB-V1B,V1B triode stage + cathode follower,TRIODE-STAGE
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",6,SB-STACK,SLO tone stack,TONE-STACK-TMB
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",7,SB-POWER,Power stage (presence / deep),POWER-AMP-STAGE
+Slow Burn,"Soldano SLO pedal, with a 12AX7 in the gain stages",8,SB-OUT,Output network + VOLUME,LEVEL-POT
+Gatekeeper,Boss NF-1 Noise Gate (keyed loop),1,NG-SENSE,Side-chain detector,ENVELOPE
+Gatekeeper,Boss NF-1 Noise Gate (keyed loop),2,NG-ENV,Gate envelope,ENVELOPE
+Gatekeeper,Boss NF-1 Noise Gate (keyed loop),3,NG-VCA,JFET expander (keyed return),VCA-GATE
+Thunderhead,Diezel VH4 pedal,1,TH-INPUT,Input + IC1A buffer,BUFFER
+Thunderhead,Diezel VH4 pedal,2,TH-IC1B,IC1B gain stage,OPAMP-GAIN
+Thunderhead,Diezel VH4 pedal,3,TH-INTER,Interstage + GAIN,COUPLING
+Thunderhead,Diezel VH4 pedal,4,TH-IC2A,IC2A zener-limited stage,OPAMP-FB-CLIP
+Thunderhead,Diezel VH4 pedal,5,TH-GATE,Diode gate,DIODE-DEADZONE
+Thunderhead,Diezel VH4 pedal,6,TH-IC2B,IC2B rail clipper,OPAMP-GAIN
+Thunderhead,Diezel VH4 pedal,7,TH-STACK,Marshall-style stack,TONE-STACK-TMB
+Thunderhead,Diezel VH4 pedal,8,TH-AMP3,IC3A power stage + gyrator,POWER-AMP-STAGE
+Thunderhead,Diezel VH4 pedal,9,TH-OUT,Output + VOLUME + AMP / DIRECT,LEVEL-POT
+Golden Haze,EarthQuaker Devices Acapulco Gold,1,GH-IN,Input coupling,COUPLING
+Golden Haze,EarthQuaker Devices Acapulco Gold,2,GH-OP1,OP1 LM386 x200,POWER-CHIP-CLIP
+Golden Haze,EarthQuaker Devices Acapulco Gold,3,GH-RC,Interstage RC,TONE-TREBLE-CUT
+Golden Haze,EarthQuaker Devices Acapulco Gold,4,GH-OP2,OP2 LM386 x20,POWER-CHIP-CLIP
+Golden Haze,EarthQuaker Devices Acapulco Gold,5,GH-OUT,VOLUME,LEVEL-POT
+Night Courier,EarthQuaker Devices Dispatch Master,1,NC-IN,Analog input / dry path,BUFFER
+Night Courier,EarthQuaker Devices Dispatch Master,2,NC-DELAY,FV-1 delay,DSP-DELAY
+Night Courier,EarthQuaker Devices Dispatch Master,3,NC-REVERB,FV-1 plate reverb,DSP-REVERB
+Night Courier,EarthQuaker Devices Dispatch Master,4,NC-EXTRAS,MOD / TONE / mode / trails,DSP-MOD
+Night Courier,EarthQuaker Devices Dispatch Master,5,NC-MIX,MIX + output,LEVEL-POT
+Coral Tide,BJFE Sea Blue EQ + Baby Pink Booster,1,CT-BOOST,Baby Pink booster,JFET-CS-STAGE
+Coral Tide,BJFE Sea Blue EQ + Baby Pink Booster,2,CT-Q1EQ,Sea Blue Q1 + passive EQ,JFET-CS-STAGE
+Coral Tide,BJFE Sea Blue EQ + Baby Pink Booster,3,CT-Q2,Sea Blue Q2 + VOLUME,JFET-CS-STAGE
+Coral Tide,BJFE Sea Blue EQ + Baby Pink Booster,4,CT-MASTER,ORDER + master LEVEL,LEVEL-POT
+Frostbite,Artec Cool Drive CDV-1,1,FB-INPUT,Input coupling,COUPLING
+Frostbite,Artec Cool Drive CDV-1,2,FB-IC1A,IC1A preamp,OPAMP-GAIN
+Frostbite,Artec Cool Drive CDV-1,3,FB-PRE,PRE-SHAPE (IC1D),MFB-SHAPER
+Frostbite,Artec Cool Drive CDV-1,4,FB-IC1C,IC1C GAIN stage,OPAMP-GAIN
+Frostbite,Artec Cool Drive CDV-1,5,FB-POST,Clip node + POST-SHAPE (IC1B),MFB-SHAPER
+Frostbite,Artec Cool Drive CDV-1,6,FB-OUT,LEVEL,LEVEL-POT
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),1,TV-INPUT,Input gain + meter,OPAMP-GAIN
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),2,TV-SPLIT,Band split,CROSSOVER
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),3,TV-LOW,Low band OTA compressor,OTA-COMP-BAND
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),4,TV-HIGH,High band OTA compressor,OTA-COMP-BAND
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),5,TV-SC,Side-chains,ENVELOPE
+Twin Vise,Trace Elliot SMX Dual Compressor (guitar voicing),6,TV-MIX,E.Q. BALANCE + OUTPUT,LEVEL-POT
+Soft Landing,Toadworks Mr. Squishy,1,SL-CELL,GAIN pot + JFET VCR cell,JFET-VCR
+Soft Landing,Toadworks Mr. Squishy,2,SL-BIAS,Q1 current source + SQUISH,BIAS
+Soft Landing,Toadworks Mr. Squishy,3,SL-AMP,U1A gain stage,OPAMP-GAIN
+Soft Landing,Toadworks Mr. Squishy,4,SL-DET,Side-chain + LEVEL,ENVELOPE

@@ -1,0 +1,487 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Ramhorn Fuzz,Input coupling,BM-INPUT,Cin,C,(~20 Hz corner),,,RC-CORNER,EST-STD,FILTER,input / coupling caps: DC and sub-bass removal,RamhornFuzz.h:59,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Q1,BJT,x12 (~21 dB),,,BJT-STAGE-TANH,EST-EAR,CURVE,input boost; 2.5 V tanh limit (9 V rail),RamhornFuzz.h:85,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Rf,R,470k,,,RC-CORNER,DRAWN,FILTER,"feedback resistor (with 470p: ~720 Hz roll-off, shared by Q1-Q3)",RamhornFuzz.h:9,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Cf,C,470p,,,RC-CORNER,DRAWN,FILTER,feedback cap (~720 Hz roll-off),RamhornFuzz.h:9,found
+Ramhorn Fuzz,SUSTAIN pot,BM-SUSTAIN,SUSTAIN,POT,log (0 .. -66 dB),,SUSTAIN,POT-A,EST-EAR,CONTROL,sets how hard the clippers are driven,RamhornFuzz.h:70,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Q2,BJT,x57 (470k / 8k2),,,BJT-STAGE-TANH,DRAWN,CURVE,first clipping stage,RamhornFuzz.h:116,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Re,R,8k2,,,RES-IDEAL,DRAWN,GAIN,gain-setting resistor of Q2 / Q3 (470k / 8k2 = 57),RamhornFuzz.h:113,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,D-Q2,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q2,RamhornFuzz.h:117,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Q3,BJT,x57,,,BJT-STAGE-TANH,DRAWN,CURVE,second clipping stage (same network as Q2),RamhornFuzz.h:91,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,D-Q3,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q3,RamhornFuzz.h:91,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,R-lp,R,39k,,,RC-CORNER,DRAWN,FILTER,low-pass leg (with 10n: 408 Hz),RamhornFuzz.h:57,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,C-lp,C,10n,,,RC-CORNER,DRAWN,FILTER,low-pass leg cap,RamhornFuzz.h:57,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,C-hp,C,3n9,,,RC-CORNER,DRAWN,FILTER,high-pass leg (with 39k: 1046 Hz),RamhornFuzz.h:58,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,R-hp,R,39k,,,RC-CORNER,DRAWN,FILTER,high-pass leg resistor,RamhornFuzz.h:58,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,TONE,POT,linear blend,,TONE,POT-B,EST-STD,CONTROL,blends the two legs (passive loss x0.5),RamhornFuzz.h:95,found
+Ramhorn Fuzz,Q4 recovery + VOLUME,BM-Q4,Q4,BJT,x3.7 (3 V limit),,,BJT-STAGE-TANH,EST-EAR,CURVE,recovery stage,RamhornFuzz.h:97,found
+Ramhorn Fuzz,Q4 recovery + VOLUME,BM-Q4,VOLUME,POT,audio (x^2),,VOLUME,POT-A,EST-STD,CONTROL,output level,RamhornFuzz.h:72,found
+Buzzsaw,Q1 buffer + high-pass,HM-INPUT,Q1,BJT,unity buffer,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,Buzzsaw.h:7,found
+Buzzsaw,Q1 buffer + high-pass,HM-INPUT,C6,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,Buzzsaw.h:66,found
+Buzzsaw,Q1 buffer + high-pass,HM-INPUT,R19,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass resistor / Q6 input resistor,Buzzsaw.h:8,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,Q6,BJT,NPN x21 (+3.9 / -3.4 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,shunt-feedback gain stage,Buzzsaw.h:106,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R16,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q6 feedback (470k / 22k = 21),Buzzsaw.h:8,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,C10,C,100p,,,RC-CORNER,DRAWN,FILTER,Q6 roll-off ~3.4 kHz,Buzzsaw.h:67,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R17,R,10k,,,RES-IDEAL,DRAWN,FILTER,collector resistor (DIST shelf),Buzzsaw.h:186,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,VR4,POT,250k D taper,,DIST,POT-D,DRAWN,CONTROL,DISTORTION: loads the collector,Buzzsaw.h:9,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R49,R,150R,,,RES-IDEAL,DRAWN,FILTER,in series with VR4,Buzzsaw.h:10,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,C31,C,10u,,,RC-CORNER,DRAWN,FILTER,AC-couples the DIST load (first-order shelf),Buzzsaw.h:10,found
+Buzzsaw,Q7 PNP stage,HM-Q7,C11,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,Buzzsaw.h:68,found
+Buzzsaw,Q7 PNP stage,HM-Q7,R22,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass / Q7 input resistor,Buzzsaw.h:12,found
+Buzzsaw,Q7 PNP stage,HM-Q7,Q7,BJT,PNP x21 (+3.6 / -4.0 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,second gain stage,Buzzsaw.h:110,found
+Buzzsaw,Q7 PNP stage,HM-Q7,R29,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q7 feedback,Buzzsaw.h:12,found
+Buzzsaw,Q7 PNP stage,HM-Q7,C14,C,100p,,,RC-CORNER,DRAWN,FILTER,Q7 roll-off ~3.4 kHz,Buzzsaw.h:69,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,IC1B,OPAMP,on 9 V (+/-4.2 V),,,OPAMP-RAIL,DRAWN,CURVE,feedback clipping stage,Buzzsaw.h:117,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,R20,R,220k,,,RC-CORNER,DRAWN,FILTER,feedback (with C9 ~7.2 kHz),Buzzsaw.h:13,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,R42,R,47k,,,RC-CORNER,DRAWN,FILTER,ground leg (with C22: x5.7 above 72 Hz),Buzzsaw.h:13,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,C22,C,0.047u,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,Buzzsaw.h:70,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,C9,C,100p,,,RC-CORNER,DRAWN,FILTER,feedback cap,Buzzsaw.h:71,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D3,DIODE,Si (0.62 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diode one way,Buzzsaw.h:115,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D4 D5,DIODE,2 x Si in series (1.2 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diodes the other way (asymmetric),Buzzsaw.h:115,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,R23,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the series diodes,Buzzsaw.h:72,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,D6 D7,DIODE,anti-parallel in series (0.55 V dead zone),,,DIODE-SI-KNEE,DRAWN,CURVE,blocks small signals (HM-2 sputter),Buzzsaw.h:120,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,R30,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the shunt diodes,Buzzsaw.h:72,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,D8 D9,DIODE,Si pair to ground (0.62 V hard),,,DIODE-SI-KNEE,DRAWN,CURVE,hard clip,Buzzsaw.h:121,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,C16,C,1n,,,RC-CORNER,DRAWN,FILTER,smoothing (~10 kHz),Buzzsaw.h:72,found
+Buzzsaw,COLOR MIX,HM-COLOR,IC3A,OPAMP,gyrator EQ,,,OPAMP-IDEAL,DRAWN,FILTER,COLOR MIX stage (two gyrator band EQs),Buzzsaw.h:17,found
+Buzzsaw,COLOR MIX,HM-COLOR,LOW band,FILTER,peak 71-83 Hz up to +/-20.4 dB,,LOW,BEHAV,EST-FIT,FILTER,fitted to Tools/Analysis/hm2_colormix.py,Buzzsaw.h:192,found
+Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 1,FILTER,peak 958 Hz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,first high resonator,Buzzsaw.h:221,found
+Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 2,FILTER,peak 1.28 kHz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,second high resonator (same pot),Buzzsaw.h:223,found
+Buzzsaw,COLOR MIX,HM-COLOR,LOW / HIGH pots,POT,G taper (S-curve),,LOW / HIGH,POT-G,EST-EAR,CONTROL,boost / cut about noon,Buzzsaw.h:209,found
+Buzzsaw,LEVEL + output,HM-OUT,VR1,POT,10k audio,,LEVEL,POT-A,DRAWN,CONTROL,output level,Buzzsaw.h:21,found
+Buzzsaw,LEVEL + output,HM-OUT,Cout,C,(~8 Hz corner),,,RC-CORNER,EST-STD,FILTER,output coupling,Buzzsaw.h:73,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,U2-B,OPAMP,TL072 (+9 / -6 V),,,OPAMP-TL072,DRAWN,CURVE,boost stage,RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,POT3,POT,47k B,,BOOST,POT-B,DRAWN,CONTROL,boost gain 1 + POT3 / R15 (0 .. +15 dB),RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,R15,R,10k,,,RES-IDEAL,DRAWN,GAIN,boost ground leg,RailBender.h:7,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,C13,C,4u7,,,CAP-IDEAL,DRAWN,FIXED,"flat above ~3 Hz (not modelled, flat)",RailBender.h:8,found
+Rail Bender,Clean boost (U2-B),RB-BOOST,Q4,JFET,switch,,BOOST footswitch,SWITCH,DRAWN,CONTROL,shorts the feedback when off (smoothed crossfade),RailBender.h:8,found
+Rail Bender,Input buffer,RB-INBUF,U6-A,OPAMP,TL072 buffer,,,OPAMP-TL072,DRAWN,GAIN,input buffer,RailBender.h:11,found
+Rail Bender,Input buffer,RB-INBUF,C1,C,22n,,,RC-CORNER,DRAWN,FILTER,coupling (~15 Hz),RailBender.h:11,found
+Rail Bender,Input buffer,RB-INBUF,R1,R,10k,,,RC-CORNER,DRAWN,FILTER,series input,RailBender.h:69,found
+Rail Bender,Input buffer,RB-INBUF,R2,R,470k,,,RC-CORNER,DRAWN,FILTER,bias / coupling load,RailBender.h:11,found
+Rail Bender,U1-A gain stage,RB-U1A,U1-A,OPAMP,TL072 (+7.4 / -4.6 V swing),,,OPAMP-TL072,DRAWN,CURVE,drive gain stage,RailBender.h:160,found
+Rail Bender,U1-A gain stage,RB-U1A,R4,R,240k,,,RES-IDEAL,DRAWN,GAIN,feedback,RailBender.h:91,found
+Rail Bender,U1-A gain stage,RB-U1A,R31,R,3k3,,,RES-IDEAL,DRAWN,GAIN,in series with PREAMP pot,RailBender.h:91,found
+Rail Bender,U1-A gain stage,RB-U1A,PREAMP,POT,470k log,,DRIVE,POT-A,DRAWN,CONTROL,drive amount (x2.5 .. x73),RailBender.h:90,found
+Rail Bender,U1-A gain stage,RB-U1A,R3,R,2k2,,,RC-CORNER,DRAWN,FILTER,ground leg (with C2: ~154 Hz),RailBender.h:92,found
+Rail Bender,U1-A gain stage,RB-U1A,C2,C,470n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,RailBender.h:12,found
+Rail Bender,U1-A gain stage,RB-U1A,C33p,C,33p,,,RC-CORNER,DRAWN,FILTER,feedback roll-off,RailBender.h:13,found
+Rail Bender,Germanium clipper,RB-GE,R5,R,10k,,,RES-IDEAL,DRAWN,SOLVED,series resistor into the diodes,RailBender.h:167,found
+Rail Bender,Germanium clipper,RB-GE,D31 D32,DIODE,AA119 pair,,,DIODE-AA119,DRAWN,SOLVED,germanium clipping to ground,RailBender.h:14,found
+Rail Bender,Germanium clipper,RB-GE,C4,C,15n,,,CAP-IDEAL,DRAWN-UNSURE,SOLVED,across the diodes (handwritten value on the drawing),RailBender.h:167,found
+Rail Bender,U1-B recovery,RB-U1B,U1-B,OPAMP,TL072,,,OPAMP-TL072,DRAWN,CURVE,recovery stage,RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,R8,R,150k,,,RES-IDEAL,DRAWN,GAIN,feedback (x4.85),RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,R7,R,39k,,,RC-CORNER,DRAWN,FILTER,ground leg (~41 Hz),RailBender.h:16,found
+Rail Bender,U1-B recovery,RB-U1B,C5,C,100n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,RailBender.h:16,found
+Rail Bender,Treble-cut tone,RB-TONE,R9,R,13k,,,RC-CORNER,DRAWN,FILTER,series tone resistor,RailBender.h:186,found
+Rail Bender,Treble-cut tone,RB-TONE,P2,POT,22k log,,TONE,POT-A,DRAWN,CONTROL,treble cut (CW = brightest),RailBender.h:186,found
+Rail Bender,Treble-cut tone,RB-TONE,C7,C,100n,,,RC-CORNER,DRAWN,FILTER,tone cap to ground,RailBender.h:186,found
+Rail Bender,LEVEL,RB-LEVEL,P5,POT,47k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,RailBender.h:18,found
+Valve Howler,Input buffer,TS-INPUT,C1,C,0.02u,,,RC-CORNER,DRAWN,FILTER,input coupling (~16 Hz),ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,R1,R,510k,,,RC-CORNER,DRAWN,FILTER,input bias,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,Q1,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,C2,C,1u BP,,,RC-CORNER,DRAWN,FILTER,coupling into 10k,ValveHowler.h:7,found
+Valve Howler,Input buffer,TS-INPUT,R2,R,10k,,,RC-CORNER,DRAWN,FILTER,coupling load,ValveHowler.h:7,found
+Valve Howler,Clipping stage,TS-CLIP,IC1A,OPAMP,JRC4558 (+/-3.8 V),,,OPAMP-4558,DRAWN,CURVE,clipping stage,ValveHowler.h:160,found
+Valve Howler,Clipping stage,TS-CLIP,R4,R,4.7k,,,RES-IDEAL,DRAWN,SOLVED,ground leg (mid hump ~720 Hz),ValveHowler.h:94,found
+Valve Howler,Clipping stage,TS-CLIP,C3,C,0.047u,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,ValveHowler.h:94,found
+Valve Howler,Clipping stage,TS-CLIP,R6,R,51k,,,RES-IDEAL,DRAWN,SOLVED,feedback (in series with DRIVE),ValveHowler.h:76,found
+Valve Howler,Clipping stage,TS-CLIP,DRIVE,POT,500k audio,,DRIVE,POT-A,DRAWN,CONTROL,drive amount,ValveHowler.h:76,found
+Valve Howler,Clipping stage,TS-CLIP,C4,C,51p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap,ValveHowler.h:166,found
+Valve Howler,Clipping stage,TS-CLIP,D1 D2,DIODE,1N914 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,feedback clipping diodes,ValveHowler.h:166,found
+Valve Howler,Tone stage,TS-TONE,R7,R,1k,,,RES-IDEAL,DRAWN,FILTER,into the tone stage (~723 Hz low-pass),ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R8,R,10k,,,RES-IDEAL,DRAWN,FILTER,to Vr,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,C5,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,low-pass cap,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,TONE,POT,20k (reverse log),,TONE,POT-C,DRAWN,CONTROL,active treble control,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,C6,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,wiper to ground,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R9,R,220R,,,RES-IDEAL,DRAWN,FILTER,wiper to ground,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,R10,R,1k,,,RES-IDEAL,DRAWN,FILTER,tone-stage feedback,ValveHowler.h:135,found
+Valve Howler,Tone stage,TS-TONE,IC1B,OPAMP,JRC4558,,,OPAMP-4558,DRAWN,FILTER,tone-stage op-amp,ValveHowler.h:14,found
+Valve Howler,LEVEL + output buffer,TS-OUT,C7,C,1u BP,,,CAP-IDEAL,DRAWN,FIXED,output coupling,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,R11,R,1k,,,RES-IDEAL,DRAWN,FIXED,into LEVEL,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,LEVEL,POT,B100k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,Q2,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,output buffer,ValveHowler.h:17,found
+Valve Howler,LEVEL + output buffer,TS-OUT,R12 C8 R13,R,100R / 10u / 10k,,,RC-CORNER,DRAWN,FILTER,output network (~5 Hz),ValveHowler.h:17,found
+Feral Hound,Input network,AD-INPUT,R1,R,1k,,,RES-IDEAL,TRACED,SOLVED,series input,FeralHound.h:200,found
+Feral Hound,Input network,AD-INPUT,C1,C,220n,,,CAP-IDEAL,TRACED,SOLVED,input coupling,FeralHound.h:199,found
+Feral Hound,Input network,AD-INPUT,C2,C,1n,,,CAP-IDEAL,TRACED,SOLVED,+ input to ground,FeralHound.h:199,found
+Feral Hound,Input network,AD-INPUT,R2 R3,R,2M2 / 2M2 (1M AC),,,RES-IDEAL,TRACED,SOLVED,bias,FeralHound.h:9,found
+Feral Hound,LM308 gain stage,AD-GAIN,IC1,OPAMP,LM308N,,,OPAMP-LM308,TRACED,SOLVED,"gain stage (GBW 0.9 MHz, slew 0.27 V/us, +/-3.6 V)",FeralHound.h:158,found
+Feral Hound,LM308 gain stage,AD-GAIN,C-comp,C,33p,,,OPAMP-LM308,TRACED,SOLVED,compensation (sets GBW / slew),FeralHound.h:10,found
+Feral Hound,LM308 gain stage,AD-GAIN,GAIN,POT,A1M rheostat,,GAIN,POT-A,TRACED,CONTROL,feedback resistance,FeralHound.h:166,found
+Feral Hound,LM308 gain stage,AD-GAIN,C10p,C,10p,,,CAP-IDEAL,TRACED,SOLVED,across the feedback,FeralHound.h:209,found
+Feral Hound,LM308 gain stage,AD-GAIN,R-A,R,470R,,,RES-IDEAL,TRACED,SOLVED,ground leg A (with 220n: ~1.5 kHz),FeralHound.h:207,found
+Feral Hound,LM308 gain stage,AD-GAIN,C-A,C,220n,,,CAP-IDEAL,TRACED,SOLVED,ground leg A cap,FeralHound.h:199,found
+Feral Hound,FAT ground leg,AD-FAT,FAT,POT,C10k rheostat,,FAT,POT-C,TRACED,CONTROL,ground leg B: more gain and low end,FeralHound.h:167,found
+Feral Hound,FAT ground leg,AD-FAT,R-B,R,470R,,,RES-IDEAL,TRACED,SOLVED,ground leg B resistor,FeralHound.h:167,found
+Feral Hound,FAT ground leg,AD-FAT,C-B,C,1u,,,CAP-IDEAL,TRACED,SOLVED,ground leg B cap (~340 Hz at max),FeralHound.h:207,found
+Feral Hound,SOFT feedback clipping,AD-SOFT,SOFT,POT,W1M (centre detent),,SOFT,POT-W,TRACED,CONTROL,"selects germanium (CCW) or MOSFET (CW), noon = off",FeralHound.h:171,found
+Feral Hound,SOFT feedback clipping,AD-SOFT,D5,DIODE,1N34A,,,DIODE-1N34A,TRACED,SOLVED,"germanium, one polarity",FeralHound.h:159,found
+Feral Hound,SOFT feedback clipping,AD-SOFT,Q1,MOSFET,BS170 (diode-connected),,,MOSFET-BS170,TRACED,SOLVED,MOSFET ~2 V one way and its body diode the other,FeralHound.h:13,found
+Feral Hound,SOFT feedback clipping,AD-SOFT,C100p,C,100p,,,CAP-IDEAL,TRACED,SOLVED,across the MOSFET leg,FeralHound.h:209,found
+Feral Hound,HARD clipping to ground,AD-HARD,C3,C,4u7,,,CAP-IDEAL,TRACED,SOLVED,coupling to the clip node,FeralHound.h:265,found
+Feral Hound,HARD clipping to ground,AD-HARD,R4,R,1k,,,RES-IDEAL,TRACED,SOLVED,into node X,FeralHound.h:266,found
+Feral Hound,HARD clipping to ground,AD-HARD,HARD,POT,W20k (centre detent),,HARD,POT-W,TRACED,CONTROL,"stacked pairs (CCW) or single pair (CW), noon = off",FeralHound.h:173,found
+Feral Hound,HARD clipping to ground,AD-HARD,D1-D4,DIODE,1N4148 x 4 (two stacked pairs),,,DIODE-1N914,TRACED,SOLVED,looser clipping,FeralHound.h:274,found
+Feral Hound,HARD clipping to ground,AD-HARD,C4,C,1n,,,CAP-IDEAL,TRACED,SOLVED,across the stacked pairs,FeralHound.h:265,found
+Feral Hound,HARD clipping to ground,AD-HARD,D6 D7,DIODE,1N4148 pair,,,DIODE-1N914,TRACED,SOLVED,classic RAT clipping,FeralHound.h:160,found
+Feral Hound,RAT FILTER,AD-FILTER,FILTER,POT,C100k rheostat,,FILTER,POT-LOG-MID,TRACED,CONTROL,treble cut (CW = brightest),FeralHound.h:170,found
+Feral Hound,RAT FILTER,AD-FILTER,R5,R,1k,,,RES-IDEAL,TRACED,SOLVED,in series with FILTER,FeralHound.h:170,found
+Feral Hound,RAT FILTER,AD-FILTER,C5,C,4n7,,,CAP-IDEAL,TRACED,SOLVED,filter cap,FeralHound.h:265,found
+Feral Hound,Output follower + LEVEL,AD-OUT,C6,C,220n,,,CAP-IDEAL,TRACED,SOLVED,coupling to the follower,FeralHound.h:265,found
+Feral Hound,Output follower + LEVEL,AD-OUT,R6,R,1M,,,RES-IDEAL,TRACED,SOLVED,follower gate resistor,FeralHound.h:267,found
+Feral Hound,Output follower + LEVEL,AD-OUT,Q2,JFET,2N5458 source follower (x0.95),,,JFET-FOLLOWER,TRACED,GAIN,output buffer,FeralHound.h:175,found
+Feral Hound,Output follower + LEVEL,AD-OUT,LEVEL,POT,A100k,,LEVEL,POT-A,TRACED,CONTROL,output level,FeralHound.h:175,found
+Slow Burn,Input buffer,SB-BUF,IC1B,OPAMP,unity follower,,,OPAMP-IDEAL,TRACED,GAIN,input buffer,SlowBurn.h:13,found
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C0,C,1n,BUF_OUT y,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R0,R,470k,y z,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C1,C,2.2n,y z,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:436,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R1,R,250k,z w,GAIN (A500k) lug3-wiper,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.C2,C,1n,z w,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R2,R,250k,w l1,GAIN (A500k) wiper-lug1,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Interstage + GAIN pot,SB-INTER,inNet.R3,R,4.7k,l1 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:437,netlist
+Slow Burn,Stage-1 op-amp,SB-STAGE1,IC2A,OPAMP,TL072 (+/-7.5 V swing),,,OPAMP-TL072,TRACED,CURVE,stage-1 op-amp,SlowBurn.h:411,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Rf,R,1M,,,RES-IDEAL,TRACED,OPSTAGE,feedback,SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Cf,C,100p,,,CAP-IDEAL,TRACED,OPSTAGE,feedback cap (1.6 kHz),SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Rg,R,22k,,,RES-IDEAL,OURS,OPSTAGE,ground leg (real pedal 6k8: x148),SlowBurn.h:383,found
+Slow Burn,Stage-1 op-amp,SB-STAGE1,Cg,C,330n,,,CAP-IDEAL,OURS,OPSTAGE,ground-leg cap (real pedal 1u),SlowBurn.h:383,found
+Slow Burn,V1A triode stage,SB-V1A,V1A,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,first triode stage (in place of the op-amp zener stage),SlowBurn.h:287,found
+Slow Burn,V1A triode stage,SB-V1A,Rgs,R,68k,,,RES-IDEAL,OURS,SOLVED,grid stopper,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,B+,RAIL,250 V,,,BEHAV,OURS,SOLVED,plate supply,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,SlowBurn.h:294,found
+Slow Burn,V1A triode stage,SB-V1A,Cc,C,22n,,,CAP-IDEAL,TRACED,SOLVED,coupling cap to the 330k / 220k node,SlowBurn.h:285,found
+Slow Burn,V1A triode stage,SB-V1A,R330k,R,330k,,,RES-IDEAL,TRACED,SOLVED,coupling node to ground,SlowBurn.h:156,found
+Slow Burn,V1A triode stage,SB-V1A,Miller,C,1.7p / 1.6p,,,TUBE-12AX7,DATASHEET,SOLVED,grid-plate / grid-cathode capacitance (both triodes),SlowBurn.h:288,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,V1B,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,second triode stage,SlowBurn.h:100,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rgs,R,220k,,,RES-IDEAL,TRACED,SOLVED,grid stopper (the pedal's 220k),SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Cpl,C,470p,,,CAP-IDEAL,OURS,SOLVED,plate cap to ground (gentle top roll-off),SlowBurn.h:293,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,Cc,C,22n,,,CAP-IDEAL,OURS,SOLVED,coupling into the cathode follower,SlowBurn.h:285,found
+Slow Burn,V1B triode stage + cathode follower,SB-V1B,CF,TRIODE,cathode follower (scale 0.075),,,BEHAV,OURS,GAIN,drives the stack (1M grid load),SlowBurn.h:412,found
+Slow Burn,SLO tone stack,SB-STACK,stack.C0,C,470p,CF_OUT t3,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R0,R,125k,t3 tw,TREBLE upper half,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R1,R,125k,tw t1,TREBLE lower half,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:443,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R2,R,47k,CF_OUT tn,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C1,C,22n,tn t1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C2,C,22n,tn mw,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:444,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R3,R,100k,t1 b1,BASS,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R4,R,12.5k,b1 mw,MID upper,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R5,R,12.5k,mw 0,MID lower,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:445,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.C3,C,1n,CF_OUT n1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:446,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R6,R,10k,n1 tw,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:446,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R7,R,1M,tw p,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:447,netlist
+Slow Burn,SLO tone stack,SB-STACK,stack.R8,R,33k,p 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:447,netlist
+Slow Burn,SLO tone stack,SB-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,TRACED,CONTROL,treble (netlist halves stTt / stTb),SlowBurn.h:480,found
+Slow Burn,SLO tone stack,SB-STACK,BASS,POT,A1M,,BASS,POT-A,TRACED,CONTROL,bass (netlist stBass),SlowBurn.h:482,found
+Slow Burn,SLO tone stack,SB-STACK,MID,POT,B25k,,MID,POT-B,TRACED,CONTROL,middle (netlist stMt / stMb),SlowBurn.h:483,found
+Slow Burn,Power stage (presence / deep),SB-POWER,power.U0,OPAMP,ideal (nullor),+IC3B+ -nn oo,,OPAMP-IDEAL,TRACED,NETLIST,,SlowBurn.h:452,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R0,R,33k,o d,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C0,C,22n,o d,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R1,R,22k,o d,DEEP toggle,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:453,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R2,R,10k,d nn,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:454,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R3,R,4.7k,nn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:454,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C1,C,100n,nn p1,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R4,R,12.5k,p1 qn,PRESENCE (C25k rheostat),RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R5,R,1k,qn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.C2,C,44n,qn rn,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,power.R6,R,220R,rn 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:455,netlist
+Slow Burn,Power stage (presence / deep),SB-POWER,DEEP,SWITCH,22k in / out,,DEEP,SWITCH,TRACED,CONTROL,DEEP on = 22k out of circuit,SlowBurn.h:487,found
+Slow Burn,Power stage (presence / deep),SB-POWER,PRESENCE,POT,C25k rheostat,,PRESENCE,POT-C,TRACED,CONTROL,presence (netlist pwPres),SlowBurn.h:486,found
+Slow Burn,Power stage (presence / deep),SB-POWER,IC3B,OPAMP,TL072,,,OPAMP-IDEAL,TRACED,NETLIST,power stage op-amp (nullor in the netlist),SlowBurn.h:452,found
+Slow Burn,Output network + VOLUME,SB-OUT,out.C0,C,1u,PWR_OUT ua,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R0,R,10k,ua ub,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.C1,C,22n,ub us,,CAP-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R1,R,1k,us 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,out.R2,R,25k,ub 0,,RES-IDEAL,TRACED,NETLIST,,SlowBurn.h:460,netlist
+Slow Burn,Output network + VOLUME,SB-OUT,VOLUME,POT,B25k (wiper unloaded),,VOLUME,POT-B,TRACED,CONTROL,output level,SlowBurn.h:470,found
+Gatekeeper,Side-chain detector,NG-SENSE,SENS,POT,-30 .. -85 dBFS,,THRESHOLD,BEHAV,OURS,CONTROL,gate opening level (the NF-1 SENS),Gatekeeper.h:40,found
+Gatekeeper,Side-chain detector,NG-SENSE,IC1,OPAMP,uPC741 x1000,,,OPAMP-741,DRAWN,FIXED,side-chain amp (folded into the level follower),Gatekeeper.h:12,found
+Gatekeeper,Side-chain detector,NG-SENSE,Q4-Q6,BJT,phase splitter + full-wave rectifier,,,BEHAV,DRAWN,DSP,rectifier (level follower 0.2 ms / 20 ms),Gatekeeper.h:80,found
+Gatekeeper,Side-chain detector,NG-SENSE,Hysteresis,BEHAV,6 dB + 40 ms hold,,,BEHAV,OURS,DSP,no chatter on held notes,Gatekeeper.h:141,found
+Gatekeeper,Gate envelope,NG-ENV,R-atk,R,470R (~0.5 ms attack),,,BEHAV,DRAWN,DSP,envelope charge,Gatekeeper.h:81,found
+Gatekeeper,Gate envelope,NG-ENV,DECAY,POT,2MB (20 ms .. 2 s),,RELEASE,BEHAV,DRAWN,CONTROL,envelope discharge,Gatekeeper.h:13,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,R-series,R,22k,,,RES-IDEAL,DRAWN,FIXED,series resistor of the expander,Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,Q3,JFET,2SK30A shunt VCR,,,JFET-VCR-BEHAV,DRAWN,DSP,gain reduction (smooth glide in dB),Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,Q1 Q2,BJT,emitter followers,,,BJT-FOLLOWER,DRAWN,GAIN,signal buffers,Gatekeeper.h:9,found
+Gatekeeper,JFET expander (keyed return),NG-VCA,HARD / SOFT,SWITCH,-120 dB / -25 dB,,HARD / SOFT,SWITCH,OURS,CONTROL,how far the gate closes,Gatekeeper.h:141,found
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C0,C,22n,IN n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.R0,R,500k,n2 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C1,C,100p,n2 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.U0,OPAMP,ideal (nullor),+n2 -n3 on3,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:254,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C2,C,1u,n3 n4,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:255,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.R1,R,100k,n4 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:255,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,IC1A,OPAMP,OPA2134 buffer,,,OPAMP-OPA2134,DRAWN,NETLIST,input buffer (nullor in the netlist),Thunderhead.h:254,found
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Rf,R,220k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Cf,C,100p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Rg,R,10k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Cg,C,1u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,IC1B,OPAMP,OPA2134 (11 V swing),,,OPAMP-OPA2134,DRAWN,CURVE,x23 gain stage,Thunderhead.h:225,found
+Thunderhead,Interstage + GAIN,TH-INTER,inter.C0,C,22n,IC1B_OUT n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R0,R,470k,n2 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.C1,C,2.2n,n2 n3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R1,R,680k,n2 n3,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R2,R,220k,n3 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R3,R,220k,n3 n4,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:261,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R4,R,25k,n4 0,GAIN (A250k rheostat),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:261,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,GAIN,POT,A250k rheostat,,GAIN,POT-A,PARTS-LIST,CONTROL,gain (netlist intGain),Thunderhead.h:13,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,IC2A,OPAMP,TL072,,,OPAMP-TL072,DRAWN,SOLVED,x101 stage,Thunderhead.h:13,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Rf,R,1M,,,RES-IDEAL,DRAWN,SOLVED,feedback,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Cf,C,47p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap (3.4 kHz),Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Rg,R,10k,,,RES-IDEAL,DRAWN,SOLVED,ground leg,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Cg,C,2u2,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,D3 D4,ZENER,1N5232 5.6 V back to back,,,ZENER-1N5232,PARTS-LIST,SOLVED,soft-knee clip at ~+/-6 V (trace D4 symbol ambiguous),Thunderhead.h:226,found
+Thunderhead,Diode gate,TH-GATE,C11,C,4n7,,,CAP-IDEAL,DRAWN,SOLVED,coupling into the gate,Thunderhead.h:355,found
+Thunderhead,Diode gate,TH-GATE,D5 D6,DIODE,1N4148 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,diode gate,Thunderhead.h:227,found
+Thunderhead,Diode gate,TH-GATE,R15,R,100k,,,RES-IDEAL,DRAWN,SOLVED,across the diodes,Thunderhead.h:355,found
+Thunderhead,Diode gate,TH-GATE,R16,R,470k,,,RES-IDEAL,DRAWN,SOLVED,to ground,Thunderhead.h:355,found
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Rf,R,220k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Cf,C,100p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Rg,R,10k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Cg,C,2.2u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,IC2B,OPAMP,TL072 (10.5 V swing),,,OPAMP-TL072,DRAWN,CURVE,x23 rail clipper,Thunderhead.h:225,found
+Thunderhead,Marshall-style stack,TH-STACK,stack.C0,C,560p,IC2B_OUT t3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R0,R,125k,t3 tw,TREBLE upper half,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R1,R,125k,tw b3,TREBLE lower half,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R2,R,39k,IC2B_OUT sl,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.C1,C,22n,sl b3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.C2,C,22n,sl m3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R3,R,100k,b3 m3,BASS,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:268,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R4,R,12.5k,m3 0,MIDDLE (rheostat),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:268,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R5,R,1.5M,tw p,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:269,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R6,R,100k,p 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:269,netlist
+Thunderhead,Marshall-style stack,TH-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,PARTS-LIST,CONTROL,treble (netlist stTt / stTb),Thunderhead.h:21,found
+Thunderhead,Marshall-style stack,TH-STACK,BASS,POT,A1M,,BASS,POT-A,PARTS-LIST,CONTROL,bass (netlist stBass),Thunderhead.h:21,found
+Thunderhead,Marshall-style stack,TH-STACK,MIDDLE,POT,B25k rheostat,,MIDDLE,POT-B,PARTS-LIST,CONTROL,middle (netlist stMid),Thunderhead.h:21,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.U0,OPAMP,ideal (nullor),+IC3A+ -nn oo,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:276,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R0,R,10k,nn o,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:277,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C0,C,1n,nn o,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:277,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R1,R,4.7k,nn g1,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:278,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C1,C,10u,g1 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:278,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C2,C,2.2u,nn d1,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R2,R,1k,d1 d2,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R3,R,2.3k,d2 dp,DEEP (C25k),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R4,R,47R,dp go,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C3,C,330n,dp gp,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R5,R,56k,gp 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.U1,OPAMP,ideal (nullor),+gp -go ogo,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C4,C,1u,nn p1,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R6,R,110R,p1 p2,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R7,R,2.3k,p2 0,PRESENCE (C25k),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,IC3A IC3B,OPAMP,TL072 (stage + gyrator follower),,,OPAMP-IDEAL,DRAWN,NETLIST,power stage and gyrator (nullors in the netlist),Thunderhead.h:280,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,PRESENCE,POT,C25k,,PRESENCE,POT-C,PARTS-LIST,CONTROL,high-mid lift (netlist a3Pres),Thunderhead.h:24,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,DEEP,POT,C25k,,DEEP,POT-C,PARTS-LIST,CONTROL,resonant low boost (netlist a3Deep),Thunderhead.h:25,found
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.C0,C,10u,IC3A_OUT n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R0,R,1k,n2 n3,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R1,R,9k,n3 w,VOLUME (A10k) upper,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R2,R,1k,w 0,VOLUME (A10k) lower,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R3,R,150k,w o,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R4,R,100k,o 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.C1,C,2.2n,o 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,VOLUME,POT,A10k,,VOLUME,POT-A,PARTS-LIST,CONTROL,output level (netlist outVa / outVb),Thunderhead.h:27,found
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,AMP / DIRECT,SWITCH,amp voice / direct tap,,AMP / DIRECT,SWITCH,DRAWN,CONTROL,output jack choice (level-matched),Thunderhead.h:170,found
+Golden Haze,Input coupling,GH-IN,C1,C,10u,,,RC-CORNER,DRAWN,FILTER,input coupling (3 Hz used),GoldenHaze.h:8,found
+Golden Haze,Input coupling,GH-IN,R1,R,1M,,,RES-IDEAL,DRAWN,FIXED,input bias || LM386 internal 50k,GoldenHaze.h:8,found
+Golden Haze,OP1 LM386 x200,GH-OP1,OP1,IC,LM386 (gain 20 -> 200),,,IC-LM386,DRAWN,CURVE,"first power-amp stage, asymmetric swing (+0.90 / -0.45 V from the top / bottom)",GoldenHaze.h:139,found
+Golden Haze,OP1 LM386 x200,GH-OP1,C2,C,10u,,,RC-CORNER,DRAWN,FILTER,pins 1-8: gain 200 above ~118 Hz,GoldenHaze.h:9,found
+Golden Haze,OP1 LM386 x200,GH-OP1,VD1,DIODE,1N4001 (supply ~8.35 V),,,DIODE-1N4001,DRAWN,FIXED,reverse-polarity diode sets the rails,GoldenHaze.h:12,found
+Golden Haze,Interstage RC,GH-RC,C3,C,1u,,,RC-CORNER,DRAWN,FILTER,coupling,GoldenHaze.h:15,found
+Golden Haze,Interstage RC,GH-RC,R2,R,68k,,,RC-CORNER,DRAWN,FILTER,divider with OP2's internal 50k (-7.5 dB),GoldenHaze.h:15,found
+Golden Haze,Interstage RC,GH-RC,C4,C,4n7,,,RC-CORNER,DRAWN,FILTER,low-pass ~1.18 kHz (the pedal's only tone shaping),GoldenHaze.h:15,found
+Golden Haze,OP2 LM386 x20,GH-OP2,OP2,IC,LM386 (gain 20),,,IC-LM386,DRAWN,CURVE,second power-amp stage,GoldenHaze.h:18,found
+Golden Haze,VOLUME,GH-OUT,C5,C,1u,,,RC-CORNER,DRAWN,FILTER,output coupling,GoldenHaze.h:19,found
+Golden Haze,VOLUME,GH-OUT,R3,POT,A100k,,VOLUME,POT-A,DRAWN,CONTROL,VOLUME (wiper = OUT),GoldenHaze.h:19,found
+Night Courier,Analog input / dry path,NC-IN,IC1,OPAMP,TL074 buffer / summer,,,OPAMP-IDEAL,DRAWN,GAIN,dry path at unity + wet summer,NightCourier.h:8,found
+Night Courier,Analog input / dry path,NC-IN,AAF,FILTER,2-pole RC in / out of the FV-1,,,DSP-ALGO,DRAWN,DSP,band-limits the wet path (~12 kHz),NightCourier.h:20,found
+Night Courier,FV-1 delay,NC-DELAY,FV-1,IC,Spin FV-1 (3.3 V),,,IC-FV1,DRAWN,DSP,delay + reverb DSP (firmware modelled by behaviour),NightCourier.h:10,found
+Night Courier,FV-1 delay,NC-DELAY,TIME,POT,40 ms .. 1 s (exponential),,TIME,DSP-ALGO,DRAWN,CONTROL,"delay time, glides when moved",NightCourier.h:286,found
+Night Courier,FV-1 delay,NC-DELAY,REPEATS,POT,feedback (unity just past 3 o'clock),,REPEATS,DSP-ALGO,DRAWN,CONTROL,"feedback, runaway into soft saturation",NightCourier.h:11,found
+Night Courier,FV-1 delay,NC-DELAY,Feedback filters,FILTER,low-pass 4.5 kHz / high-pass 60 Hz,,,DSP-ALGO,EST-EAR,DSP,each repeat darker,NightCourier.h:280,found
+Night Courier,FV-1 plate reverb,NC-REVERB,Input diffusers,DSP,4 allpasses (142 / 107 / 379 / 277),,,DSP-ALGO,EST-STD,DSP,Dattorro plate input diffusion,NightCourier.h:257,found
+Night Courier,FV-1 plate reverb,NC-REVERB,Damping,FILTER,6 kHz (follows TONE),,,DSP-ALGO,EST-EAR,DSP,tank damping,NightCourier.h:281,found
+Night Courier,FV-1 plate reverb,NC-REVERB,REVERB,POT,reverb level (+ decay),,REVERB,DSP-ALGO,DRAWN,CONTROL,reverb amount,NightCourier.h:11,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,MOD,POT,"wobble +/-4 ms, 0.6 .. 1.8 Hz",,MOD,DSP-ALGO,OURS,CONTROL,tape-style wobble + reverb shimmer (0 = original),NightCourier.h:23,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,TONE,POT,"fb low-pass 2 .. 10 kHz, +/-9 dB shelf at 2.5 kHz",,TONE,DSP-ALGO,OURS,CONTROL,wet tilt (noon = original),NightCourier.h:25,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,Mode,SWITCH,DELAY / REVERB / BOTH,,MODE,SWITCH,OURS,CONTROL,3-way toggle (BOTH = original),NightCourier.h:68,found
+Night Courier,MIX + output,NC-MIX,MIX,POT,5k,,MIX,POT-B,DRAWN,CONTROL,wet level added to the dry,NightCourier.h:9,found
+Coral Tide,Baby Pink booster,CT-BOOST,p.C0,C,47n,IN pn,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R0,R,14.7k,pn pg,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R1,R,2M,pg 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R2,R,14.7k,pd V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:370,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C1,C,100p,pd ps,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:370,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R3,R,12k,ps 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C2,C,22u,ps pc,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R4,R,1k,pc pl,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R5,R,200k,pl 0,BOOST (50kC) + 150k bypass leg,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:372,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C3,C,1u,pd po,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:373,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R6,R,150k,po 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:373,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,Q3,JFET,2N5952 (Idss 3.0 mA / Vp -2.0 V),,,JFET-2N5952,DRAWN,SOLVED,Baby Pink gain stage,CoralTide.h:367,found
+Coral Tide,Baby Pink booster,CT-BOOST,BOOST,POT,50kC,,BOOST,POT-C,DRAWN,CONTROL,source-leg gain (netlist rBoost),CoralTide.h:20,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R0,R,14.7k,IN n1,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C0,C,22n,n1 g1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R1,R,1M,g1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R2,R,14.7k,d1 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:343,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C1,C,1n,d1 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:343,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R3,R,14.7k,s1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C2,C,22u,s1 s1b,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R4,R,1k,s1b 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C3,C,470n,d1 nA,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:345,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C4,C,4.7n,nA t3,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:346,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R5,R,47k,nA t3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:346,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R6,R,25k,t3 nO,HIGH (TREBLE 50kB) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R7,R,25k,nO t1,HIGH (TREBLE 50kB) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C5,C,22n,t1 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R8,R,5.6k,nA b3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:348,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R9,R,45k,b3 nM,LOW (BASS 50kA) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:349,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C6,C,22n,b3 nM,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:349,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R10,R,5k,nM b1,LOW (BASS 50kA) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C7,C,220n,nM b1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R11,R,1k,b1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:351,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R12,R,5.6k,nM nO,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:352,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R13,R,1M,nO 0,,RES-IDEAL,DRAWN,NETLIST,Q2's gate resistor,CoralTide.h:353,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,Q1,JFET,Sea Blue Q1 (Idss 3.70 mA / Vp -2.28 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.78 / 1.86 V",CoralTide.h:339,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,HIGH,POT,50kB,,HIGH (TREBLE),POT-B,DRAWN,CONTROL,treble (netlist rTrebUp / rTrebDn),CoralTide.h:12,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,LOW,POT,50kA,,LOW (BASS),POT-A,DRAWN,CONTROL,bass (netlist rBassUp / rBassDn),CoralTide.h:13,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,V+,RAIL,8.64 V,,,BEHAV,DRAWN,SOLVED,supply after the protection diode,CoralTide.h:339,found
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R0,R,14.7k,d2 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:360,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C0,C,1n,d2 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:360,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R1,R,14.7k,s2 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:361,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C1,C,1u,s2 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:361,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C2,C,1u,d2 o2,,CAP-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:362,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R2,R,50k,o2 0,,RES-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:362,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,Q2,JFET,Sea Blue Q2 (Idss 4.02 mA / Vp -2.478 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.60 / 2.02 V",CoralTide.h:358,found
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,VOLUME,POT,50kB fixed at 0.35,,,POT-B,USER,FIXED,EQ section unity with LOW / HIGH at noon (Michael's choice b),CoralTide.h:330,found
+Coral Tide,ORDER + master LEVEL,CT-MASTER,LEVEL,POT,x0 .. x2.8 master,,LEVEL,BEHAV,USER,CONTROL,master output after both sections,CoralTide.h:331,found
+Coral Tide,ORDER + master LEVEL,CT-MASTER,ORDER,SWITCH,B > EQ / EQ > B,,ORDER,SWITCH,OURS,CONTROL,section order,CoralTide.h:72,found
+Frostbite,Input coupling,FB-INPUT,Cin,C,100n,,,RC-CORNER,DRAWN,FILTER,input coupling into 1M (1.6 Hz),Frostbite.h:130,found
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Rf,R,22k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Cf,C,47p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Rg,R,1.8k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Cg,C,100n,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Rf,R,22k,,MOD position,RES-IDEAL,DRAWN,OPSTAGE,feedback (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Cf,C,47p,,MOD position,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Rg,R,1.8k,,MOD position,RES-IDEAL,DRAWN,OPSTAGE,ground leg (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Cg,C,4.7u,,MOD position,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,IC1A,OPAMP,TL074 (3.0 V swing),,,OPAMP-TL072,DRAWN,CURVE,preamp,Frostbite.h:215,found
+Frostbite,IC1A preamp,FB-IC1A,MOD,SWITCH,C13 100n / 4u7,,MOD / STOCK,SWITCH,DRAWN,CONTROL,factory MOD: more bass + doubled diodes (20 ms crossfade),Frostbite.h:65,found
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.C0,C,100n,IC1A_OUT A,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:241,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R26,R,100k,A F,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R35,R,4.7k,A B,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R27,R,100k,A H,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R30,R,47k,B E,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C17,C,22n,B C,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R28,R,100k,B C,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R34,R,47k,C D,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:244,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R31,R,22k,C G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:244,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C18,C,2.2n,F E,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:245,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R32,R,100k,F G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:245,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R29,R,1.8k,E G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:246,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C19,C,4.7n,H D,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:247,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R33,R,2.2k,H G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:247,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.R10,R,25k,D W,PRE-SHAPE lug1-wiper,RES-IDEAL,DRAWN,NETLIST,"PRE-SHAPE 50k lin: lug 1 = D, lug 2 = E",Frostbite.h:248,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.R11,R,25k,W E,PRE-SHAPE wiper-lug2,RES-IDEAL,DRAWN,NETLIST,"PRE-SHAPE 50k lin: lug 1 = D, lug 2 = E",Frostbite.h:248,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.U0,OPAMP,ideal (nullor),+0 -W oG,,OPAMP-IDEAL,DRAWN,NETLIST,,Frostbite.h:249,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,IC1D,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,PRE-SHAPE op-amp (nullor),Frostbite.h:249,found
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,PRE,POT,50k linear,,PRE,POT-B,DRAWN,CONTROL,mid focus / edge (netlist preR1 / preR2),Frostbite.h:248,found
+Frostbite,IC1C GAIN stage,FB-IC1C,IC1C,OPAMP,TL074 (GBW 3 MHz),,,OPAMP-TL072,DRAWN,OPSTAGE,GAIN stage,Frostbite.h:217,found
+Frostbite,IC1C GAIN stage,FB-IC1C,R1,R,2M,,,RES-IDEAL,DRAWN,OPSTAGE,feedback,Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,C11,C,47p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (~1.7 kHz),Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,R8,R,1k8,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (plus the GAIN pot section),Frostbite.h:276,found
+Frostbite,IC1C GAIN stage,FB-IC1C,C7,C,1u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap,Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,GAIN,POT,100k linear (wiper grounded),,GAIN,POT-B,DRAWN,CONTROL,"lug1-wiper in IC1C's ground leg, wiper-lug2 + R7 loads node K",Frostbite.h:15,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C2,C,1u,IC1C_OUT S2,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R2,R,10k,S2 K,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C3,C,10n,K 0,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R1,R,60k,K 0,GAIN pot (wiper-lug2) + R7,RES-IDEAL,DRAWN,NETLIST,R7 10k + GAIN wiper-lug 2 (wiper grounded),Frostbite.h:256,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C4,C,1u,K Q,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:257,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R16,R,10k,Q T,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R15,R,4.7k,Q X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R17,R,100k,Q Z,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R22,R,100k,T O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:259,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C9,C,2.2n,T U,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:259,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R20,R,47k,U X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:260,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R36,R,27k,U O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:260,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R21,R,22k,V O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C8,C,22n,V X,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R18,R,100k,V X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R24,R,47k,V Y,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C10,C,4.7n,Y Z,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:262,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R23,R,2.2k,Z O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:262,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R12,R,25k,U W,POST-SHAPE lug1-wiper,RES-IDEAL,DRAWN,NETLIST,"POST_SHAPE 50k lin: lug 1 = U, lug 2 = Y",Frostbite.h:263,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R13,R,25k,W Y,POST-SHAPE wiper-lug2,RES-IDEAL,DRAWN,NETLIST,"POST_SHAPE 50k lin: lug 1 = U, lug 2 = Y",Frostbite.h:263,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.U0,OPAMP,ideal (nullor),+0 -W oO,,OPAMP-IDEAL,DRAWN,NETLIST,,Frostbite.h:264,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,D1 D2,DIODE,1N4148 pair (MOD: 2 in series each way),,,DIODE-1N914,DRAWN,SOLVED,soft clipping at node K,Frostbite.h:216,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,IC1B,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,POST-SHAPE op-amp (nullor),Frostbite.h:264,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,POST,POT,50k linear,,POST,POT-B,DRAWN,CONTROL,bright / wide vs warm (netlist postR1 / postR2),Frostbite.h:263,found
+Frostbite,LEVEL,FB-OUT,R25,R,2k2,,,RES-IDEAL,DRAWN,FIXED,output series resistor,Frostbite.h:25,found
+Frostbite,LEVEL,FB-OUT,C12,C,1u,,,CAP-IDEAL,DRAWN,FIXED,output coupling,Frostbite.h:25,found
+Frostbite,LEVEL,FB-OUT,LEVEL,POT,50k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,Frostbite.h:25,found
+Twin Vise,Input gain + meter,TV-INPUT,IC1A,OPAMP,TL064 x5.68 (+/-3.5 V),,,OPAMP-TL072,DRAWN,CURVE,input amp,TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,R-f1,R,220k,,,RES-IDEAL,DRAWN,GAIN,IC1A feedback (|| 33p),TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,C-f1,C,33p,,,CAP-IDEAL,DRAWN,FILTER,IC1A feedback cap,TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,R-g1,R,47k,,,RES-IDEAL,DRAWN,GAIN,IC1A ground leg,TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,INPUT GAIN,POT,B50K (loaded by R12 22k),,INPUT GAIN,POT-B,DRAWN,CONTROL,input level (up to +28 dB),TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,R12,R,22k,,,RES-IDEAL,DRAWN,GAIN,loads the gain pot,TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,IC1B,OPAMP,TL064 inverting 100k || 100p,,,OPAMP-TL072,DRAWN,CURVE,input amp 2,TwinVise.h:9,found
+Twin Vise,Input gain + meter,TV-INPUT,LED,LED,bicolour (green 0.10 V / red 2.2 V),,,LED-BICOLOUR,DRAWN,DSP,input level meter (~2 s peak hold),TwinVise.h:233,found
+Twin Vise,Band split,TV-SPLIT,R19 R20,R,6k8 / 6k8,,,RES-IDEAL,DRAWN,FILTER,Sallen-Key low-pass resistors,TwinVise.h:11,found
+Twin Vise,Band split,TV-SPLIT,C5,C,8n2 (orig 22n),,,CAP-IDEAL,USER,FILTER,low-pass cap (guitar voicing: 2.36 kHz),TwinVise.h:13,found
+Twin Vise,Band split,TV-SPLIT,C6,C,12n (orig 33n),,,CAP-IDEAL,USER,FILTER,low-pass cap,TwinVise.h:13,found
+Twin Vise,Band split,TV-SPLIT,C7 C8,C,18n / 18n (orig 47n),,,CAP-IDEAL,USER,FILTER,Sallen-Key high-pass caps (595 Hz),TwinVise.h:14,found
+Twin Vise,Band split,TV-SPLIT,R24,R,10k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,TwinVise.h:12,found
+Twin Vise,Band split,TV-SPLIT,R23,R,22k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,TwinVise.h:12,found
+Twin Vise,Low band OTA compressor,TV-LOW,IC-L,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,low band stage,TwinVise.h:279,found
+Twin Vise,Low band OTA compressor,TV-LOW,OTA-L,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA (more current = less gain),TwinVise.h:230,found
+Twin Vise,Low band OTA compressor,TV-LOW,Att-L,R,33k / 220R (/151),,,RES-IDEAL,DRAWN,SOLVED,OTA input attenuator,TwinVise.h:227,found
+Twin Vise,Low band OTA compressor,TV-LOW,R27,R,10k,,,RES-IDEAL,DRAWN,SOLVED,low band input (x22),TwinVise.h:17,found
+Twin Vise,Low band OTA compressor,TV-LOW,LOW COMPRESSION,POT,dual gang (R21 / R10 / R22 / R9: x0.049 .. x0.316),,LOW COMPRESSION,POT-B,DRAWN,CONTROL,drive into the band + side-chain level,TwinVise.h:17,found
+Twin Vise,High band OTA compressor,TV-HIGH,IC-H,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,high band stage,TwinVise.h:279,found
+Twin Vise,High band OTA compressor,TV-HIGH,OTA-H,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA,TwinVise.h:230,found
+Twin Vise,High band OTA compressor,TV-HIGH,R34,R,47k,,,RES-IDEAL,DRAWN,SOLVED,high band input (x4.68),TwinVise.h:19,found
+Twin Vise,High band OTA compressor,TV-HIGH,HIGH COMPRESSION,POT,B50K,,HIGH COMPRESSION,POT-B,DRAWN,CONTROL,attenuates the high control voltage,TwinVise.h:23,found
+Twin Vise,High band OTA compressor,TV-HIGH,HI COMP,SWITCH,footswitch,,HI COMP,SWITCH,DRAWN,CONTROL,off shorts the high envelope cap,TwinVise.h:46,found
+Twin Vise,Side-chains,TV-SC,Divider,R,/4.3,,,RES-IDEAL,DRAWN,DSP,side-chain input divider,TwinVise.h:20,found
+Twin Vise,Side-chains,TV-SC,Rectifier,OPAMP,x67.7 (2M2 / 33k) half-wave,,,OPAMP-TL072,DRAWN,DSP,precision rectifier (clamps at 3.5 V),TwinVise.h:232,found
+Twin Vise,Side-chains,TV-SC,D-sc,DIODE,0.55 V,,,DIODE-SI-KNEE,EST-STD,DSP,envelope diode,TwinVise.h:231,found
+Twin Vise,Side-chains,TV-SC,Low env,RC,attack 22k / 1u (22 ms) release +100k (~120 ms),,,BEHAV,DRAWN,DSP,low envelope,TwinVise.h:22,found
+Twin Vise,Side-chains,TV-SC,High env,RC,attack diode + 1k (~1 ms) release 22k + 47k (~70 ms),,,BEHAV,DRAWN,DSP,high envelope,TwinVise.h:23,found
+Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,E.Q. BALANCE,POT,dual B50K (opposite gangs),,BALANCE,POT-B,DRAWN,CONTROL,CW = more high band,TwinVise.h:27,found
+Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,R-mix,R,33k + 33k,,,RES-IDEAL,DRAWN,GAIN,summing resistors,TwinVise.h:27,found
+Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,IC2C,OPAMP,TL064 x1.42,,,OPAMP-TL072,DRAWN,GAIN,mix amp,TwinVise.h:27,found
+Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,R58,R,47k,,,RES-IDEAL,DRAWN,FIXED,into OUTPUT LEVEL,TwinVise.h:27,found
+Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,OUTPUT LEVEL,POT,B50K,,LEVEL,POT-B,DRAWN,CONTROL,output level,TwinVise.h:28,found
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R0,R,250k,nIn nA,GAIN (A500K) upper,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:316,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R1,R,250k,nA 0,GAIN (A500K) lower,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:317,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R2,R,4.7M,nA 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:318,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R3,R,470k,nM nG,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:319,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R4,R,470k,nG nVc,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:320,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R5,R,235k,nP 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:321,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.R6,R,5k,nN 0,"SQUISH network (20K || A10K + 22K), set from the knob",RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:322,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C0,C,470p,nIn nA,,CAP-IDEAL,DRAWN,NETLIST,"treble bleed (drawn ""?"")",SoftLanding.h:323,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C1,C,100n,nA nB,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:324,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C2,C,560p,nB nM,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:325,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C3,C,100n,nB nP,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:326,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,cell.C4,C,4.7u,nN 0,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:327,netlist
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,GAIN,POT,A500K,,GAIN,POT-A,DRAWN,CONTROL,input level (netlist rTop / rBot),SoftLanding.h:8,found
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,Q2,JFET,2N5457 (Idss 1.0 mA / Vp -0.5 V),,,JFET-2N5457,USER,SOLVED,"shunt VCR at Vds = 0 (""good pair"" voicing)",SoftLanding.h:285,found
+Soft Landing,GAIN pot + JFET VCR cell,SL-CELL,Q2 gate,DIODE,gate junction (Is 1 pA),,,JFET-2N5457,EST-STD,SOLVED,clamps the gate at ~+0.5 V (caps the gain reduction),SoftLanding.h:288,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,Q1,JFET,2N5457 (Idss 3.3 mA / Vp -3.0 V),,,JFET-2N5457,USER,SOLVED,self-biased current source (~0.33 mA),SoftLanding.h:284,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,Rs,R,6K2 (1K5 + 4K7),,,RES-IDEAL,DRAWN,SOLVED,Q1 self-bias resistor,SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,R20K,R,20K,,,RES-IDEAL,DRAWN,SOLVED,N to 0 V (with SQUISH: V_N),SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,SQUISH,POT,A10K (lug 3 -> 22K),,SQUISH,POT-A,DRAWN,CONTROL,Q2 rest bias: more squish CW,SoftLanding.h:15,found
+Soft Landing,Q1 current source + SQUISH,SL-BIAS,R22K,R,22K,,,RES-IDEAL,DRAWN,SOLVED,SQUISH lug 3 to 0 V,SoftLanding.h:16,found
+Soft Landing,U1A gain stage,SL-AMP,U1A,OPAMP,RC4558 (+/-3.3 V),,,OPAMP-4558,DRAWN,CURVE,x23 gain stage,SoftLanding.h:292,found
+Soft Landing,U1A gain stage,SL-AMP,Rf,R,220k,,,RES-IDEAL,DRAWN,GAIN,feedback,SoftLanding.h:18,found
+Soft Landing,U1A gain stage,SL-AMP,Rg,R,10k,,,RES-IDEAL,DRAWN,GAIN,ground leg,SoftLanding.h:18,found
+Soft Landing,U1A gain stage,SL-AMP,Cg,C,4u7,,,CAP-IDEAL,DRAWN,FILTER,ground-leg cap (x1 at DC),SoftLanding.h:18,found
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R0,R,10k,dO 0,,RES-IDEAL,DRAWN,NETLIST,LEVEL pot (whole track),SoftLanding.h:335,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R1,R,100k,dC 0,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:336,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.R2,R,470k,dC dG,,RES-IDEAL,DRAWN,NETLIST,,SoftLanding.h:337,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.C0,C,4.7u,dOut dO,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:338,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,det.C1,C,4.7u,dC 0,,CAP-IDEAL,DRAWN,NETLIST,,SoftLanding.h:339,netlist
+Soft Landing,Side-chain + LEVEL,SL-DET,R2K1,R,2K1,,,RES-IDEAL,DRAWN,SOLVED,into the detector diode (attack ~10 ms),SoftLanding.h:19,found
+Soft Landing,Side-chain + LEVEL,SL-DET,D1,DIODE,1N914,,,DIODE-1N914,DRAWN,SOLVED,side-chain rectifier,SoftLanding.h:289,found
+Soft Landing,Side-chain + LEVEL,SL-DET,LEVEL,POT,A10K,,LEVEL,POT-A,DRAWN,CONTROL,output level (whole track in the netlist),SoftLanding.h:335,found

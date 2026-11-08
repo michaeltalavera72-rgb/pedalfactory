@@ -1,0 +1,14 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Night Courier,Analog input / dry path,NC-IN,IC1,OPAMP,TL074 buffer / summer,,,OPAMP-IDEAL,DRAWN,GAIN,dry path at unity + wet summer,NightCourier.h:8,found
+Night Courier,Analog input / dry path,NC-IN,AAF,FILTER,2-pole RC in / out of the FV-1,,,DSP-ALGO,DRAWN,DSP,band-limits the wet path (~12 kHz),NightCourier.h:20,found
+Night Courier,FV-1 delay,NC-DELAY,FV-1,IC,Spin FV-1 (3.3 V),,,IC-FV1,DRAWN,DSP,delay + reverb DSP (firmware modelled by behaviour),NightCourier.h:10,found
+Night Courier,FV-1 delay,NC-DELAY,TIME,POT,40 ms .. 1 s (exponential),,TIME,DSP-ALGO,DRAWN,CONTROL,"delay time, glides when moved",NightCourier.h:286,found
+Night Courier,FV-1 delay,NC-DELAY,REPEATS,POT,feedback (unity just past 3 o'clock),,REPEATS,DSP-ALGO,DRAWN,CONTROL,"feedback, runaway into soft saturation",NightCourier.h:11,found
+Night Courier,FV-1 delay,NC-DELAY,Feedback filters,FILTER,low-pass 4.5 kHz / high-pass 60 Hz,,,DSP-ALGO,EST-EAR,DSP,each repeat darker,NightCourier.h:280,found
+Night Courier,FV-1 plate reverb,NC-REVERB,Input diffusers,DSP,4 allpasses (142 / 107 / 379 / 277),,,DSP-ALGO,EST-STD,DSP,Dattorro plate input diffusion,NightCourier.h:257,found
+Night Courier,FV-1 plate reverb,NC-REVERB,Damping,FILTER,6 kHz (follows TONE),,,DSP-ALGO,EST-EAR,DSP,tank damping,NightCourier.h:281,found
+Night Courier,FV-1 plate reverb,NC-REVERB,REVERB,POT,reverb level (+ decay),,REVERB,DSP-ALGO,DRAWN,CONTROL,reverb amount,NightCourier.h:11,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,MOD,POT,"wobble +/-4 ms, 0.6 .. 1.8 Hz",,MOD,DSP-ALGO,OURS,CONTROL,tape-style wobble + reverb shimmer (0 = original),NightCourier.h:23,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,TONE,POT,"fb low-pass 2 .. 10 kHz, +/-9 dB shelf at 2.5 kHz",,TONE,DSP-ALGO,OURS,CONTROL,wet tilt (noon = original),NightCourier.h:25,found
+Night Courier,MOD / TONE / mode / trails,NC-EXTRAS,Mode,SWITCH,DELAY / REVERB / BOTH,,MODE,SWITCH,OURS,CONTROL,3-way toggle (BOTH = original),NightCourier.h:68,found
+Night Courier,MIX + output,NC-MIX,MIX,POT,5k,,MIX,POT-B,DRAWN,CONTROL,wet level added to the dry,NightCourier.h:9,found

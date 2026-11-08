@@ -1,0 +1,18 @@
+Pedal Factory warehouse check
+components: 486 (191 netlisted / op-stage from the code, 295 curated)
+  Ramhorn Fuzz     17 components,  6 blocks
+  Buzzsaw          34 components,  7 blocks
+  Rail Bender      27 components,  7 blocks
+  Valve Howler     25 components,  4 blocks
+  Feral Hound      30 components,  7 blocks
+  Slow Burn        66 components,  8 blocks
+  Gatekeeper       10 components,  3 blocks
+  Thunderhead      75 components,  9 blocks
+  Golden Haze      11 components,  5 blocks
+  Night Courier    13 components,  5 blocks
+  Coral Tide       49 components,  4 blocks
+  Frostbite        63 components,  6 blocks
+  Twin Vise        34 components,  6 blocks
+  Soft Landing     32 components,  4 blocks
+part models: 38, blocks: 81, block types: 30
+problems: 0

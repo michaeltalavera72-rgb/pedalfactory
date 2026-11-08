@@ -1,0 +1,82 @@
+Block ID,Pedal,Block,Type,Type name,What it does,Components,Active parts
+BM-INPUT,Ramhorn Fuzz,Input coupling,COUPLING,Coupling / interstage network,Coupling caps: DC / sub-bass removal (~20 Hz),1,
+BM-Q1,Ramhorn Fuzz,Q1 input boost,BJT-GAIN,BJT gain stage,"Clean-ish x12 boost, 470k || 470p roll-off above ~720 Hz, 9 V rail limit",3,Q1
+BM-SUSTAIN,Ramhorn Fuzz,SUSTAIN pot,LEVEL-POT,Level / output network,Log pot between Q1 and Q2: 0 .. -66 dB into the clippers,1,
+BM-CLIP,Ramhorn Fuzz,Q2 / Q3 clipping stages,BJT-CLIP,BJT stage with diode clip,"Two cascaded x57 stages rolled off above ~720 Hz, diode soft clip at +/-0.6 V",5,D-Q2 D-Q3 Q2 Q3
+BM-TONE,Ramhorn Fuzz,Big Muff tone,TONE-MUFF,Big Muff tone,Lowpass 408 Hz and highpass 1046 Hz legs blended by TONE (mid scoop),5,
+BM-Q4,Ramhorn Fuzz,Q4 recovery + VOLUME,BJT-GAIN,BJT gain stage,"Recovery stage (x3.7, 3 V limit) then VOLUME",2,Q4
+HM-INPUT,Buzzsaw,Q1 buffer + high-pass,BUFFER,Buffer / follower,"Q1 buffer, C6 / R19 high-pass ~154 Hz",3,Q1
+HM-Q6,Buzzsaw,Q6 NPN stage + DISTORTION,BJT-GAIN,BJT gain stage,"Shunt-feedback x21 stage; DIST pot loads the collector (first-order shelf), C10 roll-off 3.4 kHz",7,Q6
+HM-Q7,Buzzsaw,Q7 PNP stage,BJT-GAIN,BJT gain stage,"C11 / R22 high-pass, x21, C14 roll-off 3.4 kHz, clips the other way round",5,Q7
+HM-1B,Buzzsaw,Op-amp 1b feedback clipper,OPAMP-FB-CLIP,Op-amp with feedback clipping,"x5.7 above 72 Hz, D3 one way / D4+D5 the other (asymmetric), C9 roll-off ~7 kHz",7,D3 D4 D5 IC1B
+HM-GATE,Buzzsaw,Series dead zone + hard clip,DIODE-DEADZONE,Series diodes / diode gate,"D6/D7 in series (sputter), D8/D9 to ground (hard), C16 smoothing",5,D6 D7 D8 D9
+HM-COLOR,Buzzsaw,COLOR MIX,EQ-GYRATOR,Gyrator band EQ,"Gyrator band EQ: LOW ~90 Hz, HIGH 958 Hz + 1.28 kHz, +/-21 dB (fitted to the nodal analysis)",5,IC3A
+HM-OUT,Buzzsaw,LEVEL + output,LEVEL-POT,Level / output network,"VR1 10k audio taper, output coupling",2,
+RB-BOOST,Rail Bender,Clean boost (U2-B),OPAMP-GAIN,Op-amp gain stage,0 .. +15 dB flat boost before the drive; JFET Q4 shorts it to unity when off,5,Q4 U2-B
+RB-INBUF,Rail Bender,Input buffer,BUFFER,Buffer / follower,"U6-A buffer, C1 22n / R2 470k (~15 Hz)",4,U6-A
+RB-U1A,Rail Bender,U1-A gain stage,OPAMP-GAIN,Op-amp gain stage,"x2.5 .. x73 above ~154 Hz (tight bass), TL072 rails +9 / -6 V",7,U1-A
+RB-GE,Rail Bender,Germanium clipper,DIODE-CLIP-GND,Diode clipper to ground,"R5 10k into AA119 pair || C4 15n to ground, solved per sample",3,D31 D32
+RB-U1B,Rail Bender,U1-B recovery,OPAMP-GAIN,Op-amp gain stage,x4.85 above ~41 Hz,4,U1-B
+RB-TONE,Rail Bender,Treble-cut tone,TONE-TREBLE-CUT,Treble cut / RC low-pass,R9 13k into P2 22k log + C7 100n to ground,3,
+RB-LEVEL,Rail Bender,LEVEL,LEVEL-POT,Level / output network,"P5 47k linear, output buffer",1,
+TS-INPUT,Valve Howler,Input buffer,BUFFER,Buffer / follower,"0.02u / 510k, 2SC1815 emitter follower, 1u into 10k",5,Q1
+TS-CLIP,Valve Howler,Clipping stage,OPAMP-FB-CLIP,Op-amp with feedback clipping,"JRC4558 non-inverting, 4.7k + 0.047u ground leg (mid hump), 1N914 pair in the feedback, solved per sample",7,D1 D2 IC1A
+TS-TONE,Valve Howler,Tone stage,TONE-ACTIVE-TREBLE,Active treble control (TS),"1k / 0.22u low-pass then active treble control, exact transfer function",8,IC1B
+TS-OUT,Valve Howler,LEVEL + output buffer,LEVEL-POT,Level / output network,"B100k, 2SC1815 buffer, 100R / 10u / 10k",5,Q2
+AD-INPUT,Feral Hound,Input network,COUPLING,Coupling / interstage network,"1k, 220n, 1n to ground, 2M2 / 2M2 bias",4,
+AD-GAIN,Feral Hound,LM308 gain stage,OPAMP-GAIN-SLEW,Op-amp gain stage with GBW / slew,"Non-inverting, GAIN rheostat, slew-limited integrator op-amp model, solved per sample",6,IC1
+AD-FAT,Feral Hound,FAT ground leg,GROUND-LEG,Variable ground leg,FAT C10k + 470R + 1u: more gain and low end,3,
+AD-SOFT,Feral Hound,SOFT feedback clipping,OPAMP-FB-CLIP,Op-amp with feedback clipping,W1M detent: 1N34A one way or BS170 MOSFET (+ body diode),4,D5 Q1
+AD-HARD,Feral Hound,HARD clipping to ground,DIODE-CLIP-GND,Diode clipper to ground,"W20k detent: two stacked 1N4148 pairs + 1n, or one 1N4148 pair",6,D1-D4 D6 D7
+AD-FILTER,Feral Hound,RAT FILTER,TONE-TREBLE-CUT,Treble cut / RC low-pass,C100k rheostat + 1k into 4n7 (~2.5 kHz at noon),3,
+AD-OUT,Feral Hound,Output follower + LEVEL,BUFFER,Buffer / follower,"2N5458 source follower, A100k LEVEL",4,Q2
+SB-BUF,Slow Burn,Input buffer,BUFFER,Buffer / follower,IC1B unity follower (ideal),1,IC1B
+SB-INTER,Slow Burn,Interstage + GAIN pot,COUPLING,Coupling / interstage network,"1n coupling (tight bass), 470k || 2n2, GAIN A500k with 1n bright cap",7,
+SB-STAGE1,Slow Burn,Stage-1 op-amp,OPAMP-GAIN,Op-amp gain stage,"x46, 22 Hz .. 1.6 kHz (our values; the real pedal is x148 with zeners), +/-7.5 V swing",5,IC2A
+SB-V1A,Slow Burn,V1A triode stage,TRIODE-STAGE,12AX7 triode stage,"12AX7 common cathode, B+ 250 V, Koren model with grid current and Miller capacitance",9,V1A
+SB-V1B,Slow Burn,V1B triode stage + cathode follower,TRIODE-STAGE,12AX7 triode stage,"Second 12AX7 stage (grid current charges the 22n: blocking), cathode follower to the stack",8,CF V1B
+SB-STACK,Slow Burn,SLO tone stack,TONE-STACK-TMB,Treble / Middle / Bass stack,"Treble / bass / mid stack with 1n + 10k bright path, 1M / 33k master load",16,
+SB-POWER,Slow Burn,Power stage (presence / deep),POWER-AMP-STAGE,Power-amp emulation stage,IC3B with DEEP (22k switched) and PRESENCE (C25k) legs,14,IC3B power.U0
+SB-OUT,Slow Burn,Output network + VOLUME,LEVEL-POT,Level / output network,"1u, 10k, 22n + 1k shunt (~-20 dB above 660 Hz), VOLUME B25k",6,
+NG-SENSE,Gatekeeper,Side-chain detector,ENVELOPE,Envelope detector,"Level follower on the clean guitar (THRESHOLD), hysteresis 6 dB, 40 ms hold",4,IC1 Q4-Q6
+NG-ENV,Gatekeeper,Gate envelope,ENVELOPE,Envelope detector,"NF-1 ~0.5 ms attack, RELEASE 20 ms .. 2 s, smooth glide in dB",2,
+NG-VCA,Gatekeeper,JFET expander (keyed return),VCA-GATE,Gate VCA,"22k + 2SK30A shunt VCR; applied at the board return stage, HARD / SOFT depth",4,Q1 Q2 Q3
+TH-INPUT,Thunderhead,Input + IC1A buffer,BUFFER,Buffer / follower,"22n, 500k || 100p, OPA2134 unity buffer, 1u / 100k",7,IC1A in.U0
+TH-IC1B,Thunderhead,IC1B gain stage,OPAMP-GAIN,Op-amp gain stage,"OPA2134 x23, 16 Hz .. 7.2 kHz",5,IC1B
+TH-INTER,Thunderhead,Interstage + GAIN,COUPLING,Coupling / interstage network,"22n / 470k, 2n2 || 680k treble lift, 220k into GAIN A250k",8,
+TH-IC2A,Thunderhead,IC2A zener-limited stage,OPAMP-FB-CLIP,Op-amp with feedback clipping,"TL072 x101, 1N5232 zeners back to back across the feedback, solved per sample",6,D3 D4 IC2A
+TH-GATE,Thunderhead,Diode gate,DIODE-DEADZONE,Series diodes / diode gate,"4n7, anti-parallel 1N4148 || 100k, 470k to ground",4,D5 D6
+TH-IC2B,Thunderhead,IC2B rail clipper,OPAMP-GAIN,Op-amp gain stage,TL072 x23 into hard rail clipping (+/-10.5 V),5,IC2B
+TH-STACK,Thunderhead,Marshall-style stack,TONE-STACK-TMB,Treble / Middle / Bass stack,"560p / B250k treble, 39k slope, A1M bass, B25k mid, 1M5 / 100k",13,
+TH-AMP3,Thunderhead,IC3A power stage + gyrator,POWER-AMP-STAGE,Power-amp emulation stage,"x3.1 with PRESENCE leg and DEEP gyrator (0.87 H, ~115 Hz)",18,IC3A IC3B amp3.U0 amp3.U1
+TH-OUT,Thunderhead,Output + VOLUME + AMP / DIRECT,LEVEL-POT,Level / output network,"10u, 1k, VOLUME A10k, 150k / 100k || 2n2 AMP voice",9,
+GH-IN,Golden Haze,Input coupling,COUPLING,Coupling / interstage network,C1 10u into R1 1M || LM386 internal 50k,2,
+GH-OP1,Golden Haze,OP1 LM386 x200,POWER-CHIP-CLIP,LM386 power-chip clipper,"Gain 20 -> 200 above ~118 Hz, asymmetric swing clipping",3,OP1 VD1
+GH-RC,Golden Haze,Interstage RC,TONE-TREBLE-CUT,Treble cut / RC low-pass,"C3 1u, R2 68k, C4 4n7: -7.5 dB and ~1.18 kHz low-pass",3,
+GH-OP2,Golden Haze,OP2 LM386 x20,POWER-CHIP-CLIP,LM386 power-chip clipper,"Flat gain 20, clips again",1,OP2
+GH-OUT,Golden Haze,VOLUME,LEVEL-POT,Level / output network,C5 1u into A100k,2,
+NC-IN,Night Courier,Analog input / dry path,BUFFER,Buffer / follower,"TL074 buffer, dry always at unity, wet added through MIX",2,IC1
+NC-DELAY,Night Courier,FV-1 delay,DSP-DELAY,Digital delay,"40 ms .. 1 s, gliding time, feedback with darkening, runaway saturation, 10-bit grain",4,FV-1
+NC-REVERB,Night Courier,FV-1 plate reverb,DSP-REVERB,Plate reverb,"Dattorro plate: 4 input diffusers, two decay branches, modulated allpasses, damping",3,
+NC-EXTRAS,Night Courier,MOD / TONE / mode / trails,DSP-MOD,Modulation / extras,"Our additions: tape wobble, wet tilt, DELAY / REVERB / BOTH, trails",3,
+NC-MIX,Night Courier,MIX + output,LEVEL-POT,Level / output network,MIX 5k adds the wet on top of the dry,1,
+CT-BOOST,Coral Tide,Baby Pink booster,JFET-CS-STAGE,JFET common-source stage,"2N5952 common source, BOOST pot in the source leg; off = ~unity buffer",13,Q3
+CT-Q1EQ,Coral Tide,Sea Blue Q1 + passive EQ,JFET-CS-STAGE,JFET common-source stage,JFET common source (~+12 dB) into the passive treble / bass network,26,Q1
+CT-Q2,Coral Tide,Sea Blue Q2 + VOLUME,JFET-CS-STAGE,JFET common-source stage,"JFET common source, +20 dB above ~120 Hz, VOLUME fixed for unity",8,Q2
+CT-MASTER,Coral Tide,ORDER + master LEVEL,LEVEL-POT,Level / output network,Our additions: ORDER toggle and a master LEVEL x0 .. x2.8,2,
+FB-INPUT,Frostbite,Input coupling,COUPLING,Coupling / interstage network,100n into 1M,1,
+FB-IC1A,Frostbite,IC1A preamp,OPAMP-GAIN,Op-amp gain stage,x1 in the bass rising to x13 above ~900 Hz; MOD (C13 4u7) = flat x13,10,IC1A
+FB-PRE,Frostbite,PRE-SHAPE (IC1D),MFB-SHAPER,Multi-feedback shaping filter,Inverting multi-feedback network with a 50k pot as the virtual-earth input,19,IC1D preNet.U0
+FB-IC1C,Frostbite,IC1C GAIN stage,OPAMP-GAIN,Op-amp gain stage,"x21 .. x1112, 47p roll-off, op-amp swing clip",6,IC1C
+FB-POST,Frostbite,Clip node + POST-SHAPE (IC1B),MFB-SHAPER,Multi-feedback shaping filter,"C2 / R2 into 1N4148 pair || C3 (solved per sample), then the second multi-feedback network",24,D1 D2 IC1B postNet.U0
+FB-OUT,Frostbite,LEVEL,LEVEL-POT,Level / output network,"R25 2k2, C12 1u, LEVEL 50k linear",3,
+TV-INPUT,Twin Vise,Input gain + meter,OPAMP-GAIN,Op-amp gain stage,"IC1A x5.68, INPUT GAIN, IC1B inverting (up to +28 dB), bicolour LED",8,IC1A IC1B
+TV-SPLIT,Twin Vise,Band split,CROSSOVER,Band split,Unity Sallen-Key low-pass and high-pass (guitar voicing: 2.36 kHz / 595 Hz),6,
+TV-LOW,Twin Vise,Low band OTA compressor,OTA-COMP-BAND,OTA compressor band,"Inverting stage with SSM2024 OTA in the feedback, LOW COMPRESSION gang",5,IC-L OTA-L
+TV-HIGH,Twin Vise,High band OTA compressor,OTA-COMP-BAND,OTA compressor band,"Same topology, 47k input, HIGH COMPRESSION on the control voltage",5,IC-H OTA-H
+TV-SC,Twin Vise,Side-chains,ENVELOPE,Envelope detector,"Per band: divider, x67.7 precision rectifier, diode, RC envelope, follower",5,D-sc Rectifier
+TV-MIX,Twin Vise,E.Q. BALANCE + OUTPUT,LEVEL-POT,Level / output network,"Dual B50K balance, IC2C x1.42, OUTPUT LEVEL B50K",5,IC2C
+SL-CELL,Soft Landing,GAIN pot + JFET VCR cell,JFET-VCR,JFET voltage-controlled resistor,"GAIN A500K with treble bleed, Q2 2N5457 shunt VCR, 470k / 470k + 560p gate network, solved per sample",15,Q2 Q2 gate
+SL-BIAS,Soft Landing,Q1 current source + SQUISH,BIAS,Bias / current source,Q1 2N5457 self-biased current source into the 20K / SQUISH network: sets Q2 rest bias,5,Q1
+SL-AMP,Soft Landing,U1A gain stage,OPAMP-GAIN,Op-amp gain stage,"RC4558 x23 at audio, x1 at DC",4,U1A
+SL-DET,Soft Landing,Side-chain + LEVEL,ENVELOPE,Envelope detector,"4u7 into LEVEL A10K, 2K1 + 1N914 into 4u7 || 100k (10 ms / 0.47 s)",8,D1

@@ -1,0 +1,18 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Ramhorn Fuzz,Input coupling,BM-INPUT,Cin,C,(~20 Hz corner),,,RC-CORNER,EST-STD,FILTER,input / coupling caps: DC and sub-bass removal,RamhornFuzz.h:59,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Q1,BJT,x12 (~21 dB),,,BJT-STAGE-TANH,EST-EAR,CURVE,input boost; 2.5 V tanh limit (9 V rail),RamhornFuzz.h:85,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Rf,R,470k,,,RC-CORNER,DRAWN,FILTER,"feedback resistor (with 470p: ~720 Hz roll-off, shared by Q1-Q3)",RamhornFuzz.h:9,found
+Ramhorn Fuzz,Q1 input boost,BM-Q1,Cf,C,470p,,,RC-CORNER,DRAWN,FILTER,feedback cap (~720 Hz roll-off),RamhornFuzz.h:9,found
+Ramhorn Fuzz,SUSTAIN pot,BM-SUSTAIN,SUSTAIN,POT,log (0 .. -66 dB),,SUSTAIN,POT-A,EST-EAR,CONTROL,sets how hard the clippers are driven,RamhornFuzz.h:70,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Q2,BJT,x57 (470k / 8k2),,,BJT-STAGE-TANH,DRAWN,CURVE,first clipping stage,RamhornFuzz.h:116,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Re,R,8k2,,,RES-IDEAL,DRAWN,GAIN,gain-setting resistor of Q2 / Q3 (470k / 8k2 = 57),RamhornFuzz.h:113,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,D-Q2,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q2,RamhornFuzz.h:117,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,Q3,BJT,x57,,,BJT-STAGE-TANH,DRAWN,CURVE,second clipping stage (same network as Q2),RamhornFuzz.h:91,found
+Ramhorn Fuzz,Q2 / Q3 clipping stages,BM-CLIP,D-Q3,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q3,RamhornFuzz.h:91,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,R-lp,R,39k,,,RC-CORNER,DRAWN,FILTER,low-pass leg (with 10n: 408 Hz),RamhornFuzz.h:57,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,C-lp,C,10n,,,RC-CORNER,DRAWN,FILTER,low-pass leg cap,RamhornFuzz.h:57,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,C-hp,C,3n9,,,RC-CORNER,DRAWN,FILTER,high-pass leg (with 39k: 1046 Hz),RamhornFuzz.h:58,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,R-hp,R,39k,,,RC-CORNER,DRAWN,FILTER,high-pass leg resistor,RamhornFuzz.h:58,found
+Ramhorn Fuzz,Big Muff tone,BM-TONE,TONE,POT,linear blend,,TONE,POT-B,EST-STD,CONTROL,blends the two legs (passive loss x0.5),RamhornFuzz.h:95,found
+Ramhorn Fuzz,Q4 recovery + VOLUME,BM-Q4,Q4,BJT,x3.7 (3 V limit),,,BJT-STAGE-TANH,EST-EAR,CURVE,recovery stage,RamhornFuzz.h:97,found
+Ramhorn Fuzz,Q4 recovery + VOLUME,BM-Q4,VOLUME,POT,audio (x^2),,VOLUME,POT-A,EST-STD,CONTROL,output level,RamhornFuzz.h:72,found

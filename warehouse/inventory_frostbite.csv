@@ -1,0 +1,64 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Frostbite,Input coupling,FB-INPUT,Cin,C,100n,,,RC-CORNER,DRAWN,FILTER,input coupling into 1M (1.6 Hz),Frostbite.h:130,found
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Rf,R,22k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Cf,C,47p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Rg,R,1.8k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1a.Cg,C,100n,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (stock C13),Frostbite.h:235,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Rf,R,22k,,MOD position,RES-IDEAL,DRAWN,OPSTAGE,feedback (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Cf,C,47p,,MOD position,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Rg,R,1.8k,,MOD position,RES-IDEAL,DRAWN,OPSTAGE,ground leg (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,ic1aMod.Cg,C,4.7u,,MOD position,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (MOD C13),Frostbite.h:236,netlist
+Frostbite,IC1A preamp,FB-IC1A,IC1A,OPAMP,TL074 (3.0 V swing),,,OPAMP-TL072,DRAWN,CURVE,preamp,Frostbite.h:215,found
+Frostbite,IC1A preamp,FB-IC1A,MOD,SWITCH,C13 100n / 4u7,,MOD / STOCK,SWITCH,DRAWN,CONTROL,factory MOD: more bass + doubled diodes (20 ms crossfade),Frostbite.h:65,found
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.C0,C,100n,IC1A_OUT A,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:241,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R26,R,100k,A F,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R35,R,4.7k,A B,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R27,R,100k,A H,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:242,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R30,R,47k,B E,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C17,C,22n,B C,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R28,R,100k,B C,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:243,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R34,R,47k,C D,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:244,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R31,R,22k,C G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:244,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C18,C,2.2n,F E,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:245,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R32,R,100k,F G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:245,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R29,R,1.8k,E G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:246,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,C19,C,4.7n,H D,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:247,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,R33,R,2.2k,H G,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:247,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.R10,R,25k,D W,PRE-SHAPE lug1-wiper,RES-IDEAL,DRAWN,NETLIST,"PRE-SHAPE 50k lin: lug 1 = D, lug 2 = E",Frostbite.h:248,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.R11,R,25k,W E,PRE-SHAPE wiper-lug2,RES-IDEAL,DRAWN,NETLIST,"PRE-SHAPE 50k lin: lug 1 = D, lug 2 = E",Frostbite.h:248,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,preNet.U0,OPAMP,ideal (nullor),+0 -W oG,,OPAMP-IDEAL,DRAWN,NETLIST,,Frostbite.h:249,netlist
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,IC1D,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,PRE-SHAPE op-amp (nullor),Frostbite.h:249,found
+Frostbite,PRE-SHAPE (IC1D),FB-PRE,PRE,POT,50k linear,,PRE,POT-B,DRAWN,CONTROL,mid focus / edge (netlist preR1 / preR2),Frostbite.h:248,found
+Frostbite,IC1C GAIN stage,FB-IC1C,IC1C,OPAMP,TL074 (GBW 3 MHz),,,OPAMP-TL072,DRAWN,OPSTAGE,GAIN stage,Frostbite.h:217,found
+Frostbite,IC1C GAIN stage,FB-IC1C,R1,R,2M,,,RES-IDEAL,DRAWN,OPSTAGE,feedback,Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,C11,C,47p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (~1.7 kHz),Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,R8,R,1k8,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (plus the GAIN pot section),Frostbite.h:276,found
+Frostbite,IC1C GAIN stage,FB-IC1C,C7,C,1u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap,Frostbite.h:283,found
+Frostbite,IC1C GAIN stage,FB-IC1C,GAIN,POT,100k linear (wiper grounded),,GAIN,POT-B,DRAWN,CONTROL,"lug1-wiper in IC1C's ground leg, wiper-lug2 + R7 loads node K",Frostbite.h:15,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C2,C,1u,IC1C_OUT S2,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R2,R,10k,S2 K,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C3,C,10n,K 0,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:255,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R1,R,60k,K 0,GAIN pot (wiper-lug2) + R7,RES-IDEAL,DRAWN,NETLIST,R7 10k + GAIN wiper-lug 2 (wiper grounded),Frostbite.h:256,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C4,C,1u,K Q,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:257,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R16,R,10k,Q T,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R15,R,4.7k,Q X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R17,R,100k,Q Z,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:258,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R22,R,100k,T O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:259,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C9,C,2.2n,T U,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:259,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R20,R,47k,U X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:260,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R36,R,27k,U O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:260,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R21,R,22k,V O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C8,C,22n,V X,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R18,R,100k,V X,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R24,R,47k,V Y,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:261,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,C10,C,4.7n,Y Z,,CAP-IDEAL,DRAWN,NETLIST,,Frostbite.h:262,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,R23,R,2.2k,Z O,,RES-IDEAL,DRAWN,NETLIST,,Frostbite.h:262,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R12,R,25k,U W,POST-SHAPE lug1-wiper,RES-IDEAL,DRAWN,NETLIST,"POST_SHAPE 50k lin: lug 1 = U, lug 2 = Y",Frostbite.h:263,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.R13,R,25k,W Y,POST-SHAPE wiper-lug2,RES-IDEAL,DRAWN,NETLIST,"POST_SHAPE 50k lin: lug 1 = U, lug 2 = Y",Frostbite.h:263,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,postNet.U0,OPAMP,ideal (nullor),+0 -W oO,,OPAMP-IDEAL,DRAWN,NETLIST,,Frostbite.h:264,netlist
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,D1 D2,DIODE,1N4148 pair (MOD: 2 in series each way),,,DIODE-1N914,DRAWN,SOLVED,soft clipping at node K,Frostbite.h:216,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,IC1B,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,POST-SHAPE op-amp (nullor),Frostbite.h:264,found
+Frostbite,Clip node + POST-SHAPE (IC1B),FB-POST,POST,POT,50k linear,,POST,POT-B,DRAWN,CONTROL,bright / wide vs warm (netlist postR1 / postR2),Frostbite.h:263,found
+Frostbite,LEVEL,FB-OUT,R25,R,2k2,,,RES-IDEAL,DRAWN,FIXED,output series resistor,Frostbite.h:25,found
+Frostbite,LEVEL,FB-OUT,C12,C,1u,,,CAP-IDEAL,DRAWN,FIXED,output coupling,Frostbite.h:25,found
+Frostbite,LEVEL,FB-OUT,LEVEL,POT,50k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,Frostbite.h:25,found

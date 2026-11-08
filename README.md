@@ -158,3 +158,8 @@ Hovering a pedal's name shows which real pedal it is based on (PedalBase::getBas
 ## Status
 Built and played on Windows (VS 2026, JUCE 8.0.15). Each new pedal is also build-tested on Linux
 with headless audio tests before delivery.
+
+## Virtual warehouse
+warehouse/ holds an inventory of every component of every pedal (486 parts over 14 pedals), the part models, the
+circuit blocks, generic block types for new designs and each pedal as a recipe of blocks; rebuilt from the code by
+Tools/Warehouse/build_warehouse.py. See warehouse/README.md.

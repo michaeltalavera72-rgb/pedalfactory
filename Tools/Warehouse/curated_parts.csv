@@ -1,0 +1,296 @@
+pedal,block,ref,kind,value,nodes,control,part,prov,model,function,check
+bm,BM-INPUT,Cin,C,(~20 Hz corner),,,RC-CORNER,EST-STD,FILTER,input / coupling caps: DC and sub-bass removal,"gDc = coeff(20.0"
+bm,BM-Q1,Q1,BJT,x12 (~21 dB),,,BJT-STAGE-TANH,EST-EAR,CURVE,input boost; 2.5 V tanh limit (9 V rail),12.0f
+bm,BM-Q1,Rf,R,470k,,,RC-CORNER,DRAWN,FILTER,"feedback resistor (with 470p: ~720 Hz roll-off, shared by Q1-Q3)",470k
+bm,BM-Q1,Cf,C,470p,,,RC-CORNER,DRAWN,FILTER,feedback cap (~720 Hz roll-off),470pF
+bm,BM-SUSTAIN,SUSTAIN,POT,log (0 .. -66 dB),,SUSTAIN,POT-A,EST-EAR,CONTROL,sets how hard the clippers are driven,-66.0f
+bm,BM-CLIP,Q2,BJT,x57 (470k / 8k2),,,BJT-STAGE-TANH,DRAWN,CURVE,first clipping stage,57.0f
+bm,BM-CLIP,Re,R,8k2,,,RES-IDEAL,DRAWN,GAIN,gain-setting resistor of Q2 / Q3 (470k / 8k2 = 57),8k2
+bm,BM-CLIP,D-Q2,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q2,0.6f * std::tanh
+bm,BM-CLIP,Q3,BJT,x57,,,BJT-STAGE-TANH,DRAWN,CURVE,second clipping stage (same network as Q2),clipStage(s.q3
+bm,BM-CLIP,D-Q3,DIODE,Si pair (+/-0.6 V soft),,,DIODE-SI-KNEE,EST-STD,CURVE,feedback clipping diodes of Q3,clipStage(s.q3
+bm,BM-TONE,R-lp,R,39k,,,RC-CORNER,DRAWN,FILTER,low-pass leg (with 10n: 408 Hz),39k + 10nF
+bm,BM-TONE,C-lp,C,10n,,,RC-CORNER,DRAWN,FILTER,low-pass leg cap,39k + 10nF
+bm,BM-TONE,C-hp,C,3n9,,,RC-CORNER,DRAWN,FILTER,high-pass leg (with 39k: 1046 Hz),3.9nF + 39k
+bm,BM-TONE,R-hp,R,39k,,,RC-CORNER,DRAWN,FILTER,high-pass leg resistor,3.9nF + 39k
+bm,BM-TONE,TONE,POT,linear blend,,TONE,POT-B,EST-STD,CONTROL,blends the two legs (passive loss x0.5),(1.0f - t) * lp + t * hp
+bm,BM-Q4,Q4,BJT,x3.7 (3 V limit),,,BJT-STAGE-TANH,EST-EAR,CURVE,recovery stage,3.7f
+bm,BM-Q4,VOLUME,POT,audio (x^2),,VOLUME,POT-A,EST-STD,CONTROL,output level,volume->load() * volume->load()
+hm,HM-INPUT,Q1,BJT,unity buffer,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,Q1 buffer
+hm,HM-INPUT,C6,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,C6 0.047u
+hm,HM-INPUT,R19,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass resistor / Q6 input resistor,R19 22k
+hm,HM-Q6,Q6,BJT,NPN x21 (+3.9 / -3.4 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,shunt-feedback gain stage,"3.9f, 3.4f"
+hm,HM-Q6,R16,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q6 feedback (470k / 22k = 21),R16 470k
+hm,HM-Q6,C10,C,100p,,,RC-CORNER,DRAWN,FILTER,Q6 roll-off ~3.4 kHz,C10 100p
+hm,HM-Q6,R17,R,10k,,,RES-IDEAL,DRAWN,FILTER,collector resistor (DIST shelf),r17 = 10000.0
+hm,HM-Q6,VR4,POT,250k D taper,,DIST,POT-D,DRAWN,CONTROL,DISTORTION: loads the collector,VR4 250k
+hm,HM-Q6,R49,R,150R,,,RES-IDEAL,DRAWN,FILTER,in series with VR4,R49 150R
+hm,HM-Q6,C31,C,10u,,,RC-CORNER,DRAWN,FILTER,AC-couples the DIST load (first-order shelf),C31 10uF
+hm,HM-Q7,C11,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,C11 0.047u
+hm,HM-Q7,R22,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass / Q7 input resistor,R22 22k
+hm,HM-Q7,Q7,BJT,PNP x21 (+3.6 / -4.0 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,second gain stage,"3.6f, 4.0f"
+hm,HM-Q7,R29,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q7 feedback,R29 470k
+hm,HM-Q7,C14,C,100p,,,RC-CORNER,DRAWN,FILTER,Q7 roll-off ~3.4 kHz,C14 100p
+hm,HM-1B,IC1B,OPAMP,on 9 V (+/-4.2 V),,,OPAMP-RAIL,DRAWN,CURVE,feedback clipping stage,4.2f
+hm,HM-1B,R20,R,220k,,,RC-CORNER,DRAWN,FILTER,feedback (with C9 ~7.2 kHz),R20 220k
+hm,HM-1B,R42,R,47k,,,RC-CORNER,DRAWN,FILTER,ground leg (with C22: x5.7 above 72 Hz),R42 47k
+hm,HM-1B,C22,C,0.047u,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,C22 0.047u
+hm,HM-1B,C9,C,100p,,,RC-CORNER,DRAWN,FILTER,feedback cap,C9 100p
+hm,HM-1B,D3,DIODE,Si (0.62 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diode one way,0.62f
+hm,HM-1B,D4 D5,DIODE,2 x Si in series (1.2 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diodes the other way (asymmetric),1.20f
+hm,HM-GATE,R23,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the series diodes,R23/R30 10k
+hm,HM-GATE,D6 D7,DIODE,anti-parallel in series (0.55 V dead zone),,,DIODE-SI-KNEE,DRAWN,CURVE,blocks small signals (HM-2 sputter),"deadZone(v, 0.55f)"
+hm,HM-GATE,R30,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the shunt diodes,R23/R30 10k
+hm,HM-GATE,D8 D9,DIODE,Si pair to ground (0.62 V hard),,,DIODE-SI-KNEE,DRAWN,CURVE,hard clip,0.62f * hardKnee
+hm,HM-GATE,C16,C,1n,,,RC-CORNER,DRAWN,FILTER,smoothing (~10 kHz),C16 1n
+hm,HM-COLOR,IC3A,OPAMP,gyrator EQ,,,OPAMP-IDEAL,DRAWN,FILTER,COLOR MIX stage (two gyrator band EQs),COLOR MIX
+hm,HM-COLOR,LOW band,FILTER,peak 71-83 Hz up to +/-20.4 dB,,LOW,BEHAV,EST-FIT,FILTER,fitted to Tools/Analysis/hm2_colormix.py,70.864f
+hm,HM-COLOR,HIGH band 1,FILTER,peak 958 Hz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,first high resonator,"958.0"
+hm,HM-COLOR,HIGH band 2,FILTER,peak 1.28 kHz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,second high resonator (same pot),"1278.0"
+hm,HM-COLOR,LOW / HIGH pots,POT,G taper (S-curve),,LOW / HIGH,POT-G,EST-EAR,CONTROL,boost / cut about noon,std::pow(std::abs(x)
+hm,HM-OUT,VR1,POT,10k audio,,LEVEL,POT-A,DRAWN,CONTROL,output level,VR1 10k
+hm,HM-OUT,Cout,C,(~8 Hz corner),,,RC-CORNER,EST-STD,FILTER,output coupling,"gDc   = coeff(8.0"
+rb,RB-BOOST,U2-B,OPAMP,TL072 (+9 / -6 V),,,OPAMP-TL072,DRAWN,CURVE,boost stage,U2-B
+rb,RB-BOOST,POT3,POT,47k B,,BOOST,POT-B,DRAWN,CONTROL,boost gain 1 + POT3 / R15 (0 .. +15 dB),POT3(47k B)
+rb,RB-BOOST,R15,R,10k,,,RES-IDEAL,DRAWN,GAIN,boost ground leg,R15(10k)
+rb,RB-BOOST,C13,C,4u7,,,CAP-IDEAL,DRAWN,FIXED,"flat above ~3 Hz (not modelled, flat)",C13 4u7
+rb,RB-BOOST,Q4,JFET,switch,,BOOST footswitch,SWITCH,DRAWN,CONTROL,shorts the feedback when off (smoothed crossfade),JFET Q4
+rb,RB-INBUF,U6-A,OPAMP,TL072 buffer,,,OPAMP-TL072,DRAWN,GAIN,input buffer,U6-A
+rb,RB-INBUF,C1,C,22n,,,RC-CORNER,DRAWN,FILTER,coupling (~15 Hz),C1 22n
+rb,RB-INBUF,R1,R,10k,,,RC-CORNER,DRAWN,FILTER,series input,R1 10k
+rb,RB-INBUF,R2,R,470k,,,RC-CORNER,DRAWN,FILTER,bias / coupling load,R2 470k
+rb,RB-U1A,U1-A,OPAMP,TL072 (+7.4 / -4.6 V swing),,,OPAMP-TL072,DRAWN,CURVE,drive gain stage,7.4f
+rb,RB-U1A,R4,R,240k,,,RES-IDEAL,DRAWN,GAIN,feedback,240000.0
+rb,RB-U1A,R31,R,3k3,,,RES-IDEAL,DRAWN,GAIN,in series with PREAMP pot,3300.0
+rb,RB-U1A,PREAMP,POT,470k log,,DRIVE,POT-A,DRAWN,CONTROL,drive amount (x2.5 .. x73),470000.0
+rb,RB-U1A,R3,R,2k2,,,RC-CORNER,DRAWN,FILTER,ground leg (with C2: ~154 Hz),2200.0
+rb,RB-U1A,C2,C,470n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,C2 470n
+rb,RB-U1A,C33p,C,33p,,,RC-CORNER,DRAWN,FILTER,feedback roll-off,33p
+rb,RB-GE,R5,R,10k,,,RES-IDEAL,DRAWN,SOLVED,series resistor into the diodes,R = 10000.0
+rb,RB-GE,D31 D32,DIODE,AA119 pair,,,DIODE-AA119,DRAWN,SOLVED,germanium clipping to ground,AA119
+rb,RB-GE,C4,C,15n,,,CAP-IDEAL,DRAWN-UNSURE,SOLVED,across the diodes (handwritten value on the drawing),C = 15e-9
+rb,RB-U1B,U1-B,OPAMP,TL072,,,OPAMP-TL072,DRAWN,CURVE,recovery stage,U1-B
+rb,RB-U1B,R8,R,150k,,,RES-IDEAL,DRAWN,GAIN,feedback (x4.85),R8 150k
+rb,RB-U1B,R7,R,39k,,,RC-CORNER,DRAWN,FILTER,ground leg (~41 Hz),R7 39k
+rb,RB-U1B,C5,C,100n,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,C5 100n
+rb,RB-TONE,R9,R,13k,,,RC-CORNER,DRAWN,FILTER,series tone resistor,r9 = 13000.0
+rb,RB-TONE,P2,POT,22k log,,TONE,POT-A,DRAWN,CONTROL,treble cut (CW = brightest),22000.0
+rb,RB-TONE,C7,C,100n,,,RC-CORNER,DRAWN,FILTER,tone cap to ground,c7 = 100e-9
+rb,RB-LEVEL,P5,POT,47k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,P5 47k
+ts,TS-INPUT,C1,C,0.02u,,,RC-CORNER,DRAWN,FILTER,input coupling (~16 Hz),0.02u
+ts,TS-INPUT,R1,R,510k,,,RC-CORNER,DRAWN,FILTER,input bias,510k
+ts,TS-INPUT,Q1,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,2SC1815
+ts,TS-INPUT,C2,C,1u BP,,,RC-CORNER,DRAWN,FILTER,coupling into 10k,1u BP
+ts,TS-INPUT,R2,R,10k,,,RC-CORNER,DRAWN,FILTER,coupling load,1u BP into 10k
+ts,TS-CLIP,IC1A,OPAMP,JRC4558 (+/-3.8 V),,,OPAMP-4558,DRAWN,CURVE,clipping stage,3.8f
+ts,TS-CLIP,R4,R,4.7k,,,RES-IDEAL,DRAWN,SOLVED,ground leg (mid hump ~720 Hz),4700.0
+ts,TS-CLIP,C3,C,0.047u,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,47e-9
+ts,TS-CLIP,R6,R,51k,,,RES-IDEAL,DRAWN,SOLVED,feedback (in series with DRIVE),51000.0
+ts,TS-CLIP,DRIVE,POT,500k audio,,DRIVE,POT-A,DRAWN,CONTROL,drive amount,500000.0
+ts,TS-CLIP,C4,C,51p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap,Cf = 51e-12
+ts,TS-CLIP,D1 D2,DIODE,1N914 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,feedback clipping diodes,"Is = 2.52e-9, nVt = 1.752"
+ts,TS-TONE,R7,R,1k,,,RES-IDEAL,DRAWN,FILTER,into the tone stage (~723 Hz low-pass),R7 = 1000.0
+ts,TS-TONE,R8,R,10k,,,RES-IDEAL,DRAWN,FILTER,to Vr,R10k = 10000.0
+ts,TS-TONE,C5,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,low-pass cap,C5 = 0.22e-6
+ts,TS-TONE,TONE,POT,20k (reverse log),,TONE,POT-C,DRAWN,CONTROL,active treble control,Pot = 20000.0
+ts,TS-TONE,C6,C,0.22u,,,CAP-IDEAL,DRAWN,FILTER,wiper to ground,C6 = 0.22e-6
+ts,TS-TONE,R9,R,220R,,,RES-IDEAL,DRAWN,FILTER,wiper to ground,R220 = 220.0
+ts,TS-TONE,R10,R,1k,,,RES-IDEAL,DRAWN,FILTER,tone-stage feedback,Rfb = 1000.0
+ts,TS-TONE,IC1B,OPAMP,JRC4558,,,OPAMP-4558,DRAWN,FILTER,tone-stage op-amp,4558 active treble
+ts,TS-OUT,C7,C,1u BP,,,CAP-IDEAL,DRAWN,FIXED,output coupling,1u BP / 1k
+ts,TS-OUT,R11,R,1k,,,RES-IDEAL,DRAWN,FIXED,into LEVEL,1u BP / 1k
+ts,TS-OUT,LEVEL,POT,B100k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,B100k
+ts,TS-OUT,Q2,BJT,2SC1815 follower,,,BJT-FOLLOWER,DRAWN,GAIN,output buffer,2SC1815 output buffer
+ts,TS-OUT,R12 C8 R13,R,100R / 10u / 10k,,,RC-CORNER,DRAWN,FILTER,output network (~5 Hz),100R / 10u / 10k
+ad,AD-INPUT,R1,R,1k,,,RES-IDEAL,TRACED,SOLVED,series input,1000.0 + h / Ci
+ad,AD-INPUT,C1,C,220n,,,CAP-IDEAL,TRACED,SOLVED,input coupling,Ci = 220e-9
+ad,AD-INPUT,C2,C,1n,,,CAP-IDEAL,TRACED,SOLVED,+ input to ground,Cp = 1e-9
+ad,AD-INPUT,R2 R3,R,2M2 / 2M2 (1M AC),,,RES-IDEAL,TRACED,SOLVED,bias,2M2/2M2
+ad,AD-GAIN,IC1,OPAMP,LM308N,,,OPAMP-LM308,TRACED,SOLVED,"gain stage (GBW 0.9 MHz, slew 0.27 V/us, +/-3.6 V)",0.9e6
+ad,AD-GAIN,C-comp,C,33p,,,OPAMP-LM308,TRACED,SOLVED,compensation (sets GBW / slew),33p compensation
+ad,AD-GAIN,GAIN,POT,A1M rheostat,,GAIN,POT-A,TRACED,CONTROL,feedback resistance,1.0e6 * audioTaper(gain
+ad,AD-GAIN,C10p,C,10p,,,CAP-IDEAL,TRACED,SOLVED,across the feedback,10e-12
+ad,AD-GAIN,R-A,R,470R,,,RES-IDEAL,TRACED,SOLVED,ground leg A (with 220n: ~1.5 kHz),470.0 + h / 220e-9
+ad,AD-GAIN,C-A,C,220n,,,CAP-IDEAL,TRACED,SOLVED,ground leg A cap,220e-9
+ad,AD-FAT,FAT,POT,C10k rheostat,,FAT,POT-C,TRACED,CONTROL,ground leg B: more gain and low end,10.0e3 * audioTaper(1.0 - fat
+ad,AD-FAT,R-B,R,470R,,,RES-IDEAL,TRACED,SOLVED,ground leg B resistor,+ 470.0
+ad,AD-FAT,C-B,C,1u,,,CAP-IDEAL,TRACED,SOLVED,ground leg B cap (~340 Hz at max),h / 1e-6
+ad,AD-SOFT,SOFT,POT,W1M (centre detent),,SOFT,POT-W,TRACED,CONTROL,"selects germanium (CCW) or MOSFET (CW), noon = off","wTaper(soft->load(), 1.0e6)"
+ad,AD-SOFT,D5,DIODE,1N34A,,,DIODE-1N34A,TRACED,SOLVED,"germanium, one polarity","IsGe = 2.0e-7, nGe = 1.35"
+ad,AD-SOFT,Q1,MOSFET,BS170 (diode-connected),,,MOSFET-BS170,TRACED,SOLVED,MOSFET ~2 V one way and its body diode the other,BS170
+ad,AD-SOFT,C100p,C,100p,,,CAP-IDEAL,TRACED,SOLVED,across the MOSFET leg,100e-12
+ad,AD-HARD,C3,C,4u7,,,CAP-IDEAL,TRACED,SOLVED,coupling to the clip node,Cout = 4.7e-6
+ad,AD-HARD,R4,R,1k,,,RES-IDEAL,TRACED,SOLVED,into node X,1000.0 + h / Cout
+ad,AD-HARD,HARD,POT,W20k (centre detent),,HARD,POT-W,TRACED,CONTROL,"stacked pairs (CCW) or single pair (CW), noon = off","wTaper(hard->load(), 20.0e3)"
+ad,AD-HARD,D1-D4,DIODE,1N4148 x 4 (two stacked pairs),,,DIODE-1N914,TRACED,SOLVED,looser clipping,2.0 * nSi * Vt
+ad,AD-HARD,C4,C,1n,,,CAP-IDEAL,TRACED,SOLVED,across the stacked pairs,Ch1 = 1e-9
+ad,AD-HARD,D6 D7,DIODE,1N4148 pair,,,DIODE-1N914,TRACED,SOLVED,classic RAT clipping,"IsSi = 2.52e-9, nSi = 1.752"
+ad,AD-FILTER,FILTER,POT,C100k rheostat,,FILTER,POT-LOG-MID,TRACED,CONTROL,treble cut (CW = brightest),100.0e3 * logTaper
+ad,AD-FILTER,R5,R,1k,,,RES-IDEAL,TRACED,SOLVED,in series with FILTER,+ 1000.0);
+ad,AD-FILTER,C5,C,4n7,,,CAP-IDEAL,TRACED,SOLVED,filter cap,Cf = 4.7e-9
+ad,AD-OUT,C6,C,220n,,,CAP-IDEAL,TRACED,SOLVED,coupling to the follower,Cg = 220e-9
+ad,AD-OUT,R6,R,1M,,,RES-IDEAL,TRACED,SOLVED,follower gate resistor,1.0e6 + h / Cg
+ad,AD-OUT,Q2,JFET,2N5458 source follower (x0.95),,,JFET-FOLLOWER,TRACED,GAIN,output buffer,0.95f
+ad,AD-OUT,LEVEL,POT,A100k,,LEVEL,POT-A,TRACED,CONTROL,output level,audioTaper(level->load())
+sb,SB-BUF,IC1B,OPAMP,unity follower,,,OPAMP-IDEAL,TRACED,GAIN,input buffer,IC1B unity follower
+sb,SB-STAGE1,IC2A,OPAMP,TL072 (+/-7.5 V swing),,,OPAMP-TL072,TRACED,CURVE,stage-1 op-amp,opRail = 7.5
+sb,SB-STAGE1,Rf,R,1M,,,RES-IDEAL,TRACED,OPSTAGE,feedback,Rf = 1.0e6
+sb,SB-STAGE1,Cf,C,100p,,,CAP-IDEAL,TRACED,OPSTAGE,feedback cap (1.6 kHz),Cf = 100e-12
+sb,SB-STAGE1,Rg,R,22k,,,RES-IDEAL,OURS,OPSTAGE,ground leg (real pedal 6k8: x148),Rg = 22e3
+sb,SB-STAGE1,Cg,C,330n,,,CAP-IDEAL,OURS,OPSTAGE,ground-leg cap (real pedal 1u),Cg = 330e-9
+sb,SB-V1A,V1A,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,first triode stage (in place of the op-amp zener stage),"mu = 100.0, ex = 1.4"
+sb,SB-V1A,Rgs,R,68k,,,RES-IDEAL,OURS,SOLVED,grid stopper,Rgs = 68e3
+sb,SB-V1A,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,Rp = 100e3
+sb,SB-V1A,B+,RAIL,250 V,,,BEHAV,OURS,SOLVED,plate supply,B = 250.0
+sb,SB-V1A,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,Rk = 1500.0
+sb,SB-V1A,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,Ck = 10e-6; Cpl = 0.0
+sb,SB-V1A,Cc,C,22n,,,CAP-IDEAL,TRACED,SOLVED,coupling cap to the 330k / 220k node,Cc = 22e-9
+sb,SB-V1A,R330k,R,330k,,,RES-IDEAL,TRACED,SOLVED,coupling node to ground,1.0 / 330e3
+sb,SB-V1B,V1B,TRIODE,12AX7,,,TUBE-12AX7,OURS,SOLVED,second triode stage,v1b.setup(h
+sb,SB-V1B,Rgs,R,220k,,,RES-IDEAL,TRACED,SOLVED,grid stopper (the pedal's 220k),Rgs = 220e3
+sb,SB-V1B,Rp,R,100k,,,RES-IDEAL,OURS,SOLVED,plate load,Rp = 100e3
+sb,SB-V1B,Rk,R,1k5,,,RES-IDEAL,OURS,SOLVED,cathode resistor,Rk = 1500.0
+sb,SB-V1B,Ck,C,10u,,,CAP-IDEAL,OURS,SOLVED,cathode bypass,Ck = 10e-6; Cpl = 470e-12
+sb,SB-V1B,Cpl,C,470p,,,CAP-IDEAL,OURS,SOLVED,plate cap to ground (gentle top roll-off),Cpl = 470e-12
+sb,SB-V1B,Cc,C,22n,,,CAP-IDEAL,OURS,SOLVED,coupling into the cathode follower,Cc = 22e-9
+sb,SB-V1B,CF,TRIODE,cathode follower (scale 0.075),,,BEHAV,OURS,GAIN,drives the stack (1M grid load),cfScale = 0.075
+sb,SB-V1A,Miller,C,1.7p / 1.6p,,,TUBE-12AX7,DATASHEET,SOLVED,grid-plate / grid-cathode capacitance (both triodes),"Cgp = 1.7e-12, Cgk = 1.6e-12"
+sb,SB-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,TRACED,CONTROL,treble (netlist halves stTt / stTb),TREBLE B250k
+sb,SB-STACK,BASS,POT,A1M,,BASS,POT-A,TRACED,CONTROL,bass (netlist stBass),BASS A1M
+sb,SB-STACK,MID,POT,B25k,,MID,POT-B,TRACED,CONTROL,middle (netlist stMt / stMb),MID B25k
+sb,SB-POWER,DEEP,SWITCH,22k in / out,,DEEP,SWITCH,TRACED,CONTROL,DEEP on = 22k out of circuit,DEEP on = 22k out of circuit
+sb,SB-POWER,PRESENCE,POT,C25k rheostat,,PRESENCE,POT-C,TRACED,CONTROL,presence (netlist pwPres),PRESENCE C25k
+sb,SB-POWER,IC3B,OPAMP,TL072,,,OPAMP-IDEAL,TRACED,NETLIST,power stage op-amp (nullor in the netlist),q.opamp(1
+sb,SB-OUT,VOLUME,POT,B25k (wiper unloaded),,VOLUME,POT-B,TRACED,CONTROL,output level,25kB
+ng,NG-SENSE,SENS,POT,-30 .. -85 dBFS,,THRESHOLD,BEHAV,OURS,CONTROL,gate opening level (the NF-1 SENS),-85 dBFS
+ng,NG-SENSE,IC1,OPAMP,uPC741 x1000,,,OPAMP-741,DRAWN,FIXED,side-chain amp (folded into the level follower),x1000
+ng,NG-SENSE,Q4-Q6,BJT,phase splitter + full-wave rectifier,,,BEHAV,DRAWN,DSP,rectifier (level follower 0.2 ms / 20 ms),envAtk = coeff(0.0002)
+ng,NG-SENSE,Hysteresis,BEHAV,6 dB + 40 ms hold,,,BEHAV,OURS,DSP,no chatter on held notes,hysteresisDb = 6.0f
+ng,NG-ENV,R-atk,R,470R (~0.5 ms attack),,,BEHAV,DRAWN,DSP,envelope charge,gainAtk = coeff(0.0005)
+ng,NG-ENV,DECAY,POT,2MB (20 ms .. 2 s),,RELEASE,BEHAV,DRAWN,CONTROL,envelope discharge,DECAY 2MB
+ng,NG-VCA,R-series,R,22k,,,RES-IDEAL,DRAWN,FIXED,series resistor of the expander,22k series
+ng,NG-VCA,Q3,JFET,2SK30A shunt VCR,,,JFET-VCR-BEHAV,DRAWN,DSP,gain reduction (smooth glide in dB),2SK30A
+ng,NG-VCA,Q1 Q2,BJT,emitter followers,,,BJT-FOLLOWER,DRAWN,GAIN,signal buffers,Q1 emitter follower
+ng,NG-VCA,HARD / SOFT,SWITCH,-120 dB / -25 dB,,HARD / SOFT,SWITCH,OURS,CONTROL,how far the gate closes,"muteDb = -120.0f, softDb = -25.0f"
+th,TH-INPUT,IC1A,OPAMP,OPA2134 buffer,,,OPAMP-OPA2134,DRAWN,NETLIST,input buffer (nullor in the netlist),a.opamp(n2
+th,TH-IC1B,IC1B,OPAMP,OPA2134 (11 V swing),,,OPAMP-OPA2134,DRAWN,CURVE,x23 gain stage,opaRail = 11.0
+th,TH-IC2A,IC2A,OPAMP,TL072,,,OPAMP-TL072,DRAWN,SOLVED,x101 stage,IC2A
+th,TH-IC2A,Rf,R,1M,,,RES-IDEAL,DRAWN,SOLVED,feedback,Rf = 1e6
+th,TH-IC2A,Cf,C,47p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap (3.4 kHz),Cf = 47e-12
+th,TH-IC2A,Rg,R,10k,,,RES-IDEAL,DRAWN,SOLVED,ground leg,Rg = 10e3
+th,TH-IC2A,Cg,C,2u2,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,Cg = 2.2e-6
+th,TH-IC2A,D3 D4,ZENER,1N5232 5.6 V back to back,,,ZENER-1N5232,PARTS-LIST,SOLVED,soft-knee clip at ~+/-6 V (trace D4 symbol ambiguous),zKnee = 5.9
+th,TH-GATE,C11,C,4n7,,,CAP-IDEAL,DRAWN,SOLVED,coupling into the gate,C11 = 4.7e-9
+th,TH-GATE,D5 D6,DIODE,1N4148 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,diode gate,"IsSi = 2.52e-9, nVtSi = 1.752"
+th,TH-GATE,R15,R,100k,,,RES-IDEAL,DRAWN,SOLVED,across the diodes,G15 = 1.0 / 100e3
+th,TH-GATE,R16,R,470k,,,RES-IDEAL,DRAWN,SOLVED,to ground,G16 = 1.0 / 470e3
+th,TH-IC2B,IC2B,OPAMP,TL072 (10.5 V swing),,,OPAMP-TL072,DRAWN,CURVE,x23 rail clipper,tlRail = 10.5
+th,TH-INTER,GAIN,POT,A250k rheostat,,GAIN,POT-A,PARTS-LIST,CONTROL,gain (netlist intGain),GAIN (A250k
+th,TH-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,PARTS-LIST,CONTROL,treble (netlist stTt / stTb),TREBLE (B250k)
+th,TH-STACK,BASS,POT,A1M,,BASS,POT-A,PARTS-LIST,CONTROL,bass (netlist stBass),BASS (A1M)
+th,TH-STACK,MIDDLE,POT,B25k rheostat,,MIDDLE,POT-B,PARTS-LIST,CONTROL,middle (netlist stMid),MIDDLE
+th,TH-AMP3,IC3A IC3B,OPAMP,TL072 (stage + gyrator follower),,,OPAMP-IDEAL,DRAWN,NETLIST,power stage and gyrator (nullors in the netlist),q.opamp(gp
+th,TH-AMP3,PRESENCE,POT,C25k,,PRESENCE,POT-C,PARTS-LIST,CONTROL,high-mid lift (netlist a3Pres),PRESENCE (C25k)
+th,TH-AMP3,DEEP,POT,C25k,,DEEP,POT-C,PARTS-LIST,CONTROL,resonant low boost (netlist a3Deep),DEEP (C25k)
+th,TH-OUT,VOLUME,POT,A10k,,VOLUME,POT-A,PARTS-LIST,CONTROL,output level (netlist outVa / outVb),VOLUME (A10k)
+th,TH-OUT,AMP / DIRECT,SWITCH,amp voice / direct tap,,AMP / DIRECT,SWITCH,DRAWN,CONTROL,output jack choice (level-matched),directMatch
+gh,GH-IN,C1,C,10u,,,RC-CORNER,DRAWN,FILTER,input coupling (3 Hz used),C1 10u
+gh,GH-IN,R1,R,1M,,,RES-IDEAL,DRAWN,FIXED,input bias || LM386 internal 50k,R1 1M
+gh,GH-OP1,OP1,IC,LM386 (gain 20 -> 200),,,IC-LM386,DRAWN,CURVE,"first power-amp stage, asymmetric swing (+0.90 / -0.45 V from the top / bottom)",posSwing = 4.17 - 0.90
+gh,GH-OP1,C2,C,10u,,,RC-CORNER,DRAWN,FILTER,pins 1-8: gain 200 above ~118 Hz,C2 10u
+gh,GH-OP1,VD1,DIODE,1N4001 (supply ~8.35 V),,,DIODE-1N4001,DRAWN,FIXED,reverse-polarity diode sets the rails,VD1 1N4001
+gh,GH-RC,C3,C,1u,,,RC-CORNER,DRAWN,FILTER,coupling,C3 1u
+gh,GH-RC,R2,R,68k,,,RC-CORNER,DRAWN,FILTER,divider with OP2's internal 50k (-7.5 dB),R2 68k
+gh,GH-RC,C4,C,4n7,,,RC-CORNER,DRAWN,FILTER,low-pass ~1.18 kHz (the pedal's only tone shaping),C4 4n7
+gh,GH-OP2,OP2,IC,LM386 (gain 20),,,IC-LM386,DRAWN,CURVE,second power-amp stage,OP2 LM386
+gh,GH-OUT,C5,C,1u,,,RC-CORNER,DRAWN,FILTER,output coupling,C5 1u
+gh,GH-OUT,R3,POT,A100k,,VOLUME,POT-A,DRAWN,CONTROL,VOLUME (wiper = OUT),R3 A100k
+nc,NC-IN,IC1,OPAMP,TL074 buffer / summer,,,OPAMP-IDEAL,DRAWN,GAIN,dry path at unity + wet summer,TL074
+nc,NC-IN,AAF,FILTER,2-pole RC in / out of the FV-1,,,DSP-ALGO,DRAWN,DSP,band-limits the wet path (~12 kHz),~12 kHz
+nc,NC-DELAY,FV-1,IC,Spin FV-1 (3.3 V),,,IC-FV1,DRAWN,DSP,delay + reverb DSP (firmware modelled by behaviour),FV-1
+nc,NC-DELAY,TIME,POT,40 ms .. 1 s (exponential),,TIME,DSP-ALGO,DRAWN,CONTROL,"delay time, glides when moved","minTime = 0.040, maxTime = 1.0"
+nc,NC-DELAY,REPEATS,POT,feedback (unity just past 3 o'clock),,REPEATS,DSP-ALGO,DRAWN,CONTROL,"feedback, runaway into soft saturation",REPEATS
+nc,NC-DELAY,Feedback filters,FILTER,low-pass 4.5 kHz / high-pass 60 Hz,,,DSP-ALGO,EST-EAR,DSP,each repeat darker,4500.0
+nc,NC-REVERB,Input diffusers,DSP,4 allpasses (142 / 107 / 379 / 277),,,DSP-ALGO,EST-STD,DSP,Dattorro plate input diffusion,"{ 142, 107, 379, 277 }"
+nc,NC-REVERB,Damping,FILTER,6 kHz (follows TONE),,,DSP-ALGO,EST-EAR,DSP,tank damping,6000.0
+nc,NC-REVERB,REVERB,POT,reverb level (+ decay),,REVERB,DSP-ALGO,DRAWN,CONTROL,reverb amount,REVERB
+nc,NC-EXTRAS,MOD,POT,"wobble +/-4 ms, 0.6 .. 1.8 Hz",,MOD,DSP-ALGO,OURS,CONTROL,tape-style wobble + reverb shimmer (0 = original),MOD
+nc,NC-EXTRAS,TONE,POT,"fb low-pass 2 .. 10 kHz, +/-9 dB shelf at 2.5 kHz",,TONE,DSP-ALGO,OURS,CONTROL,wet tilt (noon = original),TONE
+nc,NC-EXTRAS,Mode,SWITCH,DELAY / REVERB / BOTH,,MODE,SWITCH,OURS,CONTROL,3-way toggle (BOTH = original),togglePositions = 3
+nc,NC-MIX,MIX,POT,5k,,MIX,POT-B,DRAWN,CONTROL,wet level added to the dry,MIX pot (5k)
+ct,CT-BOOST,Q3,JFET,2N5952 (Idss 3.0 mA / Vp -2.0 V),,,JFET-2N5952,DRAWN,SOLVED,Baby Pink gain stage,"p.idss = 3.0e-3; p.vp = -2.0"
+ct,CT-BOOST,BOOST,POT,50kC,,BOOST,POT-C,DRAWN,CONTROL,source-leg gain (netlist rBoost),BOOST 50kC
+ct,CT-Q1EQ,Q1,JFET,Sea Blue Q1 (Idss 3.70 mA / Vp -2.28 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.78 / 1.86 V","a.idss = 3.70e-3; a.vp = -2.28"
+ct,CT-Q1EQ,HIGH,POT,50kB,,HIGH (TREBLE),POT-B,DRAWN,CONTROL,treble (netlist rTrebUp / rTrebDn),TREBLE 50kB
+ct,CT-Q1EQ,LOW,POT,50kA,,LOW (BASS),POT-A,DRAWN,CONTROL,bass (netlist rBassUp / rBassDn),BASS 50kA
+ct,CT-Q1EQ,V+,RAIL,8.64 V,,,BEHAV,DRAWN,SOLVED,supply after the protection diode,a.vdd = 8.64
+ct,CT-Q2,Q2,JFET,Sea Blue Q2 (Idss 4.02 mA / Vp -2.478 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.60 / 2.02 V","b.idss = 4.02e-3; b.vp = -2.478"
+ct,CT-Q2,VOLUME,POT,50kB fixed at 0.35,,,POT-B,USER,FIXED,EQ section unity with LOW / HIGH at noon (Michael's choice b),eqVolume = 0.35
+ct,CT-MASTER,LEVEL,POT,x0 .. x2.8 master,,LEVEL,BEHAV,USER,CONTROL,master output after both sections,levelMax = 2.8f
+ct,CT-MASTER,ORDER,SWITCH,B > EQ / EQ > B,,ORDER,SWITCH,OURS,CONTROL,section order,"toggleId = ""ct_order"""
+fb,FB-INPUT,Cin,C,100n,,,RC-CORNER,DRAWN,FILTER,input coupling into 1M (1.6 Hz),C 100n into 1M
+fb,FB-IC1A,IC1A,OPAMP,TL074 (3.0 V swing),,,OPAMP-TL072,DRAWN,CURVE,preamp,tlRail = 3.0
+fb,FB-IC1A,MOD,SWITCH,C13 100n / 4u7,,MOD / STOCK,SWITCH,DRAWN,CONTROL,factory MOD: more bass + doubled diodes (20 ms crossfade),"toggleId = ""fb_mod"""
+fb,FB-PRE,IC1D,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,PRE-SHAPE op-amp (nullor),p.opamp(0
+fb,FB-PRE,PRE,POT,50k linear,,PRE,POT-B,DRAWN,CONTROL,mid focus / edge (netlist preR1 / preR2),PRE-SHAPE 50k lin
+fb,FB-IC1C,IC1C,OPAMP,TL074 (GBW 3 MHz),,,OPAMP-TL072,DRAWN,OPSTAGE,GAIN stage,gbw = 3.0e6
+fb,FB-IC1C,R1,R,2M,,,RES-IDEAL,DRAWN,OPSTAGE,feedback,"2e6, 47e-12"
+fb,FB-IC1C,C11,C,47p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (~1.7 kHz),"2e6, 47e-12"
+fb,FB-IC1C,R8,R,1k8,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (plus the GAIN pot section),1.8e3 + ra
+fb,FB-IC1C,C7,C,1u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap,"1.8e3 + ra, 1e-6"
+fb,FB-IC1C,GAIN,POT,100k linear (wiper grounded),,GAIN,POT-B,DRAWN,CONTROL,"lug1-wiper in IC1C's ground leg, wiper-lug2 + R7 loads node K",100k lin
+fb,FB-POST,D1 D2,DIODE,1N4148 pair (MOD: 2 in series each way),,,DIODE-1N914,DRAWN,SOLVED,soft clipping at node K,"IsSi = 2.52e-9, nVtSi = 1.752"
+fb,FB-POST,IC1B,OPAMP,TL074,,,OPAMP-IDEAL,DRAWN,NETLIST,POST-SHAPE op-amp (nullor),q.opamp(0
+fb,FB-POST,POST,POT,50k linear,,POST,POT-B,DRAWN,CONTROL,bright / wide vs warm (netlist postR1 / postR2),POST_SHAPE 50k lin
+fb,FB-OUT,R25,R,2k2,,,RES-IDEAL,DRAWN,FIXED,output series resistor,R25 2k2
+fb,FB-OUT,C12,C,1u,,,CAP-IDEAL,DRAWN,FIXED,output coupling,C12 1u
+fb,FB-OUT,LEVEL,POT,50k linear,,LEVEL,POT-B,DRAWN,CONTROL,output level,LEVEL 50k lin
+tv,TV-INPUT,IC1A,OPAMP,TL064 x5.68 (+/-3.5 V),,,OPAMP-TL072,DRAWN,CURVE,input amp,x5.68
+tv,TV-INPUT,R-f1,R,220k,,,RES-IDEAL,DRAWN,GAIN,IC1A feedback (|| 33p),220k || 33p over 47k
+tv,TV-INPUT,C-f1,C,33p,,,CAP-IDEAL,DRAWN,FILTER,IC1A feedback cap,220k || 33p over 47k
+tv,TV-INPUT,R-g1,R,47k,,,RES-IDEAL,DRAWN,GAIN,IC1A ground leg,220k || 33p over 47k
+tv,TV-INPUT,INPUT GAIN,POT,B50K (loaded by R12 22k),,INPUT GAIN,POT-B,DRAWN,CONTROL,input level (up to +28 dB),INPUT GAIN (B50K
+tv,TV-INPUT,R12,R,22k,,,RES-IDEAL,DRAWN,GAIN,loads the gain pot,R12 22k
+tv,TV-INPUT,IC1B,OPAMP,TL064 inverting 100k || 100p,,,OPAMP-TL072,DRAWN,CURVE,input amp 2,100k || 100p
+tv,TV-INPUT,LED,LED,bicolour (green 0.10 V / red 2.2 V),,,LED-BICOLOUR,DRAWN,DSP,input level meter (~2 s peak hold),"meterGreen = 0.10, meterRed = 2.2"
+tv,TV-SPLIT,R19 R20,R,6k8 / 6k8,,,RES-IDEAL,DRAWN,FILTER,Sallen-Key low-pass resistors,R19 / R20 6k8
+tv,TV-SPLIT,C5,C,8n2 (orig 22n),,,CAP-IDEAL,USER,FILTER,low-pass cap (guitar voicing: 2.36 kHz),C5 22n -> 8n2
+tv,TV-SPLIT,C6,C,12n (orig 33n),,,CAP-IDEAL,USER,FILTER,low-pass cap,C6 33n -> 12n
+tv,TV-SPLIT,C7 C8,C,18n / 18n (orig 47n),,,CAP-IDEAL,USER,FILTER,Sallen-Key high-pass caps (595 Hz),C7 = C8 47n -> 18n
+tv,TV-SPLIT,R24,R,10k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,R24 10k
+tv,TV-SPLIT,R23,R,22k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,R23 22k
+tv,TV-LOW,IC-L,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,low band stage,constexpr double gf = 1.0 / 220e3
+tv,TV-LOW,OTA-L,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA (more current = less gain),kOta = 4.0
+tv,TV-LOW,Att-L,R,33k / 220R (/151),,,RES-IDEAL,DRAWN,SOLVED,OTA input attenuator,otaA = 151.0
+tv,TV-LOW,R27,R,10k,,,RES-IDEAL,DRAWN,SOLVED,low band input (x22),R27 10k
+tv,TV-LOW,LOW COMPRESSION,POT,dual gang (R21 / R10 / R22 / R9: x0.049 .. x0.316),,LOW COMPRESSION,POT-B,DRAWN,CONTROL,drive into the band + side-chain level,LOW COMPRESSION
+tv,TV-HIGH,IC-H,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,high band stage,constexpr double gf = 1.0 / 220e3
+tv,TV-HIGH,OTA-H,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA,kOta = 4.0
+tv,TV-HIGH,R34,R,47k,,,RES-IDEAL,DRAWN,SOLVED,high band input (x4.68),R34 47k
+tv,TV-HIGH,HIGH COMPRESSION,POT,B50K,,HIGH COMPRESSION,POT-B,DRAWN,CONTROL,attenuates the high control voltage,HIGH COMPRESSION
+tv,TV-HIGH,HI COMP,SWITCH,footswitch,,HI COMP,SWITCH,DRAWN,CONTROL,off shorts the high envelope cap,tv_hicomp
+tv,TV-SC,Divider,R,/4.3,,,RES-IDEAL,DRAWN,DSP,side-chain input divider,/4.3 divider
+tv,TV-SC,Rectifier,OPAMP,x67.7 (2M2 / 33k) half-wave,,,OPAMP-TL072,DRAWN,DSP,precision rectifier (clamps at 3.5 V),scRail = 3.5
+tv,TV-SC,D-sc,DIODE,0.55 V,,,DIODE-SI-KNEE,EST-STD,DSP,envelope diode,vDiode = 0.55
+tv,TV-SC,Low env,RC,attack 22k / 1u (22 ms) release +100k (~120 ms),,,BEHAV,DRAWN,DSP,low envelope,attack 22 ms (22k / 1u)
+tv,TV-SC,High env,RC,attack diode + 1k (~1 ms) release 22k + 47k (~70 ms),,,BEHAV,DRAWN,DSP,high envelope,release ~70 ms (22k + 47k)
+tv,TV-MIX,E.Q. BALANCE,POT,dual B50K (opposite gangs),,BALANCE,POT-B,DRAWN,CONTROL,CW = more high band,E.Q. BALANCE (dual B50K
+tv,TV-MIX,R-mix,R,33k + 33k,,,RES-IDEAL,DRAWN,GAIN,summing resistors,33k + 33k
+tv,TV-MIX,IC2C,OPAMP,TL064 x1.42,,,OPAMP-TL072,DRAWN,GAIN,mix amp,IC2C x1.42
+tv,TV-MIX,R58,R,47k,,,RES-IDEAL,DRAWN,FIXED,into OUTPUT LEVEL,R58 47k
+tv,TV-MIX,OUTPUT LEVEL,POT,B50K,,LEVEL,POT-B,DRAWN,CONTROL,output level,OUTPUT LEVEL (B50K)
+sl,SL-CELL,GAIN,POT,A500K,,GAIN,POT-A,DRAWN,CONTROL,input level (netlist rTop / rBot),A500K
+sl,SL-CELL,Q2,JFET,2N5457 (Idss 1.0 mA / Vp -0.5 V),,,JFET-2N5457,USER,SOLVED,"shunt VCR at Vds = 0 (""good pair"" voicing)","q2Idss = 1.0e-3, q2Vp = -0.5"
+sl,SL-CELL,Q2 gate,DIODE,gate junction (Is 1 pA),,,JFET-2N5457,EST-STD,SOLVED,clamps the gate at ~+0.5 V (caps the gain reduction),"gateIs = 1e-12"
+sl,SL-BIAS,Q1,JFET,2N5457 (Idss 3.3 mA / Vp -3.0 V),,,JFET-2N5457,USER,SOLVED,self-biased current source (~0.33 mA),"q1Idss = 3.3e-3, q1Vp = -3.0"
+sl,SL-BIAS,Rs,R,6K2 (1K5 + 4K7),,,RES-IDEAL,DRAWN,SOLVED,Q1 self-bias resistor,6K2 = 1K5 + 4K7
+sl,SL-BIAS,R20K,R,20K,,,RES-IDEAL,DRAWN,SOLVED,N to 0 V (with SQUISH: V_N),N -> 20K
+sl,SL-BIAS,SQUISH,POT,A10K (lug 3 -> 22K),,SQUISH,POT-A,DRAWN,CONTROL,Q2 rest bias: more squish CW,SQUISH (A10K
+sl,SL-BIAS,R22K,R,22K,,,RES-IDEAL,DRAWN,SOLVED,SQUISH lug 3 to 0 V,22K -> 0 V
+sl,SL-AMP,U1A,OPAMP,RC4558 (+/-3.3 V),,,OPAMP-4558,DRAWN,CURVE,x23 gain stage,rail = 3.3
+sl,SL-AMP,Rf,R,220k,,,RES-IDEAL,DRAWN,GAIN,feedback,220k over 10k + 4u7
+sl,SL-AMP,Rg,R,10k,,,RES-IDEAL,DRAWN,GAIN,ground leg,220k over 10k + 4u7
+sl,SL-AMP,Cg,C,4u7,,,CAP-IDEAL,DRAWN,FILTER,ground-leg cap (x1 at DC),220k over 10k + 4u7
+sl,SL-DET,R2K1,R,2K1,,,RES-IDEAL,DRAWN,SOLVED,into the detector diode (attack ~10 ms),2K1
+sl,SL-DET,D1,DIODE,1N914,,,DIODE-1N914,DRAWN,SOLVED,side-chain rectifier,"dIs = 2.52e-9"
+sl,SL-DET,LEVEL,POT,A10K,,LEVEL,POT-A,DRAWN,CONTROL,output level (whole track in the netlist),LEVEL pot

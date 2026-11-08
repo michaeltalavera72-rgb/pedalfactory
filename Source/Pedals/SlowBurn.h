@@ -17,11 +17,11 @@
 //                  across the feedback (~+/-6.2 V limit).
 //                  Slow Burn: the same op-amp network with 22k + 330n instead of 6k8 + 1u (x46, same corners)
 //                  drives V1A through a 68k grid stopper; the zeners are gone, the triode does the clipping.
-//                  V1A: 12AX7, B+ 250 V, 100k plate, 1k5 || 2u2 cathode.
+//                  V1A: 12AX7, B+ 250 V, 100k plate, 1k5 || 10u cathode.
 //  = COUPLING      22n -> 330k to ground -> 220k (here: V1B's grid stopper; grid current charges the 22n =
 //                  real valve "blocking" compression).
 //  * GAIN STAGE 2  real pedal: IC3A x48 (470k || 100p over 10k + 1u: 16 Hz .. 3.4 kHz), rail clipping.
-//                  Slow Burn: V1B, 12AX7, 100k plate, 1k5 || 1u cathode, 1n2 plate cap (~3.4 kHz), then
+//                  Slow Burn: V1B, 12AX7, 100k plate, 1k5 || 10u cathode, 470p plate cap (gentle top roll-off), then
 //                  22n into the 1M grid of a cathode follower that drives the tone stack (as in the amp).
 //  = TONE STACK    from the stage-2 output: 470p -> TREBLE (B250k) lug 3; 47k slope -> node T; T -> 22n ->
 //                  TREBLE lug 1 = BASS wiper; T -> 22n -> MID wiper; BASS (A1M) lug 1 -> MID (B25k) lug 3,

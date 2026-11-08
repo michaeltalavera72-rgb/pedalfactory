@@ -1,0 +1,76 @@
+Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C0,C,22n,IN n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.R0,R,500k,n2 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C1,C,100p,n2 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:253,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.U0,OPAMP,ideal (nullor),+n2 -n3 on3,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:254,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.C2,C,1u,n3 n4,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:255,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,in.R1,R,100k,n4 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:255,netlist
+Thunderhead,Input + IC1A buffer,TH-INPUT,IC1A,OPAMP,OPA2134 buffer,,,OPAMP-OPA2134,DRAWN,NETLIST,input buffer (nullor in the netlist),Thunderhead.h:254,found
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Rf,R,220k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Cf,C,100p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Rg,R,10k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,ic1b.Cg,C,1u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (OpStage::design),Thunderhead.h:289,netlist
+Thunderhead,IC1B gain stage,TH-IC1B,IC1B,OPAMP,OPA2134 (11 V swing),,,OPAMP-OPA2134,DRAWN,CURVE,x23 gain stage,Thunderhead.h:225,found
+Thunderhead,Interstage + GAIN,TH-INTER,inter.C0,C,22n,IC1B_OUT n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R0,R,470k,n2 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.C1,C,2.2n,n2 n3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R1,R,680k,n2 n3,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R2,R,220k,n3 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:260,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R3,R,220k,n3 n4,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:261,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,inter.R4,R,25k,n4 0,GAIN (A250k rheostat),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:261,netlist
+Thunderhead,Interstage + GAIN,TH-INTER,GAIN,POT,A250k rheostat,,GAIN,POT-A,PARTS-LIST,CONTROL,gain (netlist intGain),Thunderhead.h:13,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,IC2A,OPAMP,TL072,,,OPAMP-TL072,DRAWN,SOLVED,x101 stage,Thunderhead.h:13,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Rf,R,1M,,,RES-IDEAL,DRAWN,SOLVED,feedback,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Cf,C,47p,,,CAP-IDEAL,DRAWN,SOLVED,feedback cap (3.4 kHz),Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Rg,R,10k,,,RES-IDEAL,DRAWN,SOLVED,ground leg,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,Cg,C,2u2,,,CAP-IDEAL,DRAWN,SOLVED,ground-leg cap,Thunderhead.h:333,found
+Thunderhead,IC2A zener-limited stage,TH-IC2A,D3 D4,ZENER,1N5232 5.6 V back to back,,,ZENER-1N5232,PARTS-LIST,SOLVED,soft-knee clip at ~+/-6 V (trace D4 symbol ambiguous),Thunderhead.h:226,found
+Thunderhead,Diode gate,TH-GATE,C11,C,4n7,,,CAP-IDEAL,DRAWN,SOLVED,coupling into the gate,Thunderhead.h:355,found
+Thunderhead,Diode gate,TH-GATE,D5 D6,DIODE,1N4148 anti-parallel,,,DIODE-1N914,DRAWN,SOLVED,diode gate,Thunderhead.h:227,found
+Thunderhead,Diode gate,TH-GATE,R15,R,100k,,,RES-IDEAL,DRAWN,SOLVED,across the diodes,Thunderhead.h:355,found
+Thunderhead,Diode gate,TH-GATE,R16,R,470k,,,RES-IDEAL,DRAWN,SOLVED,to ground,Thunderhead.h:355,found
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Rf,R,220k,,,RES-IDEAL,DRAWN,OPSTAGE,feedback (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Cf,C,100p,,,CAP-IDEAL,DRAWN,OPSTAGE,feedback cap (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Rg,R,10k,,,RES-IDEAL,DRAWN,OPSTAGE,ground leg (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,ic2b.Cg,C,2.2u,,,CAP-IDEAL,DRAWN,OPSTAGE,ground-leg cap (OpStage::design),Thunderhead.h:290,netlist
+Thunderhead,IC2B rail clipper,TH-IC2B,IC2B,OPAMP,TL072 (10.5 V swing),,,OPAMP-TL072,DRAWN,CURVE,x23 rail clipper,Thunderhead.h:225,found
+Thunderhead,Marshall-style stack,TH-STACK,stack.C0,C,560p,IC2B_OUT t3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R0,R,125k,t3 tw,TREBLE upper half,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R1,R,125k,tw b3,TREBLE lower half,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:266,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R2,R,39k,IC2B_OUT sl,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.C1,C,22n,sl b3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.C2,C,22n,sl m3,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:267,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R3,R,100k,b3 m3,BASS,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:268,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R4,R,12.5k,m3 0,MIDDLE (rheostat),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:268,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R5,R,1.5M,tw p,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:269,netlist
+Thunderhead,Marshall-style stack,TH-STACK,stack.R6,R,100k,p 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:269,netlist
+Thunderhead,Marshall-style stack,TH-STACK,TREBLE,POT,B250k,,TREBLE,POT-B,PARTS-LIST,CONTROL,treble (netlist stTt / stTb),Thunderhead.h:21,found
+Thunderhead,Marshall-style stack,TH-STACK,BASS,POT,A1M,,BASS,POT-A,PARTS-LIST,CONTROL,bass (netlist stBass),Thunderhead.h:21,found
+Thunderhead,Marshall-style stack,TH-STACK,MIDDLE,POT,B25k rheostat,,MIDDLE,POT-B,PARTS-LIST,CONTROL,middle (netlist stMid),Thunderhead.h:21,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.U0,OPAMP,ideal (nullor),+IC3A+ -nn oo,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:276,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R0,R,10k,nn o,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:277,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C0,C,1n,nn o,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:277,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R1,R,4.7k,nn g1,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:278,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C1,C,10u,g1 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:278,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C2,C,2.2u,nn d1,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R2,R,1k,d1 d2,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R3,R,2.3k,d2 dp,DEEP (C25k),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:279,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R4,R,47R,dp go,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C3,C,330n,dp gp,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R5,R,56k,gp 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.U1,OPAMP,ideal (nullor),+gp -go ogo,,OPAMP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:280,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.C4,C,1u,nn p1,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R6,R,110R,p1 p2,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,amp3.R7,R,2.3k,p2 0,PRESENCE (C25k),RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:281,netlist
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,IC3A IC3B,OPAMP,TL072 (stage + gyrator follower),,,OPAMP-IDEAL,DRAWN,NETLIST,power stage and gyrator (nullors in the netlist),Thunderhead.h:280,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,PRESENCE,POT,C25k,,PRESENCE,POT-C,PARTS-LIST,CONTROL,high-mid lift (netlist a3Pres),Thunderhead.h:24,found
+Thunderhead,IC3A power stage + gyrator,TH-AMP3,DEEP,POT,C25k,,DEEP,POT-C,PARTS-LIST,CONTROL,resonant low boost (netlist a3Deep),Thunderhead.h:25,found
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.C0,C,10u,IC3A_OUT n2,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R0,R,1k,n2 n3,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R1,R,9k,n3 w,VOLUME (A10k) upper,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R2,R,1k,w 0,VOLUME (A10k) lower,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:286,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R3,R,150k,w o,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.R4,R,100k,o 0,,RES-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,out.C1,C,2.2n,o 0,,CAP-IDEAL,DRAWN,NETLIST,,Thunderhead.h:287,netlist
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,VOLUME,POT,A10k,,VOLUME,POT-A,PARTS-LIST,CONTROL,output level (netlist outVa / outVb),Thunderhead.h:27,found
+Thunderhead,Output + VOLUME + AMP / DIRECT,TH-OUT,AMP / DIRECT,SWITCH,amp voice / direct tap,,AMP / DIRECT,SWITCH,DRAWN,CONTROL,output jack choice (level-matched),Thunderhead.h:170,found
