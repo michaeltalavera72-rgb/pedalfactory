@@ -119,6 +119,18 @@ createFaceFor() for the pedal's id. Without a face the pedal gets the plain gene
   RC envelopes as drawn: low 22 ms / 120 ms, high 1 ms / 70 ms). The OTA's gain constant is set by ear (~2:1 at
   noon). 2x oversampling; small-signal response within 0.3 dB of Tools/Analysis/smx_dualcomp.py. Vector face
   until the artwork arrives.
+- Soft Landing (id "sl", category Compressor): our model of the Toadworks Mr. Squishy, a discrete JFET
+  compressor, from the drawing in schematics/Toadworks (Timm H., Rev 1.0). GAIN / SQUISH / LEVEL. A 2N5457 (Q2) is
+  a voltage-controlled shunt between two 0.1u caps ahead of an RC4558 x23 stage; a feedback side-chain (2K1 + 1N914
+  into 4u7 || 100k: ~10 ms attack, 0.47 s release) turns it on, and a second 2N5457 (Q1, constant-current source)
+  with SQUISH sets its rest bias = the threshold (fully left: close to a clean boost; up: lower ceiling, deeper
+  squish). High GAIN thins the lows while compressing, as on the original. 470p GAIN treble bleed (value missing on
+  the drawing). The JFET pair is a chosen "good pair" (the drawing has no trimmer). The input / gain cell is solved
+  as a circuit per sample (Q2 channel + gate junctions, Newton), 2x oversampling; small-signal response within
+  0.03 dB (0.3 dB at 10 kHz) of Tools/Analysis/mr_squishy.py. Face = Michael's sunset-lake artwork
+  (Tools/Art/softlanding_original.png -> make_softlanding_art.py -> Assets/softlanding_art.png: painted knobs, LED and
+  footswitch removed - sky by a fitted colour field + quilted texture, lake by exemplar inpainting), photoreal render
+  via Tools/Blender/render_softlanding.py (ivory scalloped knobs after Michael's Copilot scene script).
 - Overdrive, Distortion, Fuzz: generic placeholders.
 
 ## Third-party code

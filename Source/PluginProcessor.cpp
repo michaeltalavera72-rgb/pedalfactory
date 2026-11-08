@@ -18,6 +18,7 @@ PedalboardProcessor::makeLayout(std::vector<std::unique_ptr<PedalBase>>& pedals)
     pedals.push_back(std::make_unique<CoralTide>());
     pedals.push_back(std::make_unique<Frostbite>());
     pedals.push_back(std::make_unique<TwinVise>());
+    pedals.push_back(std::make_unique<SoftLanding>());
     pedals.push_back(std::make_unique<Overdrive>());
     pedals.push_back(std::make_unique<Distortion>());
     pedals.push_back(std::make_unique<Fuzz>());

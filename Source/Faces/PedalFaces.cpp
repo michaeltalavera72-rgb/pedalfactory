@@ -1188,6 +1188,41 @@ private:
     }
 };
 
+// Soft Landing (based on the Toadworks Mr. Squishy): Michael's full-face artwork (Assets/softlanding_art.png from
+// Tools/Art/make_softlanding_art.py: powder-blue sky, GAIN / SQUISH / LEVEL, "SOFT LANDING" over a sunset lake). The
+// rendered ivory knobs, amber LED and footswitch sit on the painted ones (FaceLayout: pedalId "sl").
+class SoftLandingFace : public RenderedFace
+{
+public:
+    SoftLandingFace() : RenderedFace("softlanding")
+    {
+        art = juce::ImageCache::getFromMemory(BinaryData::softlanding_art_png, BinaryData::softlanding_art_pngSize);
+    }
+    bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
+    juce::Colour labelColour() const override { return juce::Colour(0xff15284a); }
+
+protected:
+    void paintVector(juce::Graphics& g, const FaceLayout& f, bool active) override
+    {
+        using namespace juce;
+        const auto b = f.body;
+        g.setColour(Colours::black.withAlpha(0.45f));
+        g.fillRoundedRectangle(b.translated(0, 3), 9.0f);
+        g.setGradientFill(ColourGradient(Colour(0xff7f9cc4), b.getX(), b.getY(), Colour(0xff1c2c4e), b.getX(), b.getBottom(), false));
+        g.fillRoundedRectangle(b, 9.0f);
+        if (art.isValid())
+        {
+            g.setImageResamplingQuality(Graphics::highResamplingQuality);
+            g.setOpacity(1.0f);
+            g.drawImage(art, f.emblem);
+        }
+        drawLed(g, f.led, active);
+    }
+
+private:
+    juce::Image art;
+};
+
 std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
 {
     if (pedalId == "bm") return std::make_unique<RamhornFace>();
@@ -1203,5 +1238,6 @@ std::unique_ptr<PedalFace> createFaceFor(const juce::String& pedalId)
     if (pedalId == "ct") return std::make_unique<CoralTideFace>();
     if (pedalId == "fb") return std::make_unique<FrostbiteFace>();
     if (pedalId == "tv") return std::make_unique<TwinViseFace>();
+    if (pedalId == "sl") return std::make_unique<SoftLandingFace>();
     return nullptr;
 }

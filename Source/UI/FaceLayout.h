@@ -248,6 +248,28 @@ struct FaceLayout
             f.switchLabel1 = f.switchLabel2 = {};                          // HI COMP / EFFECT printed in the art
             return f;
         }
+        if (pedalId == "sl")
+        {
+            // Soft Landing: Michael's full-face artwork (Assets/softlanding_art.png), printed artInset inside the edge.
+            // GAIN / SQUISH / LEVEL in a row, the amber LED under SQUISH, the footswitch on the sunset lake - each on the
+            // art's painted one. Fractions from Tools/Art/make_softlanding_art.py (= render_softlanding.py).
+            f.knobs.clear(); f.labels.clear();
+            const float dk = W * 0.2481f;
+            const float kx[3] = { 0.1708f, 0.4994f, 0.8281f };
+            for (int i = 0; i < juce::jmin(numKnobs, 3); ++i)
+            {
+                const auto k = juce::Rectangle<float>(dk, dk).withCentre({ x0 + W * kx[i], y0 + H * 0.1605f });
+                f.knobs.add(k);
+                f.labels.add({ k.getX(), k.getBottom(), dk, 13.0f });      // printed in the art; unused
+            }
+            f.emblem   = body.reduced(W * artInset);
+            f.name     = f.emblem;                                         // the artwork carries name + labels
+            f.subtitle = {};
+            f.led      = juce::Rectangle<float>(13.0f, 13.0f).withCentre({ x0 + W * 0.4994f, y0 + H * 0.3350f });
+            const float swd = W * 0.2316f;
+            f.footswitch = juce::Rectangle<float>(swd, swd).withCentre({ x0 + W * 0.4994f, y0 + H * 0.8483f });
+            return f;
+        }
         if (pedalId == "fb")
         {
             // Frostbite: Michael's full-face artwork (Assets/frostbite_art.png), printed artInset inside the edge. Knobs in
