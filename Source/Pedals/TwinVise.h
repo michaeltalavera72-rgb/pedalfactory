@@ -132,11 +132,16 @@ public:
             // pots (all scalar: the filters themselves never change)
             const double g = gainSm.getNextValue(), p = lowSm.getNextValue(), h = highSm.getNextValue();
             const double b = balSm.getNextValue(), v = levelSm.getNextValue();
-            const double inGain = inputGain(g), drive = lowDrive(p);
-            const double balLo = loadedPot(1.0 - b, 33e3), balHi = loadedPot(b, 33e3);
-            // HIGH COMPRESSION: Thevenin of the pot (h of the envelope, h(1-h) 50k) into R40 10k
-            const double hThev = h / (h * (1.0 - h) * 50e3 + 10e3);
-            const double out = 50e3 * v / 97e3 * (47.0 / 33.0) * levelScale;
+            if (! (juce::exactlyEqual(g, pc.g) && juce::exactlyEqual(p, pc.p) && juce::exactlyEqual(h, pc.h) && juce::exactlyEqual(b, pc.b) && juce::exactlyEqual(v, pc.v)))
+            {
+                pc.g = g; pc.p = p; pc.h = h; pc.b = b; pc.v = v;
+                pc.inGain = inputGain(g); pc.drive = lowDrive(p);
+                pc.balLo = loadedPot(1.0 - b, 33e3); pc.balHi = loadedPot(b, 33e3);
+                // HIGH COMPRESSION: Thevenin of the pot (h of the envelope, h(1-h) 50k) into R40 10k
+                pc.hThev = h / (h * (1.0 - h) * 50e3 + 10e3);
+                pc.out = 50e3 * v / 97e3 * (47.0 / 33.0) * levelScale;
+            }
+            const double inGain = pc.inGain, drive = pc.drive, balLo = pc.balLo, balHi = pc.balHi, hThev = pc.hThev, out = pc.out;
             for (size_t c = 0; c < nCh; ++c)
             {
                 auto& s = ch[c];
@@ -218,6 +223,7 @@ private:
     double gIc1b = 0, gC9 = 0, gC12 = 0, gScHp = 0, gDc = 0;
     juce::SmoothedValue<double> gainSm, lowSm, highSm, balSm, levelSm;
     double hiOffDecay = 0.98;
+    struct { double g = -1, p = -1, h = -1, b = -1, v = -1, inGain = 0, drive = 0, balLo = 0, balHi = 0, hThev = 0, out = 0; } pc;
     std::atomic<float> *gain{}, *low{}, *high{}, *balance{}, *level{};
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;
     double meterEnv = 0.0, meterRel = 0.999;
@@ -284,7 +290,7 @@ private:
             const double dF = gf + iabc * (1.0 - t * t) / otaA;
             const double dv = F / dF;
             v -= juce::jlimit(-2.0, 2.0, dv);
-            if (std::abs(dv) < 1e-9) break;
+            if (std::abs(dv) < 1e-5) break;
         }
         return v;
     }
@@ -300,7 +306,7 @@ private:
     // high envelope: D6 -> node D (R43 47k to 0 V) -> (D5 + R48 1k) || R49 22k -> C19 1u; HI COMP off shorts C19
     void envelopeHigh(Ch& s, double x, bool hiOn) const
     {
-        if (hiOn < 0.5) { s.envH *= hiOffDecay; return; }       // switch closed: C19 shorted (discharges over ~2 ms)
+        if (! hiOn) { s.envH *= hiOffDecay; return; }       // switch closed: C19 shorted (discharges over ~2 ms)
         const double vd = juce::jmax(rectify(x) - vDiode, s.envH * (47.0 / 69.0));
         const double i = (vd - s.envH) / 22e3 + juce::jmax(vd - vDiode - s.envH, 0.0) / 1e3;
         s.envH = juce::jmax(s.envH + dt * i / 1e-6, 0.0);

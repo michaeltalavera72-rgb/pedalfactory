@@ -281,7 +281,9 @@ void BoardComponent::endDrag(PedalStrip& s)
 void BoardComponent::removePedal(PedalBase& p)
 {
     auto ids = proc.getBoard(); ids.removeString(p.getId());
-    juce::MessageManager::callAsync([this, ids] { proc.setBoard(ids); });   // don't delete the button mid-click
+    // don't delete the button mid-click; the editor may be closed before this runs
+    juce::MessageManager::callAsync([safe = juce::Component::SafePointer<BoardComponent>(this), ids]
+                                    { if (safe != nullptr) safe->proc.setBoard(ids); });
 }
 
 // ---------------- Editor ----------------

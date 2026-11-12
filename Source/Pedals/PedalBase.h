@@ -45,6 +45,12 @@ public:
     virtual void prepare(const juce::dsp::ProcessSpec&) = 0;
     virtual void process(juce::AudioBuffer<float>&) = 0;
     virtual void reset() {}
+    // Called on the audio thread before the first process() after the pedal was not being run (it was bypassed, or
+    // off the board): start from a clean state instead of the filter / envelope / switch-fade state left over from
+    // the last time it ran. Must not allocate. Default: reset().
+    virtual void activated() { reset(); }
+    // Set by the board: the number of the last buffer this pedal processed (audio thread only).
+    juce::uint64 lastBlockRun = 0;
 
     // Board slots the pedal takes (1 = standard 226 x 372 px body; 2 = double-wide 464 x 372, e.g. Coral Tide).
     virtual int widthUnits() const { return 1; }

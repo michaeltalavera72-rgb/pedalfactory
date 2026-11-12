@@ -39,29 +39,43 @@ public:
         oversampler->initProcessing(spec.maximumBlockSize);
         post.prepare(spec);
         post.setType(juce::dsp::FirstOrderTPTFilterType::lowpass);
+        // DRIVE and LEVEL glide over 30 ms (no zipper noise)
+        driveSm.reset(spec.sampleRate * 2.0, 0.03); levelSm.reset(spec.sampleRate, 0.03);
+        if (drive != nullptr) { driveSm.setCurrentAndTargetValue(driveGain(drive->load())); levelSm.setCurrentAndTargetValue(levelGain(level->load())); }
     }
     void reset() override { post.reset(); if (oversampler) oversampler->reset(); }
 
     void process(juce::AudioBuffer<float>& buf) override
     {
-        const float d = drive->load();
-        const float g = 1.0f + 80.0f * d * d;
+        driveSm.setTargetValue(driveGain(drive->load()));
+        levelSm.setTargetValue(levelGain(level->load()));
         post.setCutoffFrequency(juce::jmap(tone->load(), 0.0f, 1.0f, 1200.0f, 9000.0f));
         juce::dsp::AudioBlock<float> block(buf);
         auto up = oversampler->processSamplesUp(block);
         for (size_t c = 0; c < up.getNumChannels(); ++c)
         {
             auto* x = up.getChannelPointer(c);
-            for (size_t i = 0; i < up.getNumSamples(); ++i) x[i] = shape(x[i] * g) * 0.5f;
+            auto g = driveSm;                                    // same ramp on every channel
+            for (size_t i = 0; i < up.getNumSamples(); ++i) x[i] = shape(x[i] * g.getNextValue()) * 0.5f;
         }
+        driveSm.skip((int) up.getNumSamples());
         oversampler->processSamplesDown(block);
         post.process(juce::dsp::ProcessContextReplacing<float>(block));
-        buf.applyGain(juce::Decibels::decibelsToGain(juce::jmap(level->load(), 0.0f, 1.0f, -24.0f, 6.0f)));
+        for (int c = 0; c < buf.getNumChannels(); ++c)
+        {
+            auto* x = buf.getWritePointer(c);
+            auto g = levelSm;
+            for (int i = 0; i < buf.getNumSamples(); ++i) x[i] *= g.getNextValue();
+        }
+        levelSm.skip(buf.getNumSamples());
     }
 protected:
     virtual float shape(float x) const = 0;   // the clipping curve
 private:
     std::atomic<float> *drive{}, *tone{}, *level{};
+    juce::SmoothedValue<float> driveSm, levelSm;
+    static float driveGain(float d) { return 1.0f + 80.0f * d * d; }
+    static float levelGain(float l) { return juce::Decibels::decibelsToGain(juce::jmap(l, 0.0f, 1.0f, -24.0f, 6.0f)); }
     juce::dsp::FirstOrderTPTFilter<float> post;
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;
 };

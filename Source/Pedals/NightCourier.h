@@ -92,6 +92,9 @@ public:
         tankD1A.setSize(len(4453, k)); tankAp2A.setSize(len(1800, k)); tankD2A.setSize(len(3720, k));
         tankD1B.setSize(len(4217, k)); tankAp2B.setSize(len(2656, k)); tankD2B.setSize(len(3163, k));
         kScale = k;
+        { const int t[14] = { 266, 2974, 1913, 1996, 1990, 187, 1066, 353, 3627, 1228, 2673, 2111, 335, 121 }; for (int i = 0; i < 14; ++i) tp[i] = len(t[i], k); }
+        dl[0] = len(4453, k); dl[1] = len(3720, k); dl[2] = len(4217, k); dl[3] = len(3163, k);
+        lfoC = std::cos(juce::MathConstants<double>::twoPi * 0.9 / sr); lfoS = std::sin(juce::MathConstants<double>::twoPi * 0.9 / sr); lfoX = 1.0; lfoY = 0.0;
         bandIn.setCoefficients(juce::IIRCoefficients::makeLowPass(sr, juce::jmin(12000.0, 0.45 * sr), 0.54));
         bandIn2.setCoefficients(juce::IIRCoefficients::makeLowPass(sr, juce::jmin(12000.0, 0.45 * sr), 1.31));
         bandOut.setCoefficients(juce::IIRCoefficients::makeLowPass(sr, juce::jmin(12000.0, 0.45 * sr), 0.71));
@@ -108,12 +111,17 @@ public:
         inGate.setCurrentAndTargetValue(1.0f);
         reset();
     }
+    void clearTank()
+    {
+        for (auto& a : inAp) a.clear();
+        for (Line* d : { (Line*) &tankApA, (Line*) &tankApB, (Line*) &tankD1A, (Line*) &tankAp2A, (Line*) &tankD2A, (Line*) &tankD1B, (Line*) &tankAp2B, (Line*) &tankD2B }) d->clear();
+        dampA = dampB = crossA = crossB = 0.0f;
+    }
     void reset() override
     {
         echo.clear();
-        for (auto& a : inAp) a.clear();
-        for (Line* d : { (Line*) &tankApA, (Line*) &tankApB, (Line*) &tankD1A, (Line*) &tankAp2A, (Line*) &tankD2A, (Line*) &tankD1B, (Line*) &tankAp2B, (Line*) &tankD2B }) d->clear();
-        fbLp = fbHp = dampA = dampB = dc = 0.0f; crossA = crossB = 0.0f; lfo = 0.0; modPhase = 0.0; drift = driftTarget = 0.0f; driftCount = 0;
+        clearTank(); tankEmpty = true;
+        fbLp = fbHp = dc = 0.0f; lfo = 0.0; lfoX = 1.0; lfoY = 0.0; modPhase = 0.0; drift = driftTarget = 0.0f; driftCount = 0;
         shelf.reset();
         bandIn.reset(); bandIn2.reset(); bandOut.reset();
         quietSamples = 0;
@@ -125,15 +133,22 @@ public:
         const bool on = primaryOn();
         mixSm.setTargetValue(mix->load());
         revSm.setTargetValue(reverb->load());
-        fbSm.setTargetValue(feedbackFor(repeats->load()));
+        // Bypassed: the trails must always die away, so the loop gain is held below 1 (REPEATS past ~3 o'clock would
+        // otherwise keep self-oscillating - and keep this pedal running - with no way to stop it from the footswitch).
+        fbSm.setTargetValue(on ? feedbackFor(repeats->load()) : juce::jmin(feedbackFor(repeats->load()), trailFeedback));
         inGate.setTargetValue(on ? 1.0f : 0.0f);
         modSm.setTargetValue(mod->load());
         { const int m = modeIndex(); echoOn.setTargetValue(m != 1 ? 1.0f : 0.0f); revOn.setTargetValue(m != 0 ? 1.0f : 0.0f); }
         setTone(tone->load());
         const double target = targetDelaySamples();
         const double gTime = 1.0 - std::exp(-1.0 / (0.12 * sr));          // ~120 ms glide (FV-1 pot filter)
-        const double lfoInc = juce::MathConstants<double>::twoPi * 0.9 / sr;
         const float exc = (float) (12.0 * kScale);                           // tank allpass modulation depth (samples)
+        // Reverb not heard (DELAY-only mode, or REVERB fully left) and its fade finished: don't run the tank.
+        // It is emptied once, so it starts clean when the reverb comes back.
+        const bool tankOff = (revOn.getTargetValue() <= 0.0f && ! revOn.isSmoothing())
+                          || (revSm.getTargetValue() <= 0.0f && ! revSm.isSmoothing());
+        if (tankOff && ! tankEmpty) { clearTank(); tankEmpty = true; }
+        else if (! tankOff) tankEmpty = false;
 
         auto* x = buf.getWritePointer(0);
         const int n = buf.getNumSamples();
@@ -171,34 +186,40 @@ public:
             echo.write(fv1Word(softClip(in + fb * loop, 1.2f)));            // FV-1 saturates at full scale
 
             // ---- plate reverb on dry + echoes
-            const float decay = 0.55f + 0.25f * rv;                       // RT60 ~1.5 s (low) .. ~5 s (max)
-            float r = 0.5f * (in + e * eOn);
-            for (int a = 0; a < 4; ++a) r = inAp[(size_t) a].allpass(r, inApG[a]);
-            lfo += lfoInc; if (lfo > juce::MathConstants<double>::twoPi) lfo -= juce::MathConstants<double>::twoPi;
-            const float ex = exc * (1.0f + 2.0f * md);
-            const float mA = ex * (float) std::sin(lfo), mB = ex * (float) std::cos(lfo);
-            // branch A
-            float a1 = tankApA.allpassMod(r + crossB * decay, 0.70f, 672.0f * (float) kScale + mA);
-            float a2 = tankD1A.delayed(a1, len(4453, kScale));
-            dampA += (a2 - dampA) * gDamp;
-            float a3 = tankAp2A.allpass(dampA * decay, 0.50f);
-            crossA = tankD2A.delayed(a3, len(3720, kScale));
-            // branch B
-            float b1 = tankApB.allpassMod(r + crossA * decay, 0.70f, 908.0f * (float) kScale + mB);
-            float b2 = tankD1B.delayed(b1, len(4217, kScale));
-            dampB += (b2 - dampB) * gDamp;
-            float b3 = tankAp2B.allpass(dampB * decay, 0.50f);
-            crossB = tankD2B.delayed(b3, len(3163, kScale));
-            // output taps (Dattorro's left + right, summed to mono)
-            const float revOut = 0.30f * (tankD1B.tap(tap(266)) + tankD1B.tap(tap(2974)) - tankAp2B.tap(tap(1913))
-                                          + tankD2B.tap(tap(1996)) - tankD1A.tap(tap(1990)) - tankAp2A.tap(tap(187))
-                                          - tankD2A.tap(tap(1066))
-                                          + tankD1A.tap(tap(353)) + tankD1A.tap(tap(3627)) - tankAp2A.tap(tap(1228))
-                                          + tankD2A.tap(tap(2673)) - tankD1B.tap(tap(2111)) - tankAp2B.tap(tap(335))
-                                          - tankD2B.tap(tap(121)));
+            float revOut = 0.0f;
+            if (! tankOff)
+            {
+                const float decay = 0.55f + 0.25f * rv;                       // RT60 ~1.5 s (low) .. ~5 s (max)
+                float r = 0.5f * (in + e * eOn);
+                for (int a = 0; a < 4; ++a) r = inAp[(size_t) a].allpass(r, inApG[a]);
+                { const double nx = lfoX * lfoC - lfoY * lfoS, ny = lfoX * lfoS + lfoY * lfoC;      // rotate (cos, sin) by the LFO step
+                  const double r2 = 1.5 - 0.5 * (nx * nx + ny * ny); lfoX = nx * r2; lfoY = ny * r2; }   // keep it on the unit circle
+                const float ex = exc * (1.0f + 2.0f * md);
+                const float mA = ex * (float) lfoY, mB = ex * (float) lfoX;
+                // branch A
+                float a1 = tankApA.allpassMod(r + crossB * decay, 0.70f, 672.0f * (float) kScale + mA);
+                float a2 = tankD1A.delayed(a1, dl[0]);
+                dampA += (a2 - dampA) * gDamp;
+                float a3 = tankAp2A.allpass(dampA * decay, 0.50f);
+                crossA = tankD2A.delayed(a3, dl[1]);
+                // branch B
+                float b1 = tankApB.allpassMod(r + crossA * decay, 0.70f, 908.0f * (float) kScale + mB);
+                float b2 = tankD1B.delayed(b1, dl[2]);
+                dampB += (b2 - dampB) * gDamp;
+                float b3 = tankAp2B.allpass(dampB * decay, 0.50f);
+                crossB = tankD2B.delayed(b3, dl[3]);
+                // output taps (Dattorro's left + right, summed to mono)
+                revOut = 0.30f * (tankD1B.tap(tp[0]) + tankD1B.tap(tp[1]) - tankAp2B.tap(tp[2])
+                                              + tankD2B.tap(tp[3]) - tankD1A.tap(tp[4]) - tankAp2A.tap(tp[5])
+                                              - tankD2A.tap(tp[6])
+                                              + tankD1A.tap(tp[7]) + tankD1A.tap(tp[8]) - tankAp2A.tap(tp[9])
+                                              + tankD2A.tap(tp[10]) - tankD1B.tap(tp[11]) - tankAp2B.tap(tp[12])
+                                              - tankD2B.tap(tp[13]));
+            }
 
             // ---- out of the FV-1: echoes + reverb, DAC filter, then MIX adds it to the full dry signal
-            float wet = eOn * e + rOn * 2.0f * std::pow(rv, 1.3f) * revOut;
+            if (! juce::exactlyEqual(rv, lastRv)) { lastRv = rv; revLevel = 2.0f * std::pow(rv, 1.3f); }
+            float wet = eOn * e + rOn * revLevel * revOut;
             wet = (float) bandOut.processSingleSampleRaw(wet);
             wet = shelf.processSingleSampleRaw(wet);                         // TONE tilt
             dc += (wet - dc) * gDc; wet -= dc;
@@ -265,6 +286,9 @@ private:
     double modPhase = 0.0;
     float drift = 0, driftTarget = 0, gDrift = 0, lastTone = -1.0f;
     int driftCount = 0;
+    int tp[14] {}, dl[4] {};
+    double lfoC = 1, lfoS = 0, lfoX = 1, lfoY = 0;
+    float lastRv = -1.0f, revLevel = 0.0f;
     juce::Random rng { 7 };
     int quietSamples = 0;
     std::atomic<bool> tail { false };
@@ -284,6 +308,8 @@ private:
     }
 
     static constexpr double minTime = 0.040, maxTime = 1.0;
+    static constexpr float trailFeedback = 0.90f;                          // highest loop gain while bypassed (trails)
+    bool tankEmpty = true;
 
     static int len(int samples, double k) { return juce::jmax(1, (int) std::lround(samples * k)); }
     int tap(int samples) const { return len(samples, kScale); }

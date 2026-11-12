@@ -83,17 +83,26 @@ PedalBase* PedalboardProcessor::findPedal(const juce::String& id) const
 }
 juce::StringArray PedalboardProcessor::getBoard() const
 {
-    const juce::SpinLock::ScopedLockType l(boardLock);
+    const juce::ScopedLock l(boardLock);
     return board;
 }
 void PedalboardProcessor::setBoard(const juce::StringArray& ids)
 {
     {
-        const juce::SpinLock::ScopedLockType l(boardLock);
-        board.clear(); chainSize = 0;
+        const juce::ScopedLock l(boardLock);
+        juce::StringArray newBoard;
+        PedalBase* newChain[maxSlots] {}; int n = 0; bool timeBased = false;
         for (auto& id : ids)
-            if (auto* p = findPedal(id); p != nullptr && ! board.contains(id) && chainSize < maxSlots)
-            { board.add(id); chain[chainSize++] = p; }
+            if (auto* p = findPedal(id); p != nullptr && ! newBoard.contains(id) && n < maxSlots)
+            { newBoard.add(id); newChain[n++] = p; timeBased = timeBased || p->isTimeBased(); }
+        board = newBoard;
+        hasTimeBased.store(timeBased);
+        {
+            // the only section the audio thread can meet: a copy of a few pointers
+            const juce::SpinLock::ScopedLockType cl(chainLock);
+            for (int i = 0; i < n; ++i) chain[i] = newChain[i];
+            chainSize = n;
+        }
         apvts.state.setProperty("board", board.joinIntoString(","), nullptr);
     }
     sendChangeMessage();
@@ -103,7 +112,8 @@ void PedalboardProcessor::prepareToPlay(double sr, int bs)
 {
     // Pedals are mono, like the real thing: one channel in, one channel through the chain.
     juce::dsp::ProcessSpec spec{ sr, (juce::uint32) bs, 1 };
-    for (auto& p : pedals) { p->prepare(spec); p->reset(); }
+    for (auto& p : pedals) { p->prepare(spec); p->reset(); p->lastBlockRun = 0; }
+    blockCounter = 1;
     inGain.reset(sr, 0.05);  inGain.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(inGainDb->load()));
     outGain.reset(sr, 0.05); outGain.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(outGainDb->load()));
     // Transposer: load the current settings first so it starts in the right state (no fade-in on load)
@@ -134,7 +144,7 @@ void PedalboardProcessor::processBlock(juce::AudioBuffer<float>& buf, juce::Midi
     raisePeak(inPeak, mono.getMagnitude(0, 0, numSamples));
 
     // Global: Semitone Transposer, first in the chain (clean guitar shifts cleanest; drives react
-    // to the new notes like a re-tuned guitar). Always runs, so switching it on is instant and click-free.
+    // to the new notes like a re-tuned guitar). It sleeps while OFF (no CPU) and fades in from the dry signal.
     transposer.setSemitones(juce::roundToInt(gxTranspose->load()));
     transposer.setMix(gxMix->load() * 0.01f);
     transposer.setLevelDb(gxLevel->load());
@@ -142,12 +152,12 @@ void PedalboardProcessor::processBlock(juce::AudioBuffer<float>& buf, juce::Midi
     transposer.setMode(gxStudio->load() >= 0.5f ? transposer::Transposer::Mode::studio : transposer::Transposer::Mode::live);
     transposer.process(mono.getWritePointer(0), numSamples);
 
-    PedalBase* local[maxSlots]; int n = 0;
     {
-        const juce::SpinLock::ScopedTryLockType l(boardLock);
-        if (l.isLocked()) { n = chainSize; for (int i = 0; i < n; ++i) local[i] = chain[i]; }
-        // if the board is being edited right now, this block passes through dry
+        const juce::SpinLock::ScopedTryLockType l(chainLock);
+        if (l.isLocked()) { audioChainSize = chainSize; for (int i = 0; i < chainSize; ++i) audioChain[i] = chain[i]; }
+        // if the board is being swapped at this very moment, this buffer runs the previous chain (pedals are never deleted)
     }
+    PedalBase* const* local = audioChain; const int n = audioChainSize;
     // Pedals with a return stage (keyed gate) listen at their slot and apply their gain later:
     // before the first time-based pedal, or after the last pedal.
     PedalBase* pending[maxSlots]; int np = 0;
@@ -155,11 +165,15 @@ void PedalboardProcessor::processBlock(juce::AudioBuffer<float>& buf, juce::Midi
     for (int i = 0; i < n; ++i)
         if (local[i]->isActive())
         {
+            // not run in the previous buffer (was bypassed or off the board): start clean
+            if (local[i]->lastBlockRun != blockCounter - 1) local[i]->activated();
+            local[i]->lastBlockRun = blockCounter;
             if (local[i]->isTimeBased()) flushReturns();
             local[i]->process(mono);
             if (local[i]->hasReturnStage()) pending[np++] = local[i];
         }
     flushReturns();
+    ++blockCounter;
 
     // OUTPUT level (smoothed) + output meter
     outGain.setTargetValue(juce::Decibels::decibelsToGain(outGainDb->load()));

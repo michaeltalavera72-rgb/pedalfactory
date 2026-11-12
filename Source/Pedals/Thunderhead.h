@@ -116,13 +116,18 @@ public:
         targets();
         const int n = buf.getNumSamples();
         const int nc = juce::jmin(buf.getNumChannels(), (int) ch.size());
+        const bool amp = ampOut->load() >= 0.5f;
+        juce::dsp::AudioBlock<float> whole(buf);
 
-        // ---- host rate: input, IC1B, interstage + GAIN (linear; IC1B's swing limit only bites on > 0.48 V peaks)
+        // The whole pedal runs in chunks of <= 32 samples, so every stage (also the tone stack, DEEP / PRESENCE and
+        // VOLUME after the clipping) follows a moving knob every 32 samples, whatever the host's buffer size.
         for (int i0 = 0; i0 < n; i0 += 32)
         {
             const int len = juce::jmin(32, n - i0);
             advanceSmoothers(len);
             rebuild(false);
+
+            // ---- host rate: input, IC1B, interstage + GAIN (linear; IC1B's swing limit only bites on > 0.48 V peaks)
             for (int c = 0; c < nc; ++c)
             {
                 auto& s = ch[(size_t) c];
@@ -136,41 +141,40 @@ public:
                     x[i] = (float) s.inter.node(intP);                   // IC2A "+"
                 }
             }
-        }
 
-        // ---- 4x: IC2A with the zener feedback, diode gate, IC2B
-        juce::dsp::AudioBlock<float> block(buf);
-        auto up = oversampler->processSamplesUp(block);
-        for (size_t c = 0; c < up.getNumChannels() && c < ch.size(); ++c)
-        {
-            auto& s = ch[c];
-            auto* x = up.getChannelPointer(c);
-            for (size_t i = 0; i < up.getNumSamples(); ++i)
+            // ---- 4x: IC2A with the zener feedback, diode gate, IC2B
+            auto sub = whole.getSubBlock((size_t) i0, (size_t) len);
+            auto up = oversampler->processSamplesUp(sub);
+            for (size_t c = 0; c < up.getNumChannels() && c < ch.size(); ++c)
             {
-                const double vo = ic2a(s, (double) x[i]);
-                const double y = diodeGate(s, vo);
-                double d;
-                x[i] = (float) softRail(s.ic2b.process(y), tlRail, d);
+                auto& s = ch[c];
+                auto* x = up.getChannelPointer(c);
+                for (size_t i = 0; i < up.getNumSamples(); ++i)
+                {
+                    const double vo = ic2a(s, (double) x[i]);
+                    const double y = diodeGate(s, vo);
+                    double d;
+                    x[i] = (float) softRail(s.ic2b.process(y), tlRail, d);
+                }
             }
-        }
-        oversampler->processSamplesDown(block);
+            oversampler->processSamplesDown(sub);
 
-        // ---- host rate: tone stack, IC3A (Deep / Presence), output network
-        const bool amp = ampOut->load() >= 0.5f;
-        for (int c = 0; c < nc; ++c)
-        {
-            auto& s = ch[(size_t) c];
-            auto* x = buf.getWritePointer(c);
-            for (int i = 0; i < n; ++i)
+            // ---- host rate: tone stack, IC3A (Deep / Presence), output network
+            for (int c = 0; c < nc; ++c)
             {
-                s.stack.step((double) x[i]);
-                s.amp3.step(s.stack.node(stOut));
-                double d;
-                s.out.step(softRail(s.amp3.node(a3Out), tlRail, d));
-                const double v = amp ? s.out.node(outAmp) : s.out.node(outWiper) * directMatch;
-                float o = (float) (v * levelScale);
-                o -= lowpass(s.dc, o, gDc);
-                x[i] = o;
+                auto& s = ch[(size_t) c];
+                auto* x = buf.getWritePointer(c);
+                for (int i = i0; i < i0 + len; ++i)
+                {
+                    s.stack.step((double) x[i]);
+                    s.amp3.step(s.stack.node(stOut));
+                    double d;
+                    s.out.step(softRail(s.amp3.node(a3Out), tlRail, d));
+                    const double v = amp ? s.out.node(outAmp) : s.out.node(outWiper) * directMatch;
+                    float o = (float) (v * levelScale);
+                    o -= lowpass(s.dc, o, gDc);
+                    x[i] = o;
+                }
             }
         }
     }
@@ -342,7 +346,7 @@ private:
             const double F = v / Rf + cf * (v - s.vf) + iz - ig;
             const double dv = F / (1.0 / Rf + cf + gz);
             v -= juce::jlimit(-0.5, 0.5, dv);
-            if (std::abs(dv) < 1e-9) break;
+            if (std::abs(dv) < 1e-5) break;
         }
         s.vf = v;
         double d;
@@ -364,7 +368,7 @@ private:
             const double F = u * G15 + id - y * G16;
             const double du = F / (G15 + gd + k * G16);
             u -= juce::jlimit(-0.3, 0.3, du);
-            if (std::abs(du) < 1e-10) break;
+            if (std::abs(du) < 1e-5) break;
         }
         const double y = k * (vo - u - s.vc11);
         s.vc11 = vo - (y + u);

@@ -15,7 +15,7 @@ bm,BM-TONE,C-hp,C,3n9,,,RC-CORNER,DRAWN,FILTER,high-pass leg (with 39k: 1046 Hz)
 bm,BM-TONE,R-hp,R,39k,,,RC-CORNER,DRAWN,FILTER,high-pass leg resistor,3.9nF + 39k
 bm,BM-TONE,TONE,POT,linear blend,,TONE,POT-B,EST-STD,CONTROL,blends the two legs (passive loss x0.5),(1.0f - t) * lp + t * hp
 bm,BM-Q4,Q4,BJT,x3.7 (3 V limit),,,BJT-STAGE-TANH,EST-EAR,CURVE,recovery stage,3.7f
-bm,BM-Q4,VOLUME,POT,audio (x^2),,VOLUME,POT-A,EST-STD,CONTROL,output level,volume->load() * volume->load()
+bm,BM-Q4,VOLUME,POT,audio (x^2),,VOLUME,POT-A,EST-STD,CONTROL,output level,return 2.0f * v * v;
 hm,HM-INPUT,Q1,BJT,unity buffer,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,Q1 buffer
 hm,HM-INPUT,C6,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,C6 0.047u
 hm,HM-INPUT,R19,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass resistor / Q6 input resistor,R19 22k

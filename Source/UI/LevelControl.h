@@ -39,6 +39,7 @@ public:
 
 private:
     static constexpr float minDb = -60.0f, maxDb = 6.0f;
+    static constexpr float offScale = 0.0005f;                     // -66 dBFS
     std::function<float()> takePeak;
     float level = 0.0f, hold = 0.0f;
     int holdTicks = 0;
@@ -46,12 +47,16 @@ private:
 
     void timerCallback() override
     {
+        const float oldLevel = level, oldHold = hold; const bool oldClipped = clipped;
         const float p = takePeak();
         level = juce::jmax(p, level * 0.80f);                     // ~20 dB/s fall
         if (p >= hold) { hold = p; holdTicks = 45; }               // 1.5 s peak hold
         else if (--holdTicks <= 0) hold *= 0.85f;
+        if (level < offScale) level = 0.0f;                        // below the meter's range: settle (no endless decay)
+        if (hold < offScale) hold = 0.0f;
         if (p >= 1.0f) clipped = true;                             // 0 dBFS or more: latch until clicked
-        repaint();
+        if (! juce::exactlyEqual(level, oldLevel) || ! juce::exactlyEqual(hold, oldHold) || clipped != oldClipped)
+            repaint();                                             // silence = nothing to redraw
     }
 };
 

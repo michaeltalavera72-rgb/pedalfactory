@@ -146,14 +146,16 @@ private:
 
     static juce::String idOf(const juce::RangedAudioParameter& p) { return p.getParameterID(); }
     // Every parameter a preset can set: all but the board INPUT/OUTPUT levels.
-    std::vector<juce::RangedAudioParameter*> presetParams() const
+    // (The list never changes after the plugin is built, and isModified() asks for it four times a second.)
+    const std::vector<juce::RangedAudioParameter*>& presetParams() const
     {
-        std::vector<juce::RangedAudioParameter*> out;
-        for (auto* ap : state.processor.getParameters())
-            if (auto* p = dynamic_cast<juce::RangedAudioParameter*>(ap))
-                if (! idOf(*p).startsWith("board_")) out.push_back(p);
-        return out;
+        if (paramList.empty())
+            for (auto* ap : state.processor.getParameters())
+                if (auto* p = dynamic_cast<juce::RangedAudioParameter*>(ap))
+                    if (! idOf(*p).startsWith("board_")) paramList.push_back(p);
+        return paramList;
     }
+    mutable std::vector<juce::RangedAudioParameter*> paramList;
     // Parameter ids are "<pedal id>_<control>"; "gx_" = global section.
     // A preset stores the transposer and the pedals on the board (settings of pedals off the board don't matter).
     static bool inPreset(const juce::String& paramId, const juce::StringArray& board)

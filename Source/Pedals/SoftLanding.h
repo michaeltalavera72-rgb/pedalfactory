@@ -88,6 +88,7 @@ public:
         { const double C = 4.7e-6, k = 2.0 * fs, a = 230e3 * C * k, b = 10e3 * C * k;
           amp.b0 = (1.0 + a) / (1.0 + b); amp.b1 = (1.0 - a) / (1.0 + b); amp.a1 = (1.0 - b) / (1.0 + b); }
         levelSm.reset(fs, 0.03);
+        { const double g = std::tan(juce::MathConstants<double>::pi * 5.0 / fs); gDc = g / (1.0 + g); }   // output DC guard, 5 Hz
         for (auto& c : ch) { buildCell(c); buildDet(c); }
         reset();
     }
@@ -267,11 +268,12 @@ private:
         double gainPos = 0.5, squishPos = 0.5;
         double ampX = 0.0, ampY = 0.0;                                    // U1A filter state
         double dI = 0.0;                                                  // detector diode current (Newton start)
+        double dcState = 0.0;                                             // output DC guard
         uint32_t counter = 0;
     };
     std::array<Ch, 2> ch;
     struct { double b0 = 1, b1 = 0, a1 = 0; } amp;
-    double sr = 48000.0, fs = 96000.0, T = 1.0 / 96000.0, iQ1 = 0.25e-3;
+    double sr = 48000.0, fs = 96000.0, T = 1.0 / 96000.0, iQ1 = 0.25e-3, gDc = 0.0;
     juce::SmoothedValue<double> levelSm;
     std::atomic<float> *gain{}, *squish{}, *level{};
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;
@@ -365,7 +367,7 @@ private:
         for (auto& c : n.caps) { c.v = n.x[(size_t) c.a] - n.x[(size_t) c.b]; c.i = 0.0; }
         s.det.x.fill(0.0);
         for (auto& c : s.det.caps) { c.v = 0.0; c.i = 0.0; }
-        s.ampX = s.ampY = 0.0; s.dI = 0.0;
+        s.ampX = s.ampY = 0.0; s.dI = 0.0; s.dcState = 0.0;
         n.beSteps = s.det.beSteps = 0;
     }
 
@@ -476,7 +478,11 @@ private:
         d.x[dO] = w0[dO] + i0 * zo;
         d.x[dC] = w0[dC] + i0 * zc;
         d.commit();
-        return d.x[dO];
+        // Output DC guard (like the other pedals): the detector diode loads one polarity only, so the LEVEL node
+        // carries a small offset that follows the playing; the next pedal's input cap would remove it.
+        double o = d.x[dO];
+        { const double dv = (o - s.dcState) * gDc, lp = dv + s.dcState; s.dcState = lp + dv; o -= lp; }
+        return o;
     }
 
     static void solve3(const double J[3][3], const double F[3], double x[3])

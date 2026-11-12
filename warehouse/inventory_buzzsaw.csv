@@ -2,34 +2,34 @@ Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Fu
 Buzzsaw,Q1 buffer + high-pass,HM-INPUT,Q1,BJT,unity buffer,,,BJT-FOLLOWER,DRAWN,GAIN,input buffer,Buzzsaw.h:7,found
 Buzzsaw,Q1 buffer + high-pass,HM-INPUT,C6,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,Buzzsaw.h:66,found
 Buzzsaw,Q1 buffer + high-pass,HM-INPUT,R19,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass resistor / Q6 input resistor,Buzzsaw.h:8,found
-Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,Q6,BJT,NPN x21 (+3.9 / -3.4 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,shunt-feedback gain stage,Buzzsaw.h:106,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,Q6,BJT,NPN x21 (+3.9 / -3.4 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,shunt-feedback gain stage,Buzzsaw.h:107,found
 Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R16,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q6 feedback (470k / 22k = 21),Buzzsaw.h:8,found
 Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,C10,C,100p,,,RC-CORNER,DRAWN,FILTER,Q6 roll-off ~3.4 kHz,Buzzsaw.h:67,found
-Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R17,R,10k,,,RES-IDEAL,DRAWN,FILTER,collector resistor (DIST shelf),Buzzsaw.h:186,found
+Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R17,R,10k,,,RES-IDEAL,DRAWN,FILTER,collector resistor (DIST shelf),Buzzsaw.h:191,found
 Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,VR4,POT,250k D taper,,DIST,POT-D,DRAWN,CONTROL,DISTORTION: loads the collector,Buzzsaw.h:9,found
 Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,R49,R,150R,,,RES-IDEAL,DRAWN,FILTER,in series with VR4,Buzzsaw.h:10,found
 Buzzsaw,Q6 NPN stage + DISTORTION,HM-Q6,C31,C,10u,,,RC-CORNER,DRAWN,FILTER,AC-couples the DIST load (first-order shelf),Buzzsaw.h:10,found
 Buzzsaw,Q7 PNP stage,HM-Q7,C11,C,0.047u,,,RC-CORNER,DRAWN,FILTER,high-pass ~154 Hz,Buzzsaw.h:68,found
 Buzzsaw,Q7 PNP stage,HM-Q7,R22,R,22k,,,RC-CORNER,DRAWN,FILTER,high-pass / Q7 input resistor,Buzzsaw.h:12,found
-Buzzsaw,Q7 PNP stage,HM-Q7,Q7,BJT,PNP x21 (+3.6 / -4.0 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,second gain stage,Buzzsaw.h:110,found
+Buzzsaw,Q7 PNP stage,HM-Q7,Q7,BJT,PNP x21 (+3.6 / -4.0 V swing),,,BJT-STAGE-TANH,DRAWN,CURVE,second gain stage,Buzzsaw.h:111,found
 Buzzsaw,Q7 PNP stage,HM-Q7,R29,R,470k,,,RES-IDEAL,DRAWN,GAIN,Q7 feedback,Buzzsaw.h:12,found
 Buzzsaw,Q7 PNP stage,HM-Q7,C14,C,100p,,,RC-CORNER,DRAWN,FILTER,Q7 roll-off ~3.4 kHz,Buzzsaw.h:69,found
-Buzzsaw,Op-amp 1b feedback clipper,HM-1B,IC1B,OPAMP,on 9 V (+/-4.2 V),,,OPAMP-RAIL,DRAWN,CURVE,feedback clipping stage,Buzzsaw.h:117,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,IC1B,OPAMP,on 9 V (+/-4.2 V),,,OPAMP-RAIL,DRAWN,CURVE,feedback clipping stage,Buzzsaw.h:118,found
 Buzzsaw,Op-amp 1b feedback clipper,HM-1B,R20,R,220k,,,RC-CORNER,DRAWN,FILTER,feedback (with C9 ~7.2 kHz),Buzzsaw.h:13,found
 Buzzsaw,Op-amp 1b feedback clipper,HM-1B,R42,R,47k,,,RC-CORNER,DRAWN,FILTER,ground leg (with C22: x5.7 above 72 Hz),Buzzsaw.h:13,found
 Buzzsaw,Op-amp 1b feedback clipper,HM-1B,C22,C,0.047u,,,RC-CORNER,DRAWN,FILTER,ground-leg cap,Buzzsaw.h:70,found
 Buzzsaw,Op-amp 1b feedback clipper,HM-1B,C9,C,100p,,,RC-CORNER,DRAWN,FILTER,feedback cap,Buzzsaw.h:71,found
-Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D3,DIODE,Si (0.62 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diode one way,Buzzsaw.h:115,found
-Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D4 D5,DIODE,2 x Si in series (1.2 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diodes the other way (asymmetric),Buzzsaw.h:115,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D3,DIODE,Si (0.62 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diode one way,Buzzsaw.h:116,found
+Buzzsaw,Op-amp 1b feedback clipper,HM-1B,D4 D5,DIODE,2 x Si in series (1.2 V knee),,,DIODE-SI-KNEE,DRAWN,CURVE,feedback diodes the other way (asymmetric),Buzzsaw.h:116,found
 Buzzsaw,Series dead zone + hard clip,HM-GATE,R23,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the series diodes,Buzzsaw.h:72,found
-Buzzsaw,Series dead zone + hard clip,HM-GATE,D6 D7,DIODE,anti-parallel in series (0.55 V dead zone),,,DIODE-SI-KNEE,DRAWN,CURVE,blocks small signals (HM-2 sputter),Buzzsaw.h:120,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,D6 D7,DIODE,anti-parallel in series (0.55 V dead zone),,,DIODE-SI-KNEE,DRAWN,CURVE,blocks small signals (HM-2 sputter),Buzzsaw.h:121,found
 Buzzsaw,Series dead zone + hard clip,HM-GATE,R30,R,10k,,,RES-IDEAL,DRAWN,FILTER,into the shunt diodes,Buzzsaw.h:72,found
-Buzzsaw,Series dead zone + hard clip,HM-GATE,D8 D9,DIODE,Si pair to ground (0.62 V hard),,,DIODE-SI-KNEE,DRAWN,CURVE,hard clip,Buzzsaw.h:121,found
+Buzzsaw,Series dead zone + hard clip,HM-GATE,D8 D9,DIODE,Si pair to ground (0.62 V hard),,,DIODE-SI-KNEE,DRAWN,CURVE,hard clip,Buzzsaw.h:122,found
 Buzzsaw,Series dead zone + hard clip,HM-GATE,C16,C,1n,,,RC-CORNER,DRAWN,FILTER,smoothing (~10 kHz),Buzzsaw.h:72,found
 Buzzsaw,COLOR MIX,HM-COLOR,IC3A,OPAMP,gyrator EQ,,,OPAMP-IDEAL,DRAWN,FILTER,COLOR MIX stage (two gyrator band EQs),Buzzsaw.h:17,found
-Buzzsaw,COLOR MIX,HM-COLOR,LOW band,FILTER,peak 71-83 Hz up to +/-20.4 dB,,LOW,BEHAV,EST-FIT,FILTER,fitted to Tools/Analysis/hm2_colormix.py,Buzzsaw.h:192,found
-Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 1,FILTER,peak 958 Hz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,first high resonator,Buzzsaw.h:221,found
-Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 2,FILTER,peak 1.28 kHz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,second high resonator (same pot),Buzzsaw.h:223,found
-Buzzsaw,COLOR MIX,HM-COLOR,LOW / HIGH pots,POT,G taper (S-curve),,LOW / HIGH,POT-G,EST-EAR,CONTROL,boost / cut about noon,Buzzsaw.h:209,found
+Buzzsaw,COLOR MIX,HM-COLOR,LOW band,FILTER,peak 71-83 Hz up to +/-20.4 dB,,LOW,BEHAV,EST-FIT,FILTER,fitted to Tools/Analysis/hm2_colormix.py,Buzzsaw.h:197,found
+Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 1,FILTER,peak 958 Hz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,first high resonator,Buzzsaw.h:226,found
+Buzzsaw,COLOR MIX,HM-COLOR,HIGH band 2,FILTER,peak 1.28 kHz up to +/-11.5 dB,,HIGH,BEHAV,EST-FIT,FILTER,second high resonator (same pot),Buzzsaw.h:228,found
+Buzzsaw,COLOR MIX,HM-COLOR,LOW / HIGH pots,POT,G taper (S-curve),,LOW / HIGH,POT-G,EST-EAR,CONTROL,boost / cut about noon,Buzzsaw.h:214,found
 Buzzsaw,LEVEL + output,HM-OUT,VR1,POT,10k audio,,LEVEL,POT-A,DRAWN,CONTROL,output level,Buzzsaw.h:21,found
 Buzzsaw,LEVEL + output,HM-OUT,Cout,C,(~8 Hz corner),,,RC-CORNER,EST-STD,FILTER,output coupling,Buzzsaw.h:73,found

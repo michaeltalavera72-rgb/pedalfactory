@@ -102,6 +102,7 @@ public:
         volGain.setCurrentAndTargetValue(levelGain(level != nullptr ? level->load() : defaultLevel));
         orderGain.setCurrentAndTargetValue(1.0f);
         boostFirst = order != nullptr && order->load() >= 0.5f;
+        eqIdle = false;
         for (auto& c : ch)
             if (! c.a.res.empty()) { updatePots(c, true); initBias(c); }
         if (oversampler) oversampler->reset();
@@ -118,6 +119,12 @@ public:
         auto up = oversampler->processSamplesUp(block);
         const size_t nCh = juce::jmin(up.getNumChannels(), ch.size());
         const size_t n = up.getNumSamples();
+        // EQ switched off and its fade finished (BOOST only): don't run the two Sea Blue stages.
+        // When the EQ comes back they restart from their operating point (the 12 ms fade covers the start).
+        const bool eqIdleNow = ! primaryOn() && ! eqMix.isSmoothing() && eqMix.getCurrentValue() <= 0.0f;
+        if (eqIdle && ! eqIdleNow)
+            for (auto& c : ch) if (! c.a.res.empty()) { c.a.solveBias(); c.b.solveBias(); }
+        eqIdle = eqIdleNow;
         // the smoothed values are shared by the channels: advance them once per sample
         for (size_t i = 0; i < n; ++i)
         {
@@ -139,7 +146,8 @@ public:
                 float* x = up.getChannelPointer(c);
                 const double in = (double) x[i] * 0.5;                    // full scale ~ 0.5 V guitar
                 double v;
-                if (boostFirst)
+                if (eqIdleNow) v = pinkStage(s, in);
+                else if (boostFirst)
                 {
                     v = pinkStage(s, in);
                     v = em * eqSection(s, v) + (1.0f - em) * v;
@@ -284,7 +292,7 @@ public:
                 const double fp = 1.0 - gm * (zg - zs) - gds * (zd - zs);
                 double nxt = i0 - f / fp;
                 if (nxt < lo || nxt > hi) nxt = 0.5 * (lo + hi);              // Newton left the bracket: bisect
-                const bool done = std::abs(nxt - i0) < 1e-13;
+                const bool done = std::abs(nxt - i0) < 1e-10;
                 i0 = nxt;
                 if (done) break;
             }
@@ -323,7 +331,7 @@ public:
 
 private:
     double sr = 48000.0, T = 1.0 / 96000.0;
-    bool boostFirst = false;
+    bool boostFirst = false, eqIdle = false;
     juce::SmoothedValue<float> eqMix, boostMix, volGain, orderGain;
     std::atomic<float> *treble{}, *bass{}, *level{}, *boost{}, *order{};
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;

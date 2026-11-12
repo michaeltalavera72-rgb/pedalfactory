@@ -51,6 +51,8 @@ namespace
 }
 
 // ---------------------------------------------------------------------------
+// (Michael's flat artwork PNGs - *_art.png, feralhound_dog.png - are only drawn by paintVector, i.e. when the Blender
+// render is missing, so the faces only load them in that case.)
 // Shared behaviour for pedals with Blender renders (Tools/Blender/render_<name>.py).
 // If <prefix>_face.png is compiled in, the face, knob frames, footswitch and LED images are used;
 // otherwise the pedal's own vector drawing (paintVector) is shown.
@@ -61,23 +63,27 @@ public:
     static constexpr float knobPad = 1.30f, switchPad = 1.35f, ledPad = 2.6f;
     static constexpr int knobGridColumns = 8;                                     // = pedal_render_common.GRID_COLS
 
-    explicit RenderedFace(const juce::String& prefix, int widthUnits = 1)
+    explicit RenderedFace(const juce::String& prefix, int widthUnits = 1) : faceKey(prefix + "_face_png")
     {
-        face      = loadImage(prefix + "_face_png");
-        if (face.isValid() && std::abs((float) face.getHeight() / (float) face.getWidth() - FaceLayout::aspectFor(widthUnits)) > 0.02f)
-            face = {};                     // rendered for an older body shape: use the vector face until re-rendered
+        // The face and the knob frames are not kept at render size: only their size is read here, and they are
+        // resampled to the size on screen the first time they are drawn (ScaledImageCache).
+        const auto faceSize = cache->sizeOf(faceKey, [k = faceKey] { return loadImage(k); });
+        faceW = faceSize.getWidth(); faceH = faceSize.getHeight();
+        hasFace = ! faceSize.isEmpty()
+                  && std::abs((float) faceSize.getHeight() / (float) faceSize.getWidth() - FaceLayout::aspectFor(widthUnits)) <= 0.02f;
+                                           // (else: rendered for an older body shape - use the vector face until re-rendered)
         switchUp  = loadImage(prefix + "_switch_up_png");
         switchDn  = loadImage(prefix + "_switch_down_png");
         ledOn     = loadImage(prefix + "_led_on_png");
         ledOff    = loadImage(prefix + "_led_off_png");
         led2On    = loadImage(prefix + "_led2_on_png");                 // optional: a second LED colour
         led2Off   = loadImage(prefix + "_led2_off_png");
-        auto strip = loadImage(prefix + "_knob_strip_png");
-        if (strip.isValid())
-            knobLook = std::make_unique<FilmstripKnobLookAndFeel>(strip, knobGridColumns);
+        const auto stripKey = prefix + "_knob_strip_png";
+        knobLook = std::make_unique<FilmstripKnobLookAndFeel>(stripKey, [stripKey] { return loadImage(stripKey); }, knobGridColumns);
+        if (! knobLook->isValid()) knobLook.reset();
     }
 
-    bool rendered() const { return face.isValid(); }
+    bool rendered() const { return hasFace; }
     bool drawsLabels() const override { return rendered(); }
     juce::LookAndFeel* knobLookAndFeel() override { return rendered() ? knobLook.get() : nullptr; }
     juce::Rectangle<float> knobBounds(juce::Rectangle<float> r) const override
@@ -129,7 +135,12 @@ protected:
     }
 
 private:
-    juce::Image face, switchUp, switchDn, ledOn, ledOff, led2On, led2Off;
+    juce::SharedResourcePointer<ScaledImageCache> cache;
+    juce::String faceKey;
+    bool hasFace = false;
+    int faceW = 0, faceH = 0;                // size of the render
+    juce::Image faceScaled;                  // the face at the size last drawn (physical pixels)
+    juce::Image switchUp, switchDn, ledOn, ledOff, led2On, led2Off;
     std::unique_ptr<FilmstripKnobLookAndFeel> knobLook;
 
     void paintRendered(juce::Graphics& g, const FaceLayout& f, bool active)
@@ -140,7 +151,13 @@ private:
         g.fillRoundedRectangle(b.translated(0, 3), 9.0f);
         g.setImageResamplingQuality(Graphics::highResamplingQuality);
         g.setOpacity(1.0f);                         // drawImage uses the current colour's alpha
-        g.drawImage(face, b);
+        {   // the face, resampled once to the size on screen (it was resampled from 4x on every repaint before)
+            const float scale = g.getInternalContext().getPhysicalPixelScaleFactor();
+            const int w = jlimit(1, faceW, roundToInt(b.getWidth() * scale)), h = jlimit(1, faceH, roundToInt(b.getHeight() * scale));
+            if (! faceScaled.isValid() || faceScaled.getWidth() != w || faceScaled.getHeight() != h)
+                faceScaled = cache->scaled(faceKey, w, h, [k = faceKey] { return loadImage(k); });
+            g.drawImage(faceScaled, b);
+        }
 
         // LED lens; the lit image already contains its glow
         const auto led = f.led.withSizeKeepingCentre(f.led.getWidth() * ledPad, f.led.getHeight() * ledPad);
@@ -595,7 +612,7 @@ class FeralHoundFace : public RenderedFace
 public:
     FeralHoundFace() : RenderedFace("feralhound")
     {
-        dog = juce::ImageCache::getFromMemory(BinaryData::feralhound_dog_png, BinaryData::feralhound_dog_pngSize);
+        if (! rendered()) dog = juce::ImageCache::getFromMemory(BinaryData::feralhound_dog_png, BinaryData::feralhound_dog_pngSize);
     }
     juce::Colour labelColour() const override { return bloodInk.brighter(0.25f); }
 
@@ -670,7 +687,7 @@ public:
 
     SlowBurnFace() : RenderedFace("slowburn")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::slowburn_art_png, BinaryData::slowburn_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::slowburn_art_png, BinaryData::slowburn_art_pngSize);
         tubeOn = loadImage("slowburn_tube_on_png");   tubeOff = loadImage("slowburn_tube_off_png");
         toggleUp = loadImage("slowburn_toggle_up_png"); toggleDn = loadImage("slowburn_toggle_down_png");
     }
@@ -832,7 +849,7 @@ public:
 
     GatekeeperFace() : RenderedFace("gatekeeper")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::gatekeeper_art_png, BinaryData::gatekeeper_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::gatekeeper_art_png, BinaryData::gatekeeper_art_pngSize);
         toggleUp = loadImage("gatekeeper_toggle_up_png"); toggleDn = loadImage("gatekeeper_toggle_down_png");
     }
     bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
@@ -882,7 +899,7 @@ public:
 
     ThunderheadFace() : RenderedFace("thunderhead")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::thunderhead_art_png, BinaryData::thunderhead_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::thunderhead_art_png, BinaryData::thunderhead_art_pngSize);
         toggleUp = loadImage("thunderhead_toggle_up_png"); toggleDn = loadImage("thunderhead_toggle_down_png");
     }
     bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
@@ -930,7 +947,7 @@ class GoldenHazeFace : public RenderedFace
 public:
     GoldenHazeFace() : RenderedFace("goldenhaze")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::goldenhaze_art_png, BinaryData::goldenhaze_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::goldenhaze_art_png, BinaryData::goldenhaze_art_pngSize);
     }
     bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
     juce::Colour labelColour() const override { return juce::Colour(0xffdbae5b); }
@@ -970,7 +987,7 @@ public:
 
     NightCourierFace() : RenderedFace("nightcourier")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::nightcourier_art_png, BinaryData::nightcourier_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::nightcourier_art_png, BinaryData::nightcourier_art_pngSize);
         toggle[0] = loadImage("nightcourier_toggle_up_png");
         toggle[1] = loadImage("nightcourier_toggle_centre_png");
         toggle[2] = loadImage("nightcourier_toggle_down_png");
@@ -1024,7 +1041,7 @@ public:
 
     CoralTideFace() : RenderedFace("coraltide", 2)
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::coraltide_art_png, BinaryData::coraltide_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::coraltide_art_png, BinaryData::coraltide_art_pngSize);
         toggleUp = loadImage("coraltide_toggle_up_png");
         toggleDn = loadImage("coraltide_toggle_down_png");
     }
@@ -1076,7 +1093,7 @@ public:
 
     FrostbiteFace() : RenderedFace("frostbite")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::frostbite_art_png, BinaryData::frostbite_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::frostbite_art_png, BinaryData::frostbite_art_pngSize);
         toggleUp = loadImage("frostbite_toggle_up_png");
         toggleDn = loadImage("frostbite_toggle_down_png");
     }
@@ -1125,7 +1142,7 @@ class TwinViseFace : public RenderedFace
 public:
     TwinViseFace() : RenderedFace("twinvise", 2)
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::twinvise_art_png, BinaryData::twinvise_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::twinvise_art_png, BinaryData::twinvise_art_pngSize);
         meterGreen = loadImage("twinvise_meter_green_png");          // optional rendered meter LED states
         meterRed   = loadImage("twinvise_meter_red_png");
         meterOff   = loadImage("twinvise_meter_off_png");
@@ -1196,7 +1213,7 @@ class SoftLandingFace : public RenderedFace
 public:
     SoftLandingFace() : RenderedFace("softlanding")
     {
-        art = juce::ImageCache::getFromMemory(BinaryData::softlanding_art_png, BinaryData::softlanding_art_pngSize);
+        if (! rendered()) art = juce::ImageCache::getFromMemory(BinaryData::softlanding_art_png, BinaryData::softlanding_art_pngSize);
     }
     bool drawsLabels() const override { return true; }                 // all lettering is in the artwork
     juce::Colour labelColour() const override { return juce::Colour(0xff15284a); }

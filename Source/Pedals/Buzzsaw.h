@@ -72,6 +72,8 @@ public:
         gClipLp = coeff(10000.0, fs); // R23/R30 10k + C16 1n (diodes conducting)
         gDc   = coeff(8.0, sr);       // output coupling
         lastDist = -1.0f; lastLow = lastHigh = -1.0f;
+        outGain.reset(sr, 0.03);                                // LEVEL glides over 30 ms
+        outGain.setCurrentAndTargetValue(level != nullptr ? levelGain(level->load()) : 0.0f);
         reset();
     }
     void reset() override
@@ -85,8 +87,7 @@ public:
     {
         updateDist(dist->load());
         updateEq(low->load(), high->load());
-        const float lv = level->load();
-        const float outGain = 0.55f * lv * lv;                  // 10k "A" (audio) taper; ~-22 dBFS flat / ~-5 dBFS chainsaw at noon
+        outGain.setTargetValue(levelGain(level->load()));
 
         juce::dsp::AudioBlock<float> block(buf);
         auto up = oversampler->processSamplesUp(block);
@@ -131,6 +132,7 @@ public:
         {
             auto* x = buf.getWritePointer(c);
             auto& s = ch[(size_t) c];
+            auto g = outGain;                                   // same ramp on every channel
             for (int i = 0; i < buf.getNumSamples(); ++i)
             {
                 float v = x[i];
@@ -138,9 +140,10 @@ public:
                 v = eq[(size_t) c * 3 + 1].processSingleSampleRaw(v);
                 v = eq[(size_t) c * 3 + 2].processSingleSampleRaw(v);
                 v -= lowpass(s.dc, v, gDc);
-                x[i] = v * outGain;
+                x[i] = v * g.getNextValue();
             }
         }
+        outGain.skip(buf.getNumSamples());
     }
 
 private:
@@ -150,7 +153,9 @@ private:
     double sr = 48000.0;
     float gIn = 0, gQ6Lp = 0, gMid = 0, gQ7Lp = 0, g1bHp = 0, g1bLp = 0, gClipLp = 0, gDc = 0;
     float gDistLp = 0, shelfHf = 1;
-    float lastDist, lastLow, lastHigh;
+    float lastDist = -1.0f, lastLow = -1.0f, lastHigh = -1.0f;
+    juce::SmoothedValue<float> outGain;
+    static float levelGain(float lv) { return 0.55f * lv * lv; }   // 10k "A" (audio) taper; ~-22 dBFS flat / ~-5 dBFS chainsaw at noon
     std::atomic<float> *level{}, *low{}, *high{}, *dist{};
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;
 
@@ -166,9 +171,9 @@ private:
     static float diode(float v, float knee)
     {
         const float t = v / knee;
-        return knee * t / std::pow(1.0f + std::pow(t, 4.0f), 0.25f);
+        const float t2 = t * t; return knee * t / std::sqrt(std::sqrt(1.0f + t2 * t2));
     }
-    static float hardKnee(float t) { return t / std::pow(1.0f + std::pow(std::abs(t), 6.0f), 1.0f / 6.0f); }
+    static float hardKnee(float t) { const float t2 = t * t; return t / std::cbrt(std::sqrt(1.0f + t2 * t2 * t2)); }
     // two anti-parallel diodes in series with the signal: nothing passes until |v| ~ 0.55 V
     static float deadZone(float v, float vt)
     {

@@ -307,7 +307,8 @@ private:
         std::array<double, Mna::maxN> rhs {};
         for (auto& c : m.caps)
         {
-            const double g = 2.0 * c.c / m.T, ieq = g * c.v + c.i;
+            const double ieq = c.g * c.v + c.i;
+            c.i = ieq;
             if (c.a > 0) rhs[(size_t) c.a - 1] += ieq;
             if (c.b > 0) rhs[(size_t) c.b - 1] -= ieq;
         }
@@ -331,16 +332,16 @@ private:
             const double F = v - v0 + rkk * id;
             const double dv = F / (1.0 + rkk * gd);
             v -= juce::jlimit(-0.2, 0.2, dv);
-            if (std::abs(dv) < 1e-10) break;
+            if (std::abs(dv) < 1e-5) break;
         }
         { const double a = juce::jlimit(-60.0, 60.0, v / nvt); id = IsSi * (std::exp(a) - std::exp(-a)); }
         s.vk = v;
         for (int i = 0; i < N; ++i) m.x[(size_t) i] -= m.inv[(size_t) i][k] * id;
         for (auto& c : m.caps)
         {
-            const double g = 2.0 * c.c / m.T, ieq = g * c.v + c.i;
+            const double ieq = c.i;
             c.v = m.node(c.a) - m.node(c.b);
-            c.i = g * c.v - ieq;
+            c.i = c.g * c.v - ieq;
         }
     }
 

@@ -120,13 +120,19 @@ public:
         targets();
         const int n = buf.getNumSamples();
         const int nc = juce::jmin(buf.getNumChannels(), (int) ch.size());
+        juce::dsp::AudioBlock<float> whole(buf);
 
-        // ---- host rate: buffer + interstage network + stage-1 op-amp filter (linear)
+        // The whole pedal runs in chunks of <= 32 samples, so every stage (also the tone stack, power stage and VOLUME
+        // after the valves) follows a moving knob every 32 samples, whatever the host's buffer size.
         for (int i0 = 0; i0 < n; i0 += 32)
         {
             const int len = juce::jmin(32, n - i0);
+            const double vol0 = volFrac;
             advanceSmoothers(len);
             rebuild(false);
+            const double vol1 = volFrac;
+
+            // ---- host rate: buffer + interstage network + stage-1 op-amp filter (linear)
             for (int c = 0; c < nc; ++c)
             {
                 auto& s = ch[(size_t) c];
@@ -139,43 +145,44 @@ public:
                     x[i] = (float) s.stage1.process(w);                 // op-amp output before its swing limit
                 }
             }
-        }
 
-        // ---- 4x: op-amp swing, V1A, V1B
-        juce::dsp::AudioBlock<float> block(buf);
-        auto up = oversampler->processSamplesUp(block);
-        for (size_t c = 0; c < up.getNumChannels() && c < ch.size(); ++c)
-        {
-            auto& s = ch[c];
-            auto* x = up.getChannelPointer(c);
-            for (size_t i = 0; i < up.getNumSamples(); ++i)
+            // ---- 4x: op-amp swing, V1A, V1B
+            auto sub = whole.getSubBlock((size_t) i0, (size_t) len);
+            auto up = oversampler->processSamplesUp(sub);
+            for (size_t c = 0; c < up.getNumChannels() && c < ch.size(); ++c)
             {
-                double d;
-                const double u = softRail((double) x[i], opRail, d);    // TL072 on +/-9 V
-                // V1A, loaded by 22n -> (330k || 220k to V1B's grid, previous sample's grid voltage)
-                const double gnA = 1.0 / 330e3 + 1.0 / 220e3, jA = s.tb.vg / 220e3;
-                const double iA = v1a.tick(s.ta, u, gnA, jA);
-                const double vc = (iA + jA) / gnA;                       // coupling node (330k / 220k)
-                // V1B, grid via 220k from the coupling node; load = 22n into the cathode follower's 1M
-                const double iB = v1b.tick(s.tb, vc, 1.0 / 1.0e6, 0.0);
-                x[i] = (float) (iB * 1.0e6 * cfScale);                   // cathode follower -> stack drive
+                auto& s = ch[c];
+                auto* x = up.getChannelPointer(c);
+                for (size_t i = 0; i < up.getNumSamples(); ++i)
+                {
+                    double d;
+                    const double u = softRail((double) x[i], opRail, d);    // TL072 on +/-9 V
+                    // V1A, loaded by 22n -> (330k || 220k to V1B's grid, previous sample's grid voltage)
+                    const double gnA = 1.0 / 330e3 + 1.0 / 220e3, jA = s.tb.vg / 220e3;
+                    const double iA = v1a.tick(s.ta, u, gnA, jA);
+                    const double vc = (iA + jA) / gnA;                       // coupling node (330k / 220k)
+                    // V1B, grid via 220k from the coupling node; load = 22n into the cathode follower's 1M
+                    const double iB = v1b.tick(s.tb, vc, 1.0 / 1.0e6, 0.0);
+                    x[i] = (float) (iB * 1.0e6 * cfScale);                   // cathode follower -> stack drive
+                }
             }
-        }
-        oversampler->processSamplesDown(block);
+            oversampler->processSamplesDown(sub);
 
-        // ---- host rate: tone stack, power stage, output network (linear)
-        for (int c = 0; c < nc; ++c)
-        {
-            auto& s = ch[(size_t) c];
-            auto* x = buf.getWritePointer(c);
-            for (int i = 0; i < n; ++i)
+            // ---- host rate: tone stack, power stage, output network (linear), VOLUME ramped across the chunk
+            for (int c = 0; c < nc; ++c)
             {
-                s.stack.step((double) x[i]);
-                s.power.step(s.stack.node(stP));
-                s.out.step(s.power.node(pwO));
-                float o = (float) (s.out.node(outB) * volFrac * levelScale);
-                o -= lowpass(s.dc, o, gDc);
-                x[i] = o;
+                auto& s = ch[(size_t) c];
+                auto* x = buf.getWritePointer(c);
+                for (int i = i0; i < i0 + len; ++i)
+                {
+                    s.stack.step((double) x[i]);
+                    s.power.step(s.stack.node(stP));
+                    s.out.step(s.power.node(pwO));
+                    const double vol = vol0 + (vol1 - vol0) * (double) (i - i0 + 1) / (double) len;
+                    float o = (float) (s.out.node(outB) * vol * levelScale);
+                    o -= lowpass(s.dc, o, gDc);
+                    x[i] = o;
+                }
             }
         }
     }
@@ -191,7 +198,7 @@ public:
     {
         static constexpr int maxN = 14;
         struct Rel { int a, b; double v; };
-        struct Cap { int a, b; double c, v = 0, i = 0; };
+        struct Cap { int a, b; double c, v = 0, i = 0, g = 0; };
         struct Amp { int p, n, o; };
         int nodes = 1;                       // circuit nodes excluding ground (node 1 = source)
         std::vector<Rel> res;
@@ -219,7 +226,7 @@ public:
                 if (a > 0 && b > 0) { m[(size_t) a - 1][(size_t) b - 1] -= g; m[(size_t) b - 1][(size_t) a - 1] -= g; }
             };
             for (auto& r : res)  stamp(r.a, r.b, 1.0 / r.v);
-            for (auto& c : caps) stamp(c.a, c.b, 2.0 * c.c / T);
+            for (auto& c : caps) { c.g = 2.0 * c.c / T; stamp(c.a, c.b, c.g); }
             const int ks = nodes;                                   // source row/column
             m[0][(size_t) ks] += 1.0; m[(size_t) ks][0] += 1.0;
             for (size_t k = 0; k < amps.size(); ++k)
@@ -254,7 +261,8 @@ public:
             std::array<double, maxN> rhs {};
             for (auto& c : caps)
             {
-                const double g = 2.0 * c.c / T, ieq = g * c.v + c.i;     // trapezoidal companion
+                const double ieq = c.g * c.v + c.i;     // trapezoidal companion
+                c.i = ieq;                                // kept for the update below
                 if (c.a > 0) rhs[(size_t) c.a - 1] += ieq;
                 if (c.b > 0) rhs[(size_t) c.b - 1] -= ieq;
             }
@@ -267,9 +275,9 @@ public:
             }
             for (auto& c : caps)
             {
-                const double g = 2.0 * c.c / T, ieq = g * c.v + c.i;
+                const double ieq = c.i;
                 c.v = node(c.a) - node(c.b);
-                c.i = g * c.v - ieq;
+                c.i = c.g * c.v - ieq;
             }
         }
     };
@@ -363,7 +371,7 @@ public:
                 vg -= juce::jlimit(-2.0, 2.0, d1);
                 vp -= juce::jlimit(-25.0, 25.0, d2);
                 vk -= juce::jlimit(-1.0, 1.0, d3);
-                if (std::abs(d1) + std::abs(d2) * 0.01 + std::abs(d3) < 1e-7) break;
+                if (std::abs(d1) + std::abs(d2) * 0.01 + std::abs(d3) < 1e-5) break;
             }
             const double icc = geq * (vp - off);
             s.vcc += h / Cc * icc;

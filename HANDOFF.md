@@ -1,6 +1,6 @@
 # Pedal Factory — Handoff
 
-Last updated: 2026-11-08 (after befe369, virtual warehouse). Read this first when starting a new session.
+Last updated: 2026-11-11 (code review fixes + efficiencies on top of 1ebd9a3, NOT YET BUILT ON WINDOWS OR COMMITTED). Read this first when starting a new session.
 Deeper history lives in the claude.ai project "Pedal Facory" (claude/project-summary*.md, per-pedal plan/trace docs).
 
 ## Where things are
@@ -49,6 +49,32 @@ Global section: Semitone Transposer (LIVE splice shifter / STUDIO Signalsmith), 
   38 part models. Rebuild with `Tools/Warehouse/build_warehouse.py` (parses Source/Pedals/*.h; curated parts in
   `Tools/Warehouse/curated_parts.csv`, each with a "check" string that must appear in the pedal source).
 - Next step (as in Amp Factory): turn the block types into a shared library (`Source/Blocks/`) for pedals of our own design.
+
+## Code review 2026-11-11 (working copy only: build, listen, then commit)
+Full findings + measurements: project doc claude/code-review-2026-11-11.md. Everything below was compiled and tested
+headless on Linux (JUCE 8.0.15, g++); it has not been through the VS 2026 build or Michael's ears yet.
+- Board: the audio thread no longer skips the whole chain when the UI reads the board (chainLock / audioChain);
+  PedalBase::activated() (default reset()) is called when a pedal starts running again after bypass / off the board;
+  getTailLengthSeconds() = 6 s while a time-based pedal is on the board.
+- Night Courier: trails always end (loop gain <= 0.9 while bypassed); reverb tank not run when it can't be heard.
+- Slow Burn / Thunderhead: whole pedal in 32-sample chunks (knobs no longer step once per host buffer).
+- Ramhorn, Buzzsaw, generic drives: knob smoothing. Soft Landing: 5 Hz output DC guard (the one audible-by-design
+  change to a pedal's signal; everything else is identical to -86 dB or better at default settings).
+- Solvers: one exp instead of sinh+cosh, stop at 1e-5 V, cached companion conductances, hoisted constants
+  (Valve Howler, Rail Bender, Feral Hound, Slow Burn, Thunderhead, Frostbite, Twin Vise, Coral Tide), Buzzsaw pow ->
+  sqrt/cbrt, Night Courier taps/LFO. About -25 % CPU over the set. Soft Landing's cell solver must stay at 1e-10.
+- Rail Bender / Coral Tide: the switched-off section is not computed (restarts clean when switched back on).
+- Transposer: asleep while OFF, only the selected engine runs; switching to STUDIO (or ON in STUDIO) takes effect
+  ~85 ms later instead of instantly (its latency has to fill). Tools/Analysis/Transposer tests: same results.
+- UI: faces and knob filmstrips are kept at on-screen size (ScaledImageCache in StompboxControls.h; pixel-identical at
+  100 % / 200 %, about 13x less image memory at 100 %); *_art.png only loaded when a render is missing; level meters
+  repaint only on change.
+- Tools/Analysis/Bench/pedal_bench.cpp: the benchmark / A-B harness used for all of this.
+- Warehouse: one check text updated (Ramhorn VOLUME), outputs regenerated (source line numbers moved).
+Open: Feral Hound with every knob at maximum - the gain-stage solver fails to converge on ~0.4 % of samples and the
+output then depends on the iteration cap (already so before the review; default settings are fine). Slow Burn is
+still the most expensive pedal (triode solve); a plate-current table would be the next step. Knob strips could be
+re-rendered at 2x instead of 4x to shrink the binary (the runtime cost is already gone).
 
 ## Open items
 - Soft Landing: the 470 pF GAIN treble bleed is a guess (value missing on the drawing) — may be too bright; ask Michael.

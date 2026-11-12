@@ -6,26 +6,26 @@ Twin Vise,Input gain + meter,TV-INPUT,R-g1,R,47k,,,RES-IDEAL,DRAWN,GAIN,IC1A gro
 Twin Vise,Input gain + meter,TV-INPUT,INPUT GAIN,POT,B50K (loaded by R12 22k),,INPUT GAIN,POT-B,DRAWN,CONTROL,input level (up to +28 dB),TwinVise.h:9,found
 Twin Vise,Input gain + meter,TV-INPUT,R12,R,22k,,,RES-IDEAL,DRAWN,GAIN,loads the gain pot,TwinVise.h:9,found
 Twin Vise,Input gain + meter,TV-INPUT,IC1B,OPAMP,TL064 inverting 100k || 100p,,,OPAMP-TL072,DRAWN,CURVE,input amp 2,TwinVise.h:9,found
-Twin Vise,Input gain + meter,TV-INPUT,LED,LED,bicolour (green 0.10 V / red 2.2 V),,,LED-BICOLOUR,DRAWN,DSP,input level meter (~2 s peak hold),TwinVise.h:233,found
+Twin Vise,Input gain + meter,TV-INPUT,LED,LED,bicolour (green 0.10 V / red 2.2 V),,,LED-BICOLOUR,DRAWN,DSP,input level meter (~2 s peak hold),TwinVise.h:239,found
 Twin Vise,Band split,TV-SPLIT,R19 R20,R,6k8 / 6k8,,,RES-IDEAL,DRAWN,FILTER,Sallen-Key low-pass resistors,TwinVise.h:11,found
 Twin Vise,Band split,TV-SPLIT,C5,C,8n2 (orig 22n),,,CAP-IDEAL,USER,FILTER,low-pass cap (guitar voicing: 2.36 kHz),TwinVise.h:13,found
 Twin Vise,Band split,TV-SPLIT,C6,C,12n (orig 33n),,,CAP-IDEAL,USER,FILTER,low-pass cap,TwinVise.h:13,found
 Twin Vise,Band split,TV-SPLIT,C7 C8,C,18n / 18n (orig 47n),,,CAP-IDEAL,USER,FILTER,Sallen-Key high-pass caps (595 Hz),TwinVise.h:14,found
 Twin Vise,Band split,TV-SPLIT,R24,R,10k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,TwinVise.h:12,found
 Twin Vise,Band split,TV-SPLIT,R23,R,22k,,,RES-IDEAL,DRAWN,FILTER,high-pass resistor,TwinVise.h:12,found
-Twin Vise,Low band OTA compressor,TV-LOW,IC-L,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,low band stage,TwinVise.h:279,found
-Twin Vise,Low band OTA compressor,TV-LOW,OTA-L,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA (more current = less gain),TwinVise.h:230,found
-Twin Vise,Low band OTA compressor,TV-LOW,Att-L,R,33k / 220R (/151),,,RES-IDEAL,DRAWN,SOLVED,OTA input attenuator,TwinVise.h:227,found
+Twin Vise,Low band OTA compressor,TV-LOW,IC-L,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,low band stage,TwinVise.h:285,found
+Twin Vise,Low band OTA compressor,TV-LOW,OTA-L,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA (more current = less gain),TwinVise.h:236,found
+Twin Vise,Low band OTA compressor,TV-LOW,Att-L,R,33k / 220R (/151),,,RES-IDEAL,DRAWN,SOLVED,OTA input attenuator,TwinVise.h:233,found
 Twin Vise,Low band OTA compressor,TV-LOW,R27,R,10k,,,RES-IDEAL,DRAWN,SOLVED,low band input (x22),TwinVise.h:17,found
 Twin Vise,Low band OTA compressor,TV-LOW,LOW COMPRESSION,POT,dual gang (R21 / R10 / R22 / R9: x0.049 .. x0.316),,LOW COMPRESSION,POT-B,DRAWN,CONTROL,drive into the band + side-chain level,TwinVise.h:17,found
-Twin Vise,High band OTA compressor,TV-HIGH,IC-H,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,high band stage,TwinVise.h:279,found
-Twin Vise,High band OTA compressor,TV-HIGH,OTA-H,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA,TwinVise.h:230,found
+Twin Vise,High band OTA compressor,TV-HIGH,IC-H,OPAMP,TL064 inverting 220k || 33p,,,OPAMP-TL072,DRAWN,SOLVED,high band stage,TwinVise.h:285,found
+Twin Vise,High band OTA compressor,TV-HIGH,OTA-H,IC,SSM2024 (kOta 4),,,IC-SSM2024,DRAWN,SOLVED,feedback VCA,TwinVise.h:236,found
 Twin Vise,High band OTA compressor,TV-HIGH,R34,R,47k,,,RES-IDEAL,DRAWN,SOLVED,high band input (x4.68),TwinVise.h:19,found
 Twin Vise,High band OTA compressor,TV-HIGH,HIGH COMPRESSION,POT,B50K,,HIGH COMPRESSION,POT-B,DRAWN,CONTROL,attenuates the high control voltage,TwinVise.h:23,found
 Twin Vise,High band OTA compressor,TV-HIGH,HI COMP,SWITCH,footswitch,,HI COMP,SWITCH,DRAWN,CONTROL,off shorts the high envelope cap,TwinVise.h:46,found
 Twin Vise,Side-chains,TV-SC,Divider,R,/4.3,,,RES-IDEAL,DRAWN,DSP,side-chain input divider,TwinVise.h:20,found
-Twin Vise,Side-chains,TV-SC,Rectifier,OPAMP,x67.7 (2M2 / 33k) half-wave,,,OPAMP-TL072,DRAWN,DSP,precision rectifier (clamps at 3.5 V),TwinVise.h:232,found
-Twin Vise,Side-chains,TV-SC,D-sc,DIODE,0.55 V,,,DIODE-SI-KNEE,EST-STD,DSP,envelope diode,TwinVise.h:231,found
+Twin Vise,Side-chains,TV-SC,Rectifier,OPAMP,x67.7 (2M2 / 33k) half-wave,,,OPAMP-TL072,DRAWN,DSP,precision rectifier (clamps at 3.5 V),TwinVise.h:238,found
+Twin Vise,Side-chains,TV-SC,D-sc,DIODE,0.55 V,,,DIODE-SI-KNEE,EST-STD,DSP,envelope diode,TwinVise.h:237,found
 Twin Vise,Side-chains,TV-SC,Low env,RC,attack 22k / 1u (22 ms) release +100k (~120 ms),,,BEHAV,DRAWN,DSP,low envelope,TwinVise.h:22,found
 Twin Vise,Side-chains,TV-SC,High env,RC,attack diode + 1k (~1 ms) release 22k + 47k (~70 ms),,,BEHAV,DRAWN,DSP,high envelope,TwinVise.h:23,found
 Twin Vise,E.Q. BALANCE + OUTPUT,TV-MIX,E.Q. BALANCE,POT,dual B50K (opposite gangs),,BALANCE,POT-B,DRAWN,CONTROL,CW = more high band,TwinVise.h:27,found

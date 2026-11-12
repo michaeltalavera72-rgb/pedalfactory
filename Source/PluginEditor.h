@@ -86,6 +86,7 @@ private:
     void changeListenerCallback(juce::ChangeBroadcaster*) override { board.rebuild(); updateSize(); }
     void updateSize();
     PedalboardProcessor& proc;
+    juce::SharedResourcePointer<ScaledImageCache> imageCache;   // keeps the scaled renders while strips are rebuilt
     BoardComponent board;
     juce::Viewport viewport;
     juce::TextButton addButton { "+ Add pedal" };

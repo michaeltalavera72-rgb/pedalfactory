@@ -9,7 +9,11 @@
 //        Pitch is exact (the read speed IS 2^(n/12)), added delay averages ~6-8 ms, 0 st = no delay at all.
 //        Best for small shifts (drop/raise tunings); large shifts on chords splice often and flutter a little.
 // STUDIO: Signalsmith Stretch (MIT, https://github.com/Signalsmith-Audio/signalsmith-stretch), an STFT
-//        polyphonic shifter. Cleaner on octaves and dense chords, ~40 ms latency (reported to the host).
+//        polyphonic shifter. Cleaner on octaves and dense chords, ~85 ms latency (reported to the host).
+//
+// CPU: nothing runs while the transposer is OFF, and only the selected engine runs while it is ON (the other
+// one is restarted when the mode changes; STUDIO needs its latency to fill before it is faded in, so switching
+// to STUDIO - or switching ON in STUDIO - takes effect ~85 ms later, without a gap).
 //
 // Pure C++ (no JUCE) so it can be tested on its own. Mono, like the board.
 #include <signalsmith-stretch/signalsmith-stretch.h>
@@ -98,6 +102,8 @@ public:
         return y;
     }
     double currentDelay() const { return fading ? dB : dA; }
+    // After reset() the head reads silence for this long before the input reaches it (minimum delay).
+    int startupSamples() const { return (int) dLo + 8; }
     long splices = 0, onsets = 0;               // for tests
 
 private:
@@ -248,7 +254,7 @@ public:
     {
         sr = sampleRate;
         live.prepare(sr);
-        // STUDIO: ~43 ms analysis block at 48 kHz (2048 samples), hop = block/4, computation spread over the hop.
+        // STUDIO: ~85 ms analysis block (4096 samples at 48 kHz), hop = block/4, computation spread over the hop.
         const int block = (int) std::lround(studioBlockSec * sr), interval = block / 4;
         studio.configure(1, block, interval, false);
         studioLatency = studio.inputLatency() + studio.outputLatency();
@@ -279,6 +285,8 @@ public:
         hx1 = hx2 = hy1 = hy2 = 0.0;
         semis = targetSemis; on = targetOn ? 1.0 : 0.0; studioAmt = targetStudio ? 1.0 : 0.0;
         shifted = targetSt != 0 ? 1.0 : 0.0; mix = targetMix; level = targetLevel;
+        liveRunning = studioRunning = true;     // both freshly reset; process() drops the one it doesn't need
+        studioHold = liveHold = onHold = 0; asleep = false;
     }
 
     // Parameters (call once per block, from the audio thread).
@@ -305,11 +313,25 @@ public:
 
     void process(float* x, int n)
     {
+        // OFF (and faded out): the signal passes untouched and neither engine runs.
+        if (isIdle()) { asleep = true; return; }
+        if (asleep) wake();
         // STUDIO engine runs block-wise (glide applied per sub-block of <= 32 samples)
         for (int start = 0; start < n; start += 32)
         {
             const int len = std::min(32, n - start);
             float* io = x + start;
+            // Run only the engine(s) in use. One that starts again begins from a clean state.
+            const bool wantStudio = targetStudio || studioAmt > 0.0;
+            if (wantStudio && ! studioRunning)
+            {
+                studio.reset(); std::fill(dryLine.begin(), dryLine.end(), 0.0f); dryPos = 0;
+                studioRunning = true; studioHold = studioLatency;        // fade it in once its latency has filled
+            }
+            else if (! wantStudio) studioRunning = false;
+            const bool wantLive = ! targetStudio || studioAmt < 1.0;
+            if (wantLive && ! liveRunning) { live.reset(); liveRunning = true; liveHold = live.startupSamples(); }
+            else if (! wantLive) liveRunning = false;
             // high-passed input for the engines
             for (int i = 0; i < len; ++i)
             {
@@ -319,9 +341,12 @@ public:
                 tmpIn[(size_t) i] = (float) y;
             }
             // STUDIO: semitone value for this sub-block (Signalsmith only needs a slow update)
-            studio.setTransposeSemitones((float) semis);
-            float* ins[1] = { tmpIn.data() }; float* outs[1] = { tmpOut.data() };
-            studio.process(ins, len, outs, len);
+            if (studioRunning)
+            {
+                studio.setTransposeSemitones((float) semis);
+                float* ins[1] = { tmpIn.data() }; float* outs[1] = { tmpOut.data() };
+                studio.process(ins, len, outs, len);
+            }
 
             for (int i = 0; i < len; ++i)
             {
@@ -332,22 +357,28 @@ public:
                 const bool wantShift = targetSt != 0 || std::abs(semis) > 1e-9;
                 if (wantShift) { if (shifted <= 0.0) live.rewind(); shifted = std::min(1.0, shifted + fadeStep); }
                 else shifted = std::max(0.0, shifted - fadeStep);
-                ramp(on, targetOn ? 1.0 : 0.0, fadeStep);
-                ramp(studioAmt, targetStudio ? 1.0 : 0.0, fadeStep);
+                if (onHold > 0) --onHold; else ramp(on, targetOn ? 1.0 : 0.0, fadeStep);
+                if (studioHold > 0) --studioHold;
+                if (liveHold > 0) --liveHold;
+                if (targetStudio ? studioHold == 0 : liveHold == 0) ramp(studioAmt, targetStudio ? 1.0 : 0.0, fadeStep);
                 ramp(mix, targetMix, paramStep);
                 ramp(level, targetLevel, paramStep * std::max(0.05, std::abs(targetLevel - level)));
 
                 const float dry = io[i];            // unfiltered input (true bypass path)
                 const float hp  = tmpIn[(size_t) i];
                 // STUDIO's dry reference is delayed by its latency so MIX stays time-aligned
-                const float dryDelayed = dryLine[(size_t) dryPos];
-                dryLine[(size_t) dryPos] = hp;
-                dryPos = (dryPos + 1) % (int) dryLine.size();
-
-                const double ratio = std::exp2(semis / 12.0);
-                const float liveOut = live.process(hp, ratio);
+                float dryDelayed = hp, studOut = 0.0f;
+                if (studioRunning)
+                {
+                    dryDelayed = dryLine[(size_t) dryPos];
+                    dryLine[(size_t) dryPos] = hp;
+                    if (++dryPos >= (int) dryLine.size()) dryPos = 0;
+                    studOut = tmpOut[(size_t) i];
+                }
+                if (semis != ratioSemis) { ratioSemis = semis; ratio = std::exp2(semis / 12.0); }   // only while gliding
+                const float liveOut = liveRunning ? live.process(hp, ratio) : 0.0f;
                 const float liveWet = (float) (shifted * liveOut + (1.0 - shifted) * hp);
-                const float studWet = (float) (shifted * tmpOut[(size_t) i] + (1.0 - shifted) * dryDelayed);
+                const float studWet = (float) (shifted * studOut + (1.0 - shifted) * dryDelayed);
                 const float liveMix = (float) (mix * liveWet + (1.0 - mix) * hp);
                 const float studMix = (float) (mix * studWet + (1.0 - mix) * dryDelayed);
                 const float eng = (float) ((1.0 - studioAmt) * liveMix + studioAmt * studMix) * (float) level;
@@ -357,6 +388,17 @@ public:
     }
 
 private:
+    // First buffer after being OFF: start the selected engine from a clean state and fade in from the dry signal.
+    void wake()
+    {
+        live.reset(); studio.reset();
+        std::fill(dryLine.begin(), dryLine.end(), 0.0f); dryPos = 0;
+        hx1 = hx2 = hy1 = hy2 = 0.0;
+        semis = targetSemis; studioAmt = targetStudio ? 1.0 : 0.0;
+        shifted = targetSt != 0 ? 1.0 : 0.0; mix = targetMix; level = targetLevel;
+        on = 0.0; onHold = targetStudio ? studioLatency : live.startupSamples();   // wait until the engine has signal, then fade in
+        studioHold = liveHold = 0; liveRunning = ! targetStudio; studioRunning = targetStudio; asleep = false;
+    }
     static void ramp(double& v, double target, double step)
     {
         if (v < target) v = std::min(target, v + step); else if (v > target) v = std::max(target, v - step);
@@ -370,6 +412,9 @@ private:
     double semis = 0, targetSemis = 0, on = 0, studioAmt = 0, shifted = 0, mix = 1, targetMix = 1, level = 1, targetLevel = 1;
     bool targetOn = false, targetStudio = false;
     int targetSt = 0;
+    bool liveRunning = true, studioRunning = true, asleep = false;
+    int studioHold = 0, liveHold = 0, onHold = 0;   // samples to wait before fading STUDIO / LIVE / the effect in
+    double ratio = 1.0, ratioSemis = 1.0e9;         // pitch ratio, recomputed only when semis changes
 };
 
 } // namespace transposer

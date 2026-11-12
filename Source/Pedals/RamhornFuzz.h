@@ -57,6 +57,14 @@ public:
         gToneLp = coeff(408.0, fs);   // 39k + 10nF
         gToneHp = coeff(1046.0, fs);  // 3.9nF + 39k
         gDc = coeff(20.0, fs);        // input/coupling capacitors
+        // knobs glide over 30 ms (no zipper noise when turned or automated)
+        susSm.reset(fs, 0.03); toneSm.reset(fs, 0.03); volSm.reset(fs, 0.03);
+        if (sustain != nullptr)
+        {
+            susSm.setCurrentAndTargetValue(sustainGain(sustain->load()));
+            toneSm.setCurrentAndTargetValue(tone->load());
+            volSm.setCurrentAndTargetValue(volumeGain(volume->load()));
+        }
         reset();
     }
     void reset() override { for (auto& c : ch) c = {}; if (oversampler) oversampler->reset(); }
@@ -66,10 +74,9 @@ public:
         // Sustain is a log pot placed between Q1 and Q2: it scales the signal that hits the clippers.
         // Q2+Q3 together have ~70 dB of gain, so the pot needs a wide range (~-66 dB at minimum)
         // for the low end to clip only lightly; at -40 dB both stages stayed saturated.
-        const float sus = sustain->load();
-        const float susGain = juce::Decibels::decibelsToGain(-66.0f * std::pow(1.0f - sus, 1.5f));
-        const float t = tone->load();
-        const float vol = 2.0f * volume->load() * volume->load();   // audio-taper feel
+        susSm.setTargetValue(sustainGain(sustain->load()));
+        toneSm.setTargetValue(tone->load());
+        volSm.setTargetValue(volumeGain(volume->load()));
 
         juce::dsp::AudioBlock<float> block(buf);
         auto up = oversampler->processSamplesUp(block);
@@ -79,6 +86,7 @@ public:
             auto* x = up.getChannelPointer(c);
             for (size_t i = 0; i < up.getNumSamples(); ++i)
             {
+                const float susGain = susSm.getNextValue(), t = toneSm.getNextValue(), vol = volSm.getNextValue();
                 float v = x[i] * 0.5f;                       // treat full scale as ~0.5 V guitar signal
                 v -= lowpass(s.dc, v, gDc);                  // remove DC / sub-bass (coupling caps)
 
@@ -118,5 +126,9 @@ private:
     }
 
     std::atomic<float> *sustain{}, *tone{}, *volume{};
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Multiplicative> susSm { 1.0f };
+    juce::SmoothedValue<float> toneSm, volSm;
+    static float sustainGain(float sus) { return juce::Decibels::decibelsToGain(-66.0f * std::pow(1.0f - sus, 1.5f)); }
+    static float volumeGain(float v) { return 2.0f * v * v; }   // audio-taper feel
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler;
 };

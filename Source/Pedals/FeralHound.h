@@ -77,6 +77,14 @@ public:
         oversampler->initProcessing(spec.maximumBlockSize);
         h = 1.0 / (sr * 4.0);
         gDc = coeff(5.0, sr);
+        {   // per-sample constants of the fixed parts (companion conductances at the 4x rate)
+            constexpr double Ci = 220e-9, Cp = 1e-9, Cout = 4.7e-6, Cf = 4.7e-9, Cg = 220e-9, Ch1 = 1e-9;
+            k.gIn = 1.0 / (1000.0 + h / Ci); k.cp = Cp / h; k.inDen = 1.0 / (k.gIn + 1.0e-6 + k.cp); k.inUpd = h / Ci * k.gIn;
+            k.GA = 1.0 / (470.0 + h / 220e-9); k.aUpd = h / 220e-9 * k.GA; k.hC1u = h / 1e-6;
+            k.c10 = 10e-12 / h; k.c100 = 100e-12 / h;
+            k.G2 = 1.0 / (1000.0 + h / Cout); k.outUpd = h / Cout * k.G2;
+            k.cf = Cf / h; k.G3 = 1.0 / (1.0e6 + h / Cg); k.gUpd = h / Cg; k.c1 = Ch1 / h;
+        }
         for (auto* sm : { &rgSm, &rfatSm, &rsaSm, &rsbSm, &r1Sm, &r3Sm, &rfilSm }) sm->reset(sr * 4.0, 0.03);
         outGain.reset(sr, 0.03);
         if (gain != nullptr) { targets(); snapSmoothers(); }
@@ -97,10 +105,20 @@ public:
         {
             auto& s = ch[c];
             auto* x = up.getChannelPointer(c);
+            // pot-dependent conductances: once per buffer, or per sample only while a knob is moving
+            bool moving = false;
+            for (auto* sm : { &rgSm, &rfatSm, &rsaSm, &rsbSm, &r1Sm, &r3Sm, &rfilSm }) moving = moving || sm->isSmoothing();
+            Pots p { rgSm.getCurrentValue(), rfatSm.getCurrentValue(), rsaSm.getCurrentValue(), rsbSm.getCurrentValue(),
+                     r1Sm.getCurrentValue(), r3Sm.getCurrentValue(), rfilSm.getCurrentValue() };
+            derive(p);
             for (size_t i = 0; i < up.getNumSamples(); ++i)
             {
-                Pots p { rgSm.getNextValue(), rfatSm.getNextValue(), rsaSm.getNextValue(), rsbSm.getNextValue(),
-                         r1Sm.getNextValue(), r3Sm.getNextValue(), rfilSm.getNextValue() };
+                if (moving)
+                {
+                    p = { rgSm.getNextValue(), rfatSm.getNextValue(), rsaSm.getNextValue(), rsbSm.getNextValue(),
+                          r1Sm.getNextValue(), r3Sm.getNextValue(), rfilSm.getNextValue() };
+                    derive(p);
+                }
                 x[i] = (float) tick(s, (double) x[i] * 0.5, p);          // full scale ~ 0.5 V guitar
             }
         }
@@ -143,7 +161,21 @@ private:
         double vcA = 0, vcB = 0;               // ground-leg caps (220n, 1u)
         double vcOut = 0, x = 0, h1 = 0, h3 = 0, f = 0, vcG = 0;
     };
-    struct Pots { double rg, rfat, rsa, rsb, r1, r3, rfil; };
+    struct Pots
+    {
+        double rg, rfat, rsa, rsb, r1, r3, rfil;
+        // derived (see derive): conductances and the filter node's reduction
+        double gg = 0, gsa = 0, gsb = 0, GB = 0, Gl = 0, bUpd = 0, gf = 0, invD = 0, gXF = 0, g1 = 0, g3 = 0;
+    };
+    struct Consts { double gIn = 0, cp = 0, inDen = 0, inUpd = 0, GA = 0, aUpd = 0, hC1u = 0, c10 = 0, c100 = 0,
+                           G2 = 0, outUpd = 0, cf = 0, G3 = 0, gUpd = 0, c1 = 0; } k;
+    void derive(Pots& p) const
+    {
+        p.gg = 1.0 / p.rg; p.gsa = 1.0 / p.rsa; p.gsb = 1.0 / p.rsb;
+        p.GB = 1.0 / (p.rfat + k.hC1u); p.Gl = k.GA + p.GB; p.bUpd = k.hC1u * p.GB;
+        p.gf = 1.0 / p.rfil; p.invD = 1.0 / (p.gf + k.cf + k.G3); p.gXF = p.gf * (1.0 - p.gf * p.invD);
+        p.g1 = 1.0 / p.r1; p.g3 = 1.0 / p.r3;
+    }
     std::array<Ch, 2> ch;
     double sr = 48000.0, h = 1.0 / 192000.0;
     float gDc = 0;
@@ -196,19 +228,17 @@ private:
     {
         // ---- input: 1k + 220n in series, 1n and 1M (bias) at the + input
         {
-            constexpr double Ci = 220e-9, Cp = 1e-9;
-            const double G = 1.0 / (1000.0 + h / Ci), cp = Cp / h;
-            const double vp = (G * (vin - s.vcIn) + cp * s.vp) / (G + 1.0e-6 + cp);
-            s.vcIn += h / Ci * G * (vin - s.vcIn - vp);
+            const double vp = (k.gIn * (vin - s.vcIn) + k.cp * s.vp) * k.inDen;
+            s.vcIn += k.inUpd * (vin - s.vcIn - vp);
             s.vp = vp;
         }
 
         // ---- gain stage: unknowns Vn, V1 (1N34A cathode), V3 (BS170 source)
-        const double GA = 1.0 / (470.0 + h / 220e-9), GB = 1.0 / (p.rfat + h / 1e-6);
-        const double Gl = GA + GB, Jl = GA * s.vcA + GB * s.vcB;
-        const double c10 = 10e-12 / h, c100 = 100e-12 / h;
+        const double GA = k.GA, GB = p.GB;
+        const double Gl = p.Gl, Jl = GA * s.vcA + GB * s.vcB;
+        const double c10 = k.c10, c100 = k.c100;
         const double q10 = s.vn - softRailNoD(s.u), q100 = s.vn - s.v3;   // previous cap voltages
-        const double gsa = 1.0 / p.rsa, gsb = 1.0 / p.rsb, gg = 1.0 / p.rg;
+        const double gsa = p.gsa, gsb = p.gsb, gg = p.gg;
         double vn = s.vn, v1 = s.v1, v3 = s.v3, u = s.u, vo = 0;
         for (int it = 0; it < 12; ++it)
         {
@@ -251,23 +281,22 @@ private:
             vn -= juce::jlimit(-0.5, 0.5, d0);
             v1 -= juce::jlimit(-0.5, 0.5, d1);
             v3 -= juce::jlimit(-0.5, 0.5, d2);
-            if (std::abs(d0) + std::abs(d1) + std::abs(d2) < 1e-8) break;
+            if (std::abs(d0) + std::abs(d1) + std::abs(d2) < 1e-5) break;
         }
         {   // final op-amp state for the converged Vn
             u = juce::jlimit(-RAIL - 0.6, RAIL + 0.6, s.u + h * SR * std::tanh(GBW * (s.vp - vn) / SR));
             double dr; vo = softRail(u, dr);
         }
-        s.vcA += h / 220e-9 * GA * (vn - s.vcA);
-        s.vcB += h / 1e-6 * GB * (vn - s.vcB);
+        s.vcA += k.aUpd * (vn - s.vcA);
+        s.vcB += p.bUpd * (vn - s.vcB);
         s.vn = vn; s.v1 = v1; s.v3 = v3; s.u = u;
 
         // ---- hard clipping + filter: unknowns X, H1 (stacked pairs + 1n), H3 (single pair)
-        constexpr double Cout = 4.7e-6, Cf = 4.7e-9, Cg = 220e-9, Ch1 = 1e-9;
-        const double G2 = 1.0 / (1000.0 + h / Cout), J2 = G2 * (vo - s.vcOut);
-        const double cf = Cf / h, G3 = 1.0 / (1.0e6 + h / Cg), gf = 1.0 / p.rfil;
-        const double D = gf + cf + G3, Nf = cf * s.f + G3 * s.vcG;
-        const double gXF = gf * (1.0 - gf / D), jXF = gf * Nf / D;          // i(X->F) = gXF X - jXF
-        const double g1 = 1.0 / p.r1, g3 = 1.0 / p.r3, c1 = Ch1 / h;
+        const double G2 = k.G2, J2 = G2 * (vo - s.vcOut);
+        const double cf = k.cf, G3 = k.G3, gf = p.gf;
+        const double Nf = cf * s.f + G3 * s.vcG;                            // D = gf + cf + G3 (p.invD = 1 / D)
+        const double gXF = p.gXF, jXF = gf * Nf * p.invD;                   // i(X->F) = gXF X - jXF
+        const double g1 = p.g1, g3 = p.g3, c1 = k.c1;
         double x = s.x, h1 = s.h1, h3 = s.h3;
         for (int it = 0; it < 12; ++it)
         {
@@ -286,12 +315,12 @@ private:
             x -= juce::jlimit(-0.5, 0.5, d0);
             h1 -= juce::jlimit(-0.5, 0.5, d1);
             h3 -= juce::jlimit(-0.5, 0.5, d2);
-            if (std::abs(d0) + std::abs(d1) + std::abs(d2) < 1e-8) break;
+            if (std::abs(d0) + std::abs(d1) + std::abs(d2) < 1e-5) break;
         }
-        s.vcOut += h / Cout * G2 * (vo - s.vcOut - x);
-        const double fN = (gf * x + Nf) / D;
+        s.vcOut += k.outUpd * (vo - s.vcOut - x);
+        const double fN = (gf * x + Nf) * p.invD;
         const double iG = G3 * (fN - s.vcG);
-        s.vcG += h / Cg * iG;
+        s.vcG += k.gUpd * iG;
         s.f = fN; s.x = x; s.h1 = h1; s.h3 = h3;
         return iG * 1.0e6;                                                  // gate voltage (1M to ground)
     }

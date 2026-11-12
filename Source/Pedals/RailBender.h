@@ -82,6 +82,14 @@ public:
         for (auto& c : ch) c = {};
         if (oversampler) oversampler->reset();
     }
+    // Back on after both footswitches were off: no half-finished switch fades from last time.
+    void activated() override
+    {
+        reset();
+        driveMix.setCurrentAndTargetValue(primaryOn() ? 1.0f : 0.0f);
+        boostMix.setCurrentAndTargetValue(secondaryOn() ? 1.0f : 0.0f);
+        driveIdle = false;
+    }
 
     void process(juce::AudioBuffer<float>& buf) override
     {
@@ -97,12 +105,32 @@ public:
         const float lv = level->load();
         outGain.setTargetValue(levelScale * lv);                                // P5 47k linear (x2 = volts -> digital)
 
+        // DRIVE switched off and its fade finished (BOOST only): don't run the drive path at all.
+        const bool idleNow = ! driveOn && ! driveMix.isSmoothing() && driveMix.getCurrentValue() <= 0.0f;
+        if (driveIdle && ! idleNow)
+        {
+            // drive coming back: clean drive filters / diode state, knobs where they are now (the 10 ms fade covers the start)
+            for (auto& c : ch) { c.in = c.u1aHp = c.u1aLp = c.u1bHp = c.tone = 0.0f; c.vc = 0.0; }
+            driveGain.setCurrentAndTargetValue(driveGain.getTargetValue());
+            outGain.setCurrentAndTargetValue(outGain.getTargetValue());
+        }
+        driveIdle = idleNow;
+
         juce::dsp::AudioBlock<float> block(buf);
         auto up = oversampler->processSamplesUp(block);
         for (size_t c = 0; c < up.getNumChannels() && c < ch.size(); ++c)
         {
             auto& s = ch[c];
             auto* x = up.getChannelPointer(c);
+            if (idleNow)
+            {
+                for (size_t i = 0; i < up.getNumSamples(); ++i)
+                {
+                    const float dry = x[i] * 0.5f;
+                    x[i] = rail(dry + boostMix.getNextValue() * boostGain.getNextValue() * dry) * 2.0f;
+                }
+                continue;
+            }
             for (size_t i = 0; i < up.getNumSamples(); ++i)
             {
                 const float bg = boostGain.getNextValue(), dg = driveGain.getNextValue();
@@ -145,6 +173,7 @@ private:
     std::array<Ch, 2> ch;
     double sr = 48000.0, T = 1.0 / 192000.0;
     float gIn = 0, gU1aHp = 0, gU1aLp = 0, gU1bHp = 0, gDc = 0, gTone = 0, toneK = 0, lastTone = -1;
+    bool driveIdle = false;
     juce::SmoothedValue<float> driveGain, boostGain, driveMix, boostMix, outGain;
     std::atomic<float> *drive{}, *tone{}, *level{}, *boost{};
     static constexpr float levelScale = 0.5f;   // calibrated: ~-21 dBFS at noon like the other pedals
@@ -170,9 +199,12 @@ private:
         for (int it = 0; it < 4; ++it)
         {
             const double a = juce::jlimit(-30.0, 30.0, x / nVt);
-            const double f  = cT * (x - vPrev) - ((double) u - x) / R + 2.0 * Is * std::sinh(a);
-            const double fp = cT + 1.0 / R + 2.0 * Is / nVt * std::cosh(a);
-            x -= f / fp;
+            const double e = std::exp(a), ei = 1.0 / e;
+            const double f  = cT * (x - vPrev) - ((double) u - x) / R + Is * (e - ei);
+            const double fp = cT + 1.0 / R + Is / nVt * (e + ei);
+            const double step = f / fp;
+            x -= step;
+            if (std::abs(step) < 1e-5) break;
         }
         v = x;
         return x;

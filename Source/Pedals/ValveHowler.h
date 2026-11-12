@@ -169,11 +169,12 @@ private:
         for (int it = 0; it < 6; ++it)
         {
             const double a = juce::jlimit(-40.0, 40.0, x / nVt);
-            const double f  = x / rf + cT * (x - vPrev) + 2.0 * Is * std::sinh(a) - iG;
-            const double fp = 1.0 / rf + cT + 2.0 * Is / nVt * std::cosh(a);
+            const double e = std::exp(a), ei = 1.0 / e;
+            const double f  = x / rf + cT * (x - vPrev) + Is * (e - ei) - iG;
+            const double fp = 1.0 / rf + cT + Is / nVt * (e + ei);
             const double step = f / fp;
             x -= juce::jlimit(-0.2, 0.2, step);                 // damped Newton: stays stable on big jumps
-            if (std::abs(step) < 1e-9) break;
+            if (std::abs(step) < 1e-5) break;
         }
         vf = x;
         return x;

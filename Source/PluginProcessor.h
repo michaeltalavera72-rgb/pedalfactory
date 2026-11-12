@@ -30,7 +30,8 @@ public:
     bool hasEditor() const override { return true; }
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
-    double getTailLengthSeconds() const override { return 0.0; }
+    // Delay / reverb pedals ring on after the input stops; tell the host so it doesn't cut the tail of a render.
+    double getTailLengthSeconds() const override { return hasTimeBased.load() ? 6.0 : 0.0; }
     int getNumPrograms() override { return 1; }
     int getCurrentProgram() override { return 0; }
     void setCurrentProgram(int) override {}
@@ -76,9 +77,17 @@ private:
     static juce::AudioProcessorValueTreeState::ParameterLayout makeLayout(
         std::vector<std::unique_ptr<PedalBase>>&);
     static constexpr int maxSlots = 16;
-    mutable juce::SpinLock boardLock;
+    // The board has two views. "board" (the ids) is read and written under boardLock, never by the audio thread.
+    // "chain" (the pedal pointers) is swapped under chainLock, held only for that copy; the audio thread try-locks
+    // it to refresh its own copy (audioChain) and, if it can't, simply runs the previous buffer's chain.
+    mutable juce::CriticalSection boardLock;
     juce::StringArray board { "bm" };             // default board
-    PedalBase* chain[maxSlots] {};                      // audio-thread view of the board
+    juce::SpinLock chainLock;
+    PedalBase* chain[maxSlots] {};                      // written by setBoard
     int chainSize = 0;
+    PedalBase* audioChain[maxSlots] {};                 // audio thread only
+    int audioChainSize = 0;
+    juce::uint64 blockCounter = 1;                      // audio thread only: buffers processed (see PedalBase::lastBlockRun)
+    std::atomic<bool> hasTimeBased { false };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PedalboardProcessor)
 };

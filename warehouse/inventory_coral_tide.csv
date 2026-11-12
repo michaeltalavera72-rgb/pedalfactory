@@ -1,50 +1,50 @@
 Pedal,Block,Block ID,Ref,Kind,Value,Nodes,Control,Part model,Provenance,Model,Function,Source,Code check
-Coral Tide,Baby Pink booster,CT-BOOST,p.C0,C,47n,IN pn,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R0,R,14.7k,pn pg,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R1,R,2M,pg 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R2,R,14.7k,pd V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:370,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.C1,C,100p,pd ps,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:370,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R3,R,12k,ps 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.C2,C,22u,ps pc,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R4,R,1k,pc pl,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:371,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R5,R,200k,pl 0,BOOST (50kC) + 150k bypass leg,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:372,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.C3,C,1u,pd po,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:373,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,p.R6,R,150k,po 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:373,netlist
-Coral Tide,Baby Pink booster,CT-BOOST,Q3,JFET,2N5952 (Idss 3.0 mA / Vp -2.0 V),,,JFET-2N5952,DRAWN,SOLVED,Baby Pink gain stage,CoralTide.h:367,found
+Coral Tide,Baby Pink booster,CT-BOOST,p.C0,C,47n,IN pn,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:377,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R0,R,14.7k,pn pg,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:377,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R1,R,2M,pg 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:377,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R2,R,14.7k,pd V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:378,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C1,C,100p,pd ps,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:378,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R3,R,12k,ps 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:379,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C2,C,22u,ps pc,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:379,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R4,R,1k,pc pl,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:379,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R5,R,200k,pl 0,BOOST (50kC) + 150k bypass leg,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:380,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.C3,C,1u,pd po,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:381,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,p.R6,R,150k,po 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:381,netlist
+Coral Tide,Baby Pink booster,CT-BOOST,Q3,JFET,2N5952 (Idss 3.0 mA / Vp -2.0 V),,,JFET-2N5952,DRAWN,SOLVED,Baby Pink gain stage,CoralTide.h:375,found
 Coral Tide,Baby Pink booster,CT-BOOST,BOOST,POT,50kC,,BOOST,POT-C,DRAWN,CONTROL,source-leg gain (netlist rBoost),CoralTide.h:20,found
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R0,R,14.7k,IN n1,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C0,C,22n,n1 g1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R1,R,1M,g1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:342,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R2,R,14.7k,d1 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:343,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C1,C,1n,d1 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:343,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R3,R,14.7k,s1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C2,C,22u,s1 s1b,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R4,R,1k,s1b 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:344,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C3,C,470n,d1 nA,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:345,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C4,C,4.7n,nA t3,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:346,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R5,R,47k,nA t3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:346,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R6,R,25k,t3 nO,HIGH (TREBLE 50kB) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R7,R,25k,nO t1,HIGH (TREBLE 50kB) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C5,C,22n,t1 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:347,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R8,R,5.6k,nA b3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:348,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R9,R,45k,b3 nM,LOW (BASS 50kA) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:349,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C6,C,22n,b3 nM,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:349,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R10,R,5k,nM b1,LOW (BASS 50kA) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C7,C,220n,nM b1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R11,R,1k,b1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:351,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R12,R,5.6k,nM nO,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:352,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R13,R,1M,nO 0,,RES-IDEAL,DRAWN,NETLIST,Q2's gate resistor,CoralTide.h:353,netlist
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,Q1,JFET,Sea Blue Q1 (Idss 3.70 mA / Vp -2.28 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.78 / 1.86 V",CoralTide.h:339,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R0,R,14.7k,IN n1,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C0,C,22n,n1 g1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R1,R,1M,g1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:350,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R2,R,14.7k,d1 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:351,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C1,C,1n,d1 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:351,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R3,R,14.7k,s1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:352,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C2,C,22u,s1 s1b,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:352,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R4,R,1k,s1b 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:352,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C3,C,470n,d1 nA,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:353,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C4,C,4.7n,nA t3,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:354,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R5,R,47k,nA t3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:354,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R6,R,25k,t3 nO,HIGH (TREBLE 50kB) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:355,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R7,R,25k,nO t1,HIGH (TREBLE 50kB) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:355,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C5,C,22n,t1 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:355,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R8,R,5.6k,nA b3,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:356,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R9,R,45k,b3 nM,LOW (BASS 50kA) upper,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:357,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C6,C,22n,b3 nM,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:357,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R10,R,5k,nM b1,LOW (BASS 50kA) lower,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:358,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.C7,C,220n,nM b1,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:358,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R11,R,1k,b1 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:359,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R12,R,5.6k,nM nO,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:360,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,a.R13,R,1M,nO 0,,RES-IDEAL,DRAWN,NETLIST,Q2's gate resistor,CoralTide.h:361,netlist
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,Q1,JFET,Sea Blue Q1 (Idss 3.70 mA / Vp -2.28 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.78 / 1.86 V",CoralTide.h:347,found
 Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,HIGH,POT,50kB,,HIGH (TREBLE),POT-B,DRAWN,CONTROL,treble (netlist rTrebUp / rTrebDn),CoralTide.h:12,found
 Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,LOW,POT,50kA,,LOW (BASS),POT-A,DRAWN,CONTROL,bass (netlist rBassUp / rBassDn),CoralTide.h:13,found
-Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,V+,RAIL,8.64 V,,,BEHAV,DRAWN,SOLVED,supply after the protection diode,CoralTide.h:339,found
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R0,R,14.7k,d2 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:360,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C0,C,1n,d2 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:360,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R1,R,14.7k,s2 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:361,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C1,C,1u,s2 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:361,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C2,C,1u,d2 o2,,CAP-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:362,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R2,R,50k,o2 0,,RES-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:362,netlist
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,Q2,JFET,Sea Blue Q2 (Idss 4.02 mA / Vp -2.478 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.60 / 2.02 V",CoralTide.h:358,found
-Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,VOLUME,POT,50kB fixed at 0.35,,,POT-B,USER,FIXED,EQ section unity with LOW / HIGH at noon (Michael's choice b),CoralTide.h:330,found
-Coral Tide,ORDER + master LEVEL,CT-MASTER,LEVEL,POT,x0 .. x2.8 master,,LEVEL,BEHAV,USER,CONTROL,master output after both sections,CoralTide.h:331,found
+Coral Tide,Sea Blue Q1 + passive EQ,CT-Q1EQ,V+,RAIL,8.64 V,,,BEHAV,DRAWN,SOLVED,supply after the protection diode,CoralTide.h:347,found
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R0,R,14.7k,d2 V+,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:368,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C0,C,1n,d2 V+,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:368,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R1,R,14.7k,s2 0,,RES-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C1,C,1u,s2 0,,CAP-IDEAL,DRAWN,NETLIST,,CoralTide.h:369,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.C2,C,1u,d2 o2,,CAP-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:370,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,b.R2,R,50k,o2 0,,RES-IDEAL,DRAWN,NETLIST,VOLUME pot (wiper ratio applied after),CoralTide.h:370,netlist
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,Q2,JFET,Sea Blue Q2 (Idss 4.02 mA / Vp -2.478 V),,,JFET-2N5952,EST-FIT,SOLVED,"common source, bias fitted to the traced 6.60 / 2.02 V",CoralTide.h:366,found
+Coral Tide,Sea Blue Q2 + VOLUME,CT-Q2,VOLUME,POT,50kB fixed at 0.35,,,POT-B,USER,FIXED,EQ section unity with LOW / HIGH at noon (Michael's choice b),CoralTide.h:338,found
+Coral Tide,ORDER + master LEVEL,CT-MASTER,LEVEL,POT,x0 .. x2.8 master,,LEVEL,BEHAV,USER,CONTROL,master output after both sections,CoralTide.h:339,found
 Coral Tide,ORDER + master LEVEL,CT-MASTER,ORDER,SWITCH,B > EQ / EQ > B,,ORDER,SWITCH,OURS,CONTROL,section order,CoralTide.h:72,found
